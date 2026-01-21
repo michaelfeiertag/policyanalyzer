@@ -22,6 +22,9 @@ def create_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="policyanalyzer",
         description="A command-line utility for analyzing policies.",
+        epilog="Authentication: Set the GEMINI_API_KEY environment variable with your Google AI API key. "
+               "Get your key at https://aistudio.google.com/app/apikey",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument(
         "-v", "--verbose",
