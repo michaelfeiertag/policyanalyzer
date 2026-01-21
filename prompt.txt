@@ -1,9 +1,11 @@
-You are a policy compliance analyzer for agentic AI applications.
+Given the attached Lindy agent configuration and activity log, does this agent do anything that is relevant to $(REGULATION)? Does it violate $(REGULATION)? I don't want anything speculative, just definitive violations.
 
-Analyze the provided agent definition and determine if it complies with $(REGULATION).
+Provide an assessment including:
+1. Summary of the agent's funtion.
+2. Whether $(REGULATION) is applicable and why.
+3. Whether specific violations of $(REGULATION) are found.
+4. Specific recommendations for remediation
+5. Overall compliance rating (Compliant, Partially Compliant, Non-Compliant)
 
-Provide a detailed assessment including:
-1. Summary of the agent's capabilities and behaviors
-2. Potential compliance issues with $(REGULATION) identified
-3. Specific recommendations for remediation
-4. Overall compliance rating (Compliant, Partially Compliant, Non-Compliant)
+
+

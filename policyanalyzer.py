@@ -6,7 +6,8 @@ import os
 from pathlib import Path
 import sys
 
-import google.generativeai as genai
+from google import genai
+from google.genai import errors as genai_errors
 
 
 def load_regulations() -> list[str]:
@@ -48,6 +49,11 @@ def create_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--custom-policy",
         help="Path to a custom policy file",
+    )
+    parser.add_argument(
+        "--model",
+        default="gemini-3-pro-preview",
+        help="Gemini model to use (default: gemini-3-pro-preview)",
     )
     regulations = load_regulations()
     if regulations:
@@ -109,11 +115,24 @@ def main() -> int:
         print(f"Prompt length: {len(full_prompt)} characters", file=sys.stderr)
 
     # Configure and call Gemini
-    genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
-    model = genai.GenerativeModel("gemini-1.5-flash")
-    response = model.generate_content(full_prompt)
+    api_key = os.environ.get("GEMINI_API_KEY")
+    if not api_key:
+        print("Error: GEMINI_API_KEY environment variable not set", file=sys.stderr)
+        return 1
 
-    print(response.text)
+    client = genai.Client(api_key=api_key)
+    try:
+        if args.verbose:
+            print(f"Using model: {args.model}", file=sys.stderr)
+        response = client.models.generate_content(
+            model=args.model,
+            contents=full_prompt,
+        )
+        print(response.text)
+    except genai_errors.ClientError as e:
+        print(f"API Error: {e}", file=sys.stderr)
+        return 1
+
     return 0
 
 

@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(chmod:*)",
-      "Bash(python /Users/michaelfeiertag/dev/agentpolicy/agentpolicyanalyzer/policyanalyzer.py:*)"
+      "Bash(python /Users/michaelfeiertag/dev/agentpolicy/agentpolicyanalyzer/policyanalyzer.py:*)",
+      "Bash(/Users/michaelfeiertag/dev/agentpolicy/policyanalyzer/venv/bin/python:*)",
+      "WebSearch"
     ]
   }
 }
