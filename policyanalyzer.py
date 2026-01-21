@@ -1,0 +1,118 @@
+#!/usr/bin/env python3
+"""Policy Analyzer - A command-line utility for analyzing policies."""
+
+import argparse
+import os
+from pathlib import Path
+import sys
+
+import google.generativeai as genai
+
+
+def load_regulations() -> list[str]:
+    """Load regulations from regulations.txt file."""
+    regulations_file = Path(__file__).parent / "regulations.txt"
+    if regulations_file.exists():
+        return [line.strip() for line in regulations_file.read_text().splitlines() if line.strip()]
+    return []
+
+
+def create_parser() -> argparse.ArgumentParser:
+    """Create and configure the argument parser."""
+    parser = argparse.ArgumentParser(
+        prog="policyanalyzer",
+        description="A command-line utility for analyzing policies.",
+    )
+    parser.add_argument(
+        "-v", "--verbose",
+        action="store_true",
+        help="Enable verbose output",
+    )
+    parser.add_argument(
+        "--version",
+        action="version",
+        version="%(prog)s 0.1.0",
+    )
+    parser.add_argument(
+        "--agent-definition",
+        required=True,
+        help="Path to the agent definition JSON file",
+    )
+    parser.add_argument(
+        "--sample-log",
+        help="Path to a sample log file",
+    )
+    parser.add_argument(
+        "--custom-policy",
+        help="Path to a custom policy file",
+    )
+    regulations = load_regulations()
+    if regulations:
+        parser.add_argument(
+            "--regulation",
+            choices=regulations,
+            help="Regulation to check against",
+        )
+
+    return parser
+
+
+def main() -> int:
+    """Main entry point."""
+    parser = create_parser()
+    args = parser.parse_args()
+
+    has_regulation = hasattr(args, "regulation") and args.regulation
+    if not args.custom_policy and not has_regulation:
+        parser.error("at least one of --custom-policy or --regulation is required")
+
+    if args.verbose:
+        print("Verbose mode enabled", file=sys.stderr)
+
+    # Read required files
+    agent_definition = Path(args.agent_definition).read_text()
+    prompt_file = Path(__file__).parent / "prompt.txt"
+    prompt_template = prompt_file.read_text()
+
+    # Read optional sample log
+    sample_log = ""
+    if args.sample_log:
+        sample_log = Path(args.sample_log).read_text()
+
+    # Read optional custom policy
+    custom_policy = ""
+    if args.custom_policy:
+        custom_policy = Path(args.custom_policy).read_text()
+
+    # Get regulation if specified
+    regulation = ""
+    if hasattr(args, "regulation") and args.regulation:
+        regulation = args.regulation
+
+    # Substitute variables in prompt template
+    prompt_template = prompt_template.replace("$(REGULATION)", regulation)
+
+    # Build the full prompt
+    full_prompt = prompt_template
+    full_prompt += f"\n\n## Agent Definition\n{agent_definition}"
+    if sample_log:
+        full_prompt += f"\n\n## Sample Log\n{sample_log}"
+    if custom_policy:
+        full_prompt += f"\n\n## Custom Policy\n{custom_policy}"
+    if regulation:
+        full_prompt += f"\n\n## Regulation\n{regulation}"
+
+    if args.verbose:
+        print(f"Prompt length: {len(full_prompt)} characters", file=sys.stderr)
+
+    # Configure and call Gemini
+    genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
+    model = genai.GenerativeModel("gemini-1.5-flash")
+    response = model.generate_content(full_prompt)
+
+    print(response.text)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

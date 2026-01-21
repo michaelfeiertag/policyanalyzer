@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(chmod:*)",
+      "Bash(python /Users/michaelfeiertag/dev/agentpolicy/agentpolicyanalyzer/policyanalyzer.py:*)"
+    ]
+  }
+}
