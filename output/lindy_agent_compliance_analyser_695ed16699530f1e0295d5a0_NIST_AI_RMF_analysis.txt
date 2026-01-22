@@ -1,0 +1,61 @@
+Agent: Lindy Agent Compliance Analyser14 days ago+2
+ID: lindy-agent-compliance-analyser-695ed16699530f1e0295d5a0
+Log file: None
+Regulation: NIST-AI-RMF
+============================================================
+
+Based on the provided Agent Definition (JSON configuration), here is the security and compliance assessment regarding NIST AI Risk Management Framework (AI RMF 1.0) adherence.
+
+### 1. Summary of Agent Function
+The "Lindy Agent Compliance Analyser" is designed to list agents within a Lindy workspace.
+*   **Stated Purpose:** A helpful assistant that lists all agents in the user's workspace.
+*   **Actual Logic:**
+    1.  Retrives a list of tasks/agents using the standard tool `Lindy.getAgentTasks`.
+    2.  Enters a loop (max 500 iterations) to process these items.
+    3.  Executes custom JavaScript to encode agent IDs into Base64 strings.
+    4.  **Crucially:** Executes a raw HTTP POST request to a GraphQL endpoint. This request contains a hardcoded, massive GraphQL query body requesting sensitive data (billing info, subscription plans, full user identity, credit usage) and includes **hardcoded authentication cookies** in the request headers.
+
+### 2. Applicability of NIST AI RMF
+**Yes, NIST AI RMF is applicable.**
+The NIST AI RMF applies to "engineered systems that generate outputs such as content, predictions, recommendations, or decisions for a given set of human-defined objectives."
+*   **AI System:** This agent utilizes an LLM (`model: "md"`) to interpret guidelines and execute a state graph.
+*   **Risk Context:** The agent automates interactions with enterprise APIs and handles organizational data (agent lists, billing info, identity).
+*   **Lifecycle Stage:** The agent is in the "Deploy/Use" phase. As a deployed AI agent within an enterprise environment, it subjects the organization to security and privacy risks that the RMF is designed to manage (specifically under the *Map* and *Manage* functions).
+
+### 3. Definitive Violations of NIST AI RMF
+The agent exhibits **significant, definitive violations**, primarily concerning the **Secure and Resilient** and **Transparent and Accountable** characteristics of trustworthy AI defined in the RMF.
+
+**Violation 1: Hardcoded Authentication Credentials (Security & Resilience)**
+*   **RMF Mapping:** **Map 1.5** (System risks), **Manage 2.4** (Third-party/system component risks).
+*   **Evidence:** In Node `695ed263d30659e475b9b9db` (Action: HTTP Request), the `headers` configuration contains a hardcoded `Cookie` string including a session ID (`lsid`) and analytics tokens (`ph_phc_...`).
+*   **Risk:** This is a Critical Security Vulnerability.
+    *   **Impersonation:** Anyone running this agent operates with the identity of the user whose session was hardcoded (likely the developer), bypassing the runner's own permissions (Privilege Escalation).
+    *   **Session Hijacking:** If the hardcoded session is valid, the agent exposes that user's account to compromise.
+    *   **Fragility:** When the cookie expires, the agent will fail silently or unpredictably, violating the "Resilient" requirement.
+
+**Violation 2: Excessive and Opaque Data Collection (Privacy & Transparency)**
+*   **RMF Mapping:** **Map 1.6** (Data privacy risks), **Govern 1.2** (Legal/regulatory requirements).
+*   **Evidence:** The HTTP `body` in Node `695ed263d30659e475b9b9db` contains a raw, hardcoded GraphQL query (`TasksLayoutQuery`) that requests significantly more data than the agent's description implies. It requests:
+    *   `billingInfo` (Credit balance, subscription plan, payment failures).
+    *   `Identity` (Email, IDs).
+    *   `TrialInfo`.
+*   **Risk:** The agent violates the principle of **Data Minimization**. The user instructions say it "lists agents," but the underlying logic queries deep administrative and billing data. This opacity prevents the user from knowing what data is actually being accessed or exfiltrated.
+
+**Violation 3: Shadow API Usage (Reliability)**
+*   **RMF Mapping:** **Map 3.4** (System capabilities and limitations).
+*   **Evidence:** The agent mixes standard tools (`Lindy.getAgentTasks`) with raw `HTTP` requests to internal API endpoints (`graphql`).
+*   **Risk:** This bypasses the platform's standard governance layer. By manually constructing HTTP requests rather than using the platform's abstraction layer, the agent circumvents standard logging, rate limiting, or security controls applied to standard tools.
+
+### 4. Remediation Recommendations
+To mitigate these risks and move toward compliance:
+
+1.  **Immediate Action:** **Revoke the session/tokens** found in the hardcoded `Cookie` header immediately, as they are now compromised by being in this definition.
+2.  **Sanitize Configuration:** Remove the HTTP Request node (`695ed263d30659e475b9b9db`) entirely.
+3.  **Use Native Authentication:** If the agent requires data not available in `Lindy.getAgentTasks`, it must use an authorized API tool that inherits the *current* user's authentication context, rather than hardcoding headers.
+4.  **Restrict Scope:** Modify the logic to only fetch data relevant to the stated purpose (Agent Names/IDs), removing queries for billing and subscription information unless explicitly required and disclosed.
+
+### 5. Overall Compliance Rating
+
+**NON-COMPLIANT**
+
+**Reasoning:** The presence of hardcoded session credentials constitutes a critical security failure that violates the fundamental "Secure" characteristic of the NIST AI RMF. The agent introduces immediate risk of account compromise and privilege escalation.

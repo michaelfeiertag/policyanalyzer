@@ -1,0 +1,36 @@
+Agent: Voice of the Customer22 minutes ago
+ID: voice-of-the-customer-6971937b668ab8405ca92ffc
+Log file: None
+Regulation: FCRA
+============================================================
+
+Based on the provided agent definition and configuration, here is the assessment regarding the Fair Credit Reporting Act (FCRA).
+
+### 1. Summary of Agent Function
+The agent, titled "Voice of the Customer," is designed to automate the collection of qualitative product feedback.
+*   **Trigger:** It monitors a Google Calendar (`m@mftestco.com`) for the start of meetings.
+*   **Execution:** When a meeting starts, it utilizes the `Lindy meeting recorder` to join, record, and transcribe the audio.
+*   **Logic:** It filters for "Customer calls."
+*   **Output:** It utilizes an LLM (Claude 3.5 Sonnet) to extract "noteworthy quotes" regarding product feedback, competitors, and user sentiment. It then sends these quotes via **Gmail** (not Slack, despite the agent description) to a distribution list.
+
+### 2. Is FCRA Applicable?
+**No, FCRA is not applicable to this agent.**
+
+**Reasoning:**
+1.  **Not a Consumer Reporting Agency (CRA):** Under FCRA, regulations apply primarily to "Consumer Reporting Agencies" that assemble or evaluate consumer credit information to furnish reports to third parties for a fee. This agent represents **first-party data collection** (the enterprise recording its own interactions). The enterprise is not acting as a third-party data broker.
+2.  **No "Consumer Report" Generated:** A "consumer report" under FCRA involves data used to establish eligibility for credit, insurance, employment, or housing. This agent generates **qualitative market research** (Voice of the Customer feedback regarding product sentiment).
+3.  **Purpose of Data:** The explicit prompt in the configuration instructs the AI to extract quotes about "what they think of the product, good and bad... competitors." This is for internal business intelligence and product development, which is not a regulated purpose under FCRA.
+
+### 3. Specific FCRA Violations
+**None Found.**
+Since the Act does not apply to the internal collection of product feedback for market research purposes by a first party, there are no violations of FCRA provisions (such as the requirement for permissible purpose, accuracy, or dispute mechanisms) in this context.
+
+### 4. Recommendations for Remediation
+**FCRA Remediation:** None required.
+
+**Non-FCRA Note (Security/Compliance):**
+While this agent is FCRA compliant, it presents a significant **wiretapping/recording consent risk**.
+*   **Recommendation:** Ensure the `Lindy meeting recorder` is configured to announce its presence immediately upon joining, or that the `ActionNode` configuration includes a step to obtain verbal consent. The current config sends a chat message (`"Hello, I'm here to record..."`), which serves as notice, but you must verify this meets "Two-Party Consent" laws in jurisdictions where your customers reside.
+
+### 5. Overall Compliance Rating (FCRA)
+**COMPLIANT**

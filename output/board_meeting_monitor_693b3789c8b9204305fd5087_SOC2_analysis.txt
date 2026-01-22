@@ -1,0 +1,47 @@
+Agent: Board meeting monitorAbout 10 hours ago
+ID: board-meeting-monitor-693b3789c8b9204305fd5087
+Log file: None
+Regulation: SOC2
+============================================================
+
+Here is the security and compliance assessment for the agent **Board meeting monitor** (ID: `693b3789c8b9204305fd5087`).
+
+### 1. Summary of Agent Function
+This agent is an automated scheduler designed to scan a corporate Google Calendar for events matching the query "board meetings" scheduled for the following day. It runs twice daily (9:00 AM and 6:00 PM).
+*   **Morning Execution:** Sends an email summary of the meetings to `m@testco.com`.
+*   **Afternoon Execution:** Sends an SMS summary of the meetings to `+14155312776` via Twilio.
+
+### 2. Is SOC 2 Applicable?
+**Yes.**
+SOC 2 applies to this agent primarily under the **Confidentiality** and **Security** Trust Services Criteria (TSC).
+1.  **Nature of Data:** The agent explicitly targets "Board meetings." Board-level data is invariably classified as "Highly Confidential" or "Restricted" in enterprise data classification policies.
+2.  **Processing Context:** The agent extracts this data from a secure environment (Google Workspace) and transmits it to external endpoints (Personal/Corporate Email and Twilio SMS).
+3.  **Risk Profile:** Mismanagement of this specific data type constitutes a material risk to the organization, requiring the controls mandated by SOC 2 (e.g., access control, encryption in transit, least privilege).
+
+### 3. Specific SOC 2 Violations
+Based on the provided definition, the agent contains definitive, significant violations:
+
+**A. Violation of Principle of Least Privilege (SOC 2 CC6.3)**
+*   **Evidence:** The Google Auth configuration (`693b2e84e6a088955f32f886`) grants the agent the following scopes:
+    *   `https://www.googleapis.com/auth/drive` (Full read/write to all Google Drive files)
+    *   `https://www.googleapis.com/auth/spreadsheets` (Full read/write to Sheets)
+    *   `https://www.googleapis.com/auth/gmail.modify` (Read/Write/Delete emails)
+*   **The Violation:** The agent logic *only* utilizes `Calendar.listEvents` and `Gmail.send`. Granting full access to the organization's Drive and Spreadsheets violates the Principle of Least Privilege. If this agent's authentication token were compromised, an attacker would have full access to the user's files, not just the calendar.
+
+**B. Violation of Confidentiality / Encryption in Transit (SOC 2 C1.1, CC6.7)**
+*   **Evidence:** The agent transmits Board meeting details via Twilio SMS (Action Node `693b38d0bd61ebac9988a2ee`).
+*   **The Violation:** SMS is generally considered an insecure transport method for Highly Confidential data (Board materials). SMS is not end-to-end encrypted in the same manner as TLS-secured email or enterprise messaging apps, and it is susceptible to SIM swapping and interception. Transmitting Board schedules via SMS fails the standard of care for Confidential data.
+
+**C. Violation of Logical Access Controls (SOC 2 CC6.1)**
+*   **Evidence:** The recipient email (`m@testco.com`) and phone number (`+14155312776`) are hardcoded directly into the action configuration.
+*   **The Violation:** This bypasses Identity and Access Management (IAM) controls. If the employee associated with that phone number leaves the organization or changes roles, the agent will continue to push Confidential Board data to them until the code is manually refactored. Access to this data is not tied to a managed identity provider.
+
+### 4. Specific Recommendations for Remediation
+1.  **Scope Reduction:** Immediately revoke the current Google OAuth token. Re-authorize the connection using *only* the strictly required scopes: `calendar.events.readonly` and `gmail.send`. Remove `drive`, `spreadsheets`, and `gmail.modify`.
+2.  **Deprecate SMS for Confidential Data:** Remove the Twilio SMS flow entirely. If after-hours notification is required, utilize a secure, encrypted channel (e.g., a corporate Slack/Teams bot or PGP-encrypted email) or require the user to log in to a secure portal to view the data.
+3.  **Dynamic Recipient Resolution:** Replace hardcoded email addresses and phone numbers with a lookup against a directory service or a distribution list (e.g., `board-admins@testco.com`). This ensures that if personnel changes, access to the data is revoked automatically via the email group management.
+
+### 5. Overall Compliance Rating
+**NON-COMPLIANT**
+
+*The agent exposes Highly Confidential data via insecure channels (SMS) and retains vastly excessive permissions (Full Drive Access) that are unnecessary for its function.*

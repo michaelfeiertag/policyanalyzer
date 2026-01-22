@@ -1,0 +1,51 @@
+Agent: Resume Screening Agent
+ID: resume-screening-agent-6971956bbddcdd1d54fd8975
+Log file: None
+Regulation: CCPA
+============================================================
+
+Here is the security and compliance assessment for the **Resume Screening Agent**.
+
+### 1. Summary of Agent Function
+The agent is an automated recruitment workflow designed to screen job applicants. Its process flow is as follows:
+1.  **Ingestion:** Triggers upon receiving an email in a specific Gmail inbox (`m@mftestco.com`).
+2.  **Classification:** Determines if the email contains a resume file.
+3.  **Context Retrieval:** Fetches a Job Description from a connected Google Doc.
+4.  **Analysis:** Uses an AI model (`gpt4_turbo`) to compare the resume against the job description.
+5.  **Decision/Action:** Categorizes the applicant as "Approved," "Not Approved," or "Partially Approved" and generates an email containing an assessment of the candidate's skills, strengths, and weaknesses.
+
+### 2. CCPA Applicability
+**Applicability: YES**
+
+*   **Consumer Definition:** Under the California Privacy Rights Act (CPRA), which amended the CCPA, the definition of "consumer" includes **employees and job applicants**. The exemption for employment-related data expired on January 1, 2023.
+*   **Personal Information (PI):** The agent processes resumes, which inherently contain high-value PI (Names, Addresses, Phone Numbers, Educational History, Employment History).
+*   **Processing:** The agent automates the processing, profiling, and decision-making regarding this PI.
+
+### 3. Specific CCPA Violations
+Based on the provided configuration `[AGENT_DEFINITION]`, the following definitive violations and risks have been identified:
+
+**A. Violation of Reasonable Security Procedures (Civil Liability Risk)**
+*   **The Issue:** In the Action Nodes for sending emails (Nodes `...983`, `...984`, `...985`), the `body` instructions draft an email meant for the "Hiring Manager" (e.g., *"Hello Hiring Manager... Here’s a summary..."*). However, the `to` field input is configured via AI prompt to **"Send it to the user"**. In the context of an email trigger, "the user" is the external applicant sending the resume.
+*   **The Violation:** The agent is configured to send internal assessments, rejection criteria, and AI scoring logic directly to the applicant instead of the internal HR team. This constitutes an unauthorized disclosure of processing logic and potentially creates a data leak if internal emails are included in the chain. This violates CCPA's requirement to maintain reasonable security procedures and practices.
+
+**B. Automated Decision-Making Technology (ADMT) Compliance**
+*   **The Issue:** The agent makes a definitive categorization ("Not Approved") and the email body for the rejection node (`...984`) states: *"Based on these findings, the candidate does not qualify for the next stage of the hiring process."*
+*   **The Violation:** The agent is performing **Automated Decision Making**. Under the draft CPRA regulations regarding ADMT, businesses must provide notice and potentially an opt-out right when using AI to make decisions that produce legal or similarly significant effects (like hiring decisions). The agent rejects candidates without a "Human in the Loop" (HITL) to validate the decision.
+
+**C. Lack of "Notice at Collection"**
+*   **The Issue:** The agent ingests emails automatically.
+*   **The Violation:** CCPA requires a Notice at Collection to be provided *at or before* the point of data collection. Since the agent triggers immediately upon email receipt from an external source, there is no mechanism in this workflow to ensure the applicant has been presented with a privacy notice regarding AI screening prior to their data being processed and profiled.
+
+### 4. Specific Recommendations for Remediation
+
+1.  **Hard-Code Internal Recipient:** Modify the `to` field in all "Send Email" action nodes. Remove the AI prompt "Send it to the user" and explicitly hard-code the email address of the Hiring Manager or the internal Recruiting Alias.
+2.  **Enable "Save as Draft":** Change the `saveAsDraft` boolean from `false` to `true` in the configuration.
+    *   *Why:* This ensures the AI generates the assessment but requires a human to review and click "Send." This removes the "Automated Decision Making" liability and acts as a quality control check against hallucinations.
+3.  **Update Auto-Reply Logic:** If the agent must reply to the candidate, configure a separate node that sends a generic "Application Received" email that includes a link to your **Privacy Notice for Job Applicants**, explicitly disclosing the use of AI in resume screening.
+4.  **Vendor Assessment:** Verify that the underlying LLM provider (via Lindy) is bound by a Data Processing Agreement (DPA) that creates a "Service Provider" relationship under CCPA, ensuring they do not use the PII for training their own models.
+
+### 5. Overall Compliance Rating
+
+**Rating: NON-COMPLIANT**
+
+**Reasoning:** The agent currently exhibits a high-severity configuration error (sending internal assessments to applicants) and engages in automated adverse hiring decisions without human review. This introduces significant regulatory and reputational risk. The agent should **not** be deployed until the `to` field is fixed and the `saveAsDraft` safeguard is enabled.

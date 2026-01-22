@@ -1,0 +1,40 @@
+Agent: Lindy Agent ListerAbout 8 hours ago+2
+ID: lindy-agent-lister-693c78bb39099082df392692
+Log file: None
+Regulation: PSD2
+============================================================
+
+Based on the review of the provided [AGENT_DEFINITION] and the configuration of the agent "Lindy Agent Lister," here is the assessment regarding PSD2 compliance.
+
+### 1. Summary of the Agent's Function
+The **Lindy Agent Lister** is an administrative automation tool designed for IT asset management within the Lindy platform. Its workflow functions as follows:
+*   **Trigger:** Runs on a recurring hourly schedule (`0 * * * *`).
+*   **Data Retrieval:** It utilizes the `Lindy.getAgentTasks` tool to retrieve a list of existing software agents within the user's workspace, specifically capturing the `AgentID`, `Agent Name`, and `Last Task Date`.
+*   **Data Storage:** It iterates through this list and updates a specific Google Sheet (`1auUbfTVe3XnLfvMoFdLsC8nqO5QW0srkyIvyBGyZu2Q`) using the `GoogleSheets.updateRowV3` action.
+*   **Purpose:** To maintain an up-to-date inventory of active agents and their last execution times in a spreadsheet.
+
+### 2. PSD2 Applicability
+**PSD2 is NOT Applicable to this agent.**
+
+**Reasoning:**
+The Revised Payment Services Directive (PSD2) regulates Payment Service Providers (PSPs) and Third Party Providers (TPPs) operating within the EU/EEA. Its scope is strictly limited to:
+1.  **Account Information Services (AIS):** Accessing payment account data (e.g., bank balances, transaction history).
+2.  **Payment Initiation Services (PIS):** Initiating fund transfers from a payment account.
+3.  **Card-based instruments:** Issuing payment cards or instruments.
+
+This agent interacts exclusively with **internal software configuration data** (Agent metadata) and **cloud office documents** (Google Sheets). It does not access, process, or transmit financial data, banking credentials, or payment instructions. Therefore, it falls entirely outside the regulatory scope of PSD2.
+
+### 3. Specific Violations of PSD2
+**No violations found.**
+
+As the agent does not perform payment services, access payment accounts (as defined by the EBA), or handle sensitive authentication data related to financial institutions, it cannot violate the directive.
+
+### 4. Specific Recommendations for Remediation
+**No remediation is required regarding PSD2.**
+
+*General Security Note (Non-PSD2):* While not a PSD2 violation, the agent's Google Authentication configuration requests a very broad set of scopes (`calendar`, `documents`, `drive`, `gmail.compose`, `gmail.modify`, `gmail.send`). A principle of least privilege review is recommended to reduce these scopes to only `spreadsheets` and `drive.file`, as the agent only interacts with Google Sheets.
+
+### 5. Overall Compliance Rating
+**COMPLIANT (OUT OF SCOPE)**
+
+The agent introduces **Zero** regulatory risk regarding PSD2.

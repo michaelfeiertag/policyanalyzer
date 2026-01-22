@@ -1,0 +1,49 @@
+Agent: Lead Outreacher19 minutes ago
+ID: lead-outreacher-6971943a0197c79d295d27cb
+Log file: None
+Regulation: CCPA
+============================================================
+
+Here is the assessment of the `Lead Outreacher` agent based on the provided definition.
+
+### 1. Summary of Agent Function
+The "Lead Outreacher" is an automated Sales Development Representative (SDR) agent. Its primary workflow is:
+1.  **Trigger:** Detects a new row (containing lead contact info) in a connected Google Sheet.
+2.  **Action:** Executes a "drip campaign" consisting of three personalized cold outreach emails sent via Gmail.
+3.  **Flow Control:** It waits three days between emails.
+4.  **Logic:** It monitors for replies. If a reply is detected, it cancels the subsequent timers to stop the email sequence.
+
+### 2. CCPA Applicability
+**Applicability:** **YES**
+
+*   **Reasoning:**
+    *   **Protected Data:** The agent processes "Personal Information" (PI) as defined by CCPA (names and email addresses).
+    *   **B2B Inclusion:** As of January 1, 2023, the CCPA exemption for business-to-business (B2B) data has expired. Contact information for business prospects (leads) is fully protected under CCPA.
+    *   **Processing:** The agent automates the processing and usage of this PI for commercial purposes (marketing/sales).
+
+### 3. Specific Violations
+Based on the logic graph and configuration provided, the agent presents definitive CCPA and general privacy compliance violations:
+
+**A. Failure to Honor "Right to Opt-Out" (Missing Suppression Check)**
+*   **The Violation:** The agent triggers the `First outreach email` immediately upon the `onRowAdded2` event in Google Sheets. There is **no logic node** inserted between the trigger and the action to cross-reference the email address against an internal "Do Not Contact" or "Unsubscribe" suppression list.
+*   **Risk:** If a consumer previously exercised their right to opt-out or delete their data, and they are accidentally re-added to the Google Sheet (a common occurrence in sales ops), this agent will illegally process their data and contact them again immediately.
+
+**B. Lack of Notice / Opt-Out Mechanism in Output**
+*   **The Violation:** Reviewing the `ActionNode` prompts for the email bodies (e.g., "Write a personalized email...", "No making up signatures..."), there is **no instruction or configuration** to include a functional Opt-Out link or privacy notice (e.g., "Click here to unsubscribe").
+*   **Risk:** Sending commercial outreach without a clear mechanism to stop future processing violates the core CCPA principle of consumer control over data sale/sharing and generally violates parallel regulations (like CAN-SPAM) which are often grouped into privacy compliance audits.
+
+**C. Inability to Operationalize "Right to Delete"**
+*   **The Violation:** The agent's instructions state: "Upon receiving a response... promptly relay it to the user via Slack."
+*   **Risk:** If a user replies with "Delete my data" (a valid CCPA request), the agent merely forwards the message or stops the *current* sequence. It does not update the source Google Sheet or a master database to reflect this request. This creates a high risk that the request will be lost or ignored, leading to a violation of the statutory 45-day deletion window.
+
+### 4. Remediation Recommendations
+To bring this agent into compliance, the following changes are required:
+
+1.  **Implement a "Check Suppression List" Node:** Insert a logic step immediately after the Google Sheet trigger and before the "First outreach email." This step must query a database of opted-out users. If the email exists on that list, the flow must terminate immediately.
+2.  **Hardcode Unsubscribe Links:** Modify the `ActionNode` configuration for Gmail to force-append a standard footer to every email (e.g., "To stop receiving emails, reply STOP or click [Link]"). Do not rely on the AI model to generate this.
+3.  **Automate Opt-Out Handling:** Create a new path for "Negative Sentiment/Opt-Out" detection. If the agent receives a reply classified as an opt-out, it should not just cancel the timer but also write the email address back to a "Global Suppression List" to prevent future contact.
+
+### 5. Overall Compliance Rating
+**Rating:** **NON-COMPLIANT**
+
+This agent introduces significant risk. It operates as an "unmanaged loop" that ingests personal data and acts on it without the necessary checks (suppression lists) or safety valves (opt-out links) required by privacy statutes.

@@ -1,0 +1,61 @@
+Agent: Personal Computer Assistant
+ID: personal-computer-assistant-697194cf64cff41a8f386a07
+Log file: None
+Regulation: CCPA
+============================================================
+
+Based on the provided Agent Definition and the intended use cases defined in the configuration, here is the compliance assessment regarding the California Consumer Privacy Act (CCPA) and the California Privacy Rights Act (CPRA).
+
+***
+
+### 1. Summary of Agent Function
+The "Personal Computer Assistant" is a general-purpose automation agent designed to execute tasks across third-party web applications. It utilizes a `LindyComputer` tool, which implies a remote browser or virtual desktop infrastructure that interacts with websites via screen reading (visual input) and peripheral control (mouse/keyboard).
+
+Based on the `conversationStarters` and `ActionNode` configuration, the agent is explicitly designed to:
+*   Access financial platforms ("Check my credit card statement").
+*   Access healthcare networks ("Find a doctor in network").
+*   Perform commercial transactions ("Buy groceries," "Order food").
+*   Access social media ("Send Instagram DM" – noted in the `AgentStateNode` display name).
+
+### 2. CCPA Applicability
+**Status: Applicable**
+
+CCPA applies to this agent for the following reasons:
+1.  **Collection of Personal Information (PI):** The agent collects direct identifiers (names, accounts) and commercial information (purchasing history via Instacart/Doordash).
+2.  **Collection of Sensitive Personal Information (SPI):** The agent explicitly invites users to process data classified as SPI under CPRA (Section 1798.140(ae)), specifically:
+    *   **Financial Account Data:** Accessing credit card statements implies handling log-in credentials and account contents.
+    *   **Health Information:** "Find a doctor" implies processing health insurance information or medical preferences.
+    *   **Precise Geolocation:** Delivery services (Doordash) require precise location data.
+3.  **Enterprise Context:** As this is deployed by a large enterprise, the data processed by this agent constitutes business records subject to consumer requests (Right to Know, Right to Delete).
+
+### 3. Specific Violations of CCPA
+The following are definitive, non-speculative compliance failures based on the agent's configuration:
+
+**A. Violation of Data Minimization (Cal. Civ. Code § 1798.100(c))**
+*   **The Issue:** CCPA mandates that collection of PI must be "reasonably necessary and proportionate to achieve the purposes for which the personal information was collected."
+*   **The Violation:** The agent uses a generic `LindyComputer` tool with the guideline "do whatever they want to do." By using a screen-reading computer agent to check a "credit card statement," the agent captures the **entire visual context** of the banking portal, including unrelated transactions, account numbers, and ads, rather than just the specific balance requested. This constitutes over-collection of SPI.
+
+**B. Failure to Provide Notice at Collection (Cal. Civ. Code § 1798.100(a))**
+*   **The Issue:** A business must inform consumers *at or before the point of collection* regarding the categories of SPI being collected and the purposes for use.
+*   **The Violation:** The `entryPointConversationNode` initiates the collection of SPI (Credit/Health/Location) immediately upon the user selecting a starter button. The `greetingMessage` ("What do you want me to do?...") fails to provide a link to a privacy policy or a Notice of Collection regarding the capture of sensitive screen data.
+
+**C. Lack of Purpose Limitation (Cal. Civ. Code § 1798.100(a)(1))**
+*   **The Issue:** Data collected must not be processed for purposes incompatible with the disclosed purpose.
+*   **The Violation:** The `AgentStateNode` is named "Send Instagram DM," yet the associated guideline is generic: "Use the computer to help the user do whatever they want." This disconnect means data collected during a session intended for a business task could ostensibly be used for social media interaction without technical guardrails, violating the purpose limitation principle.
+
+**D. Security Procedures for SPI (Cal. Civ. Code § 1798.81.5)**
+*   **The Issue:** Businesses must implement reasonable security procedures for SPI.
+*   **The Violation:** The agent directs the user to input credentials for banking and healthcare into a `LindyComputer` session. Without a defined `authConfig` or specific handling for "masked" inputs in the JSON configuration, the agent is likely ingesting raw credentials and session tokens into the chat logs/trace history. Storing unencrypted banking credentials or health session data in general chat logs is a security violation that triggers CCPA breach liability.
+
+### 4. Specific Recommendations for Remediation
+To mitigate risk, the following changes must be made to the Agent Definition:
+
+1.  **Restrict SPI Access:** Remove "Check my credit card statement" and "Find a doctor in network" from `conversationStarters`. The `LindyComputer` tool is too broad for handling SPI. Financial/Health data should only be accessed via structured APIs (e.g., Plaid, focused Healthcare APIs) where data ingestion is strictly scoped, not via screen scraping.
+2.  **Update Greeting for Notice:** Modify the `greetingMessage` to include: "I can help with computer tasks. Please note that sessions are recorded for quality assurance. Do not share credentials or sensitive personal information. [Link to Privacy Notice]."
+3.  **Refine Instructions:** Change the `guidelines` in node `697194cf64cff41a8f386a10` from "do whatever they want" to specific, allow-listed business tasks (e.g., "Only navigate to approved vendor sites for procurement").
+4.  **Implement Data Masking:** Configure the `LindyComputer` tool (if supported by the platform) to redact input fields (password masking) so that credentials do not appear in the input/output schema logs.
+
+### 5. Overall Compliance Rating
+**Rating: Non-Compliant**
+
+**Reasoning:** The agent is configured to aggressively collect the most sensitive categories of data (Financial/Health) using a method (screen capture) that inherently violates data minimization principles, without any visible "Notice at Collection" or specific security guardrails for credential management. This presents an immediate actionable risk to the enterprise.

@@ -1,0 +1,45 @@
+Agent: Lindy Agent Compliance Analyser14 days ago+2
+ID: lindy-agent-compliance-analyser-695ed16699530f1e0295d5a0
+Log file: None
+Regulation: SOX
+============================================================
+
+Based on the review of the [AGENT_DEFINITION] provided, here is the compliance assessment regarding Sarbanes-Oxley (SOX) applicability and violations.
+
+### 1. Summary of Agent Function
+The agent, titled "Lindy Agent Compliance Analyser," is designed to iterate through a list of agents within a Lindy workspace. For every agent found, it executes a custom JavaScript snippet to generate a base64 encoded ID and then performs a raw **HTTP POST request** to a GraphQL endpoint.
+
+Critically, this HTTP request retrieves a massive amount of sensitive metadata, including **Subscription Info, Credit Usage, Billing Information, Last Payment Failures, and Workspace Financial Configurations** (as seen in the `TasksLayoutQuery` within the request body).
+
+### 2. Is SOX Applicable?
+**YES.**
+
+SOX is applicable to this agent for the following reasons under **Section 404 (Management Assessment of Internal Controls)**:
+
+1.  **Access to Financial Data:** The agent explicitly queries `billingInfo`, `subscriptionPlan`, `creditBalance`, `lastPaymentFailure`, and `price`. In an enterprise context, this data is material to financial reporting (OpEx tracking/Software capitalization).
+2.  **IT General Controls (ITGC) - Access Control:** SOX mandates strict controls over who can access financial data. This agent bypasses standard authentication flows to access this data.
+3.  **Segregation of Duties (SoD):** The agent creates a pathway for potentially unauthorized users to view sensitive billing and payment failure data, bypassing role-based access controls defined in the main application.
+
+### 3. Specific SOX Violations
+The following are definitive, significant violations found in the agent configuration:
+
+**Violation 1: Hardcoded Authentication Credentials (Section 404 - Access Controls)**
+*   **Evidence:** In the Action Node `695ed263d30659e475b9b9db` (HTTP Request), the `headers` configuration contains a hardcoded `Cookie` value. This string includes a specific user's session ID (`lsid=...`), analytics IDs (`ph_phc_...`), and authentication tokens.
+*   **Risk:** This is a **Session Replay / Hardcoded Credential** vulnerability. The agent is impersonating a specific human user (likely the developer who built it). Anyone with access to run this agent inherits the permissions of that user, completely bypassing the enterprise's Identity and Access Management (IAM) controls. If the original user leaves the company, this agent retains access, breaking the termination audit trail.
+
+**Violation 2: Uncontrolled Access to Billing/Payment Data (Section 404 - Data Integrity)**
+*   **Evidence:** The GraphQL body specifically requests `lastPaymentFailure`, `percentConsumed` (credits), and `subscriptionPlan`.
+*   **Risk:** By exposing payment failure logs and credit consumption via an unchecked HTTP call using a hardcoded session, the agent removes the audit trail of who is viewing financial status. There is no logging of *which* user ran the agent to view this data, only that the "hardcoded user" accessed it.
+
+### 4. Recommendations for Remediation
+To bring this agent into compliance, the following actions must be taken immediately:
+
+1.  **Revoke the Session:** The session ID found in the `Cookie` header (Action Node `695ed263d30659e475b9b9db`) must be invalidated immediately to prevent further unauthorized access.
+2.  **Remove Hardcoded Headers:** Delete the manual HTTP Request node. The agent must not manually construct `Cookie` headers.
+3.  **Use Managed Authentication:** Rebuild the data retrieval mechanism using Lindy's native, authenticated tools (e.g., "Get Workspace Info") which respect the *current* user's permissions and generate an audit trail.
+4.  **Least Privilege Implementation:** If the agent intends only to list agents, remove the GraphQL query fields requesting `billingInfo`, `subscriptionInfo`, and `payment` details.
+
+### 5. Overall Compliance Rating
+**NON-COMPLIANT**
+
+**Critical Risk:** The presence of a hardcoded, valid user session cookie accessing financial billing endpoints constitutes a severe failure of internal controls. This agent functions as a "backdoor" and must be disabled immediately.

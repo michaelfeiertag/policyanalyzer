@@ -1,0 +1,61 @@
+Agent: Resume Screening Agent
+ID: resume-screening-agent-6971956bbddcdd1d54fd8975
+Log file: None
+Regulation: ISO27001
+============================================================
+
+Based on the provided Agent Definition (JSON), here is the security and compliance assessment. Note that while a `[SAMPLE_LOG]` was mentioned in your prompt, it was not included in the text provided. This assessment is based strictly on the definitive configuration and architecture revealed in the `[AGENT_DEFINITION]`.
+
+### 1. Summary of Agent Function
+The **Resume Screening Agent** is an automated workflow designed to screen job candidates. Its functional lifecycle is:
+1.  **Ingestion:** It monitors a specific Gmail account (`m@mftestco.com`) for *all* incoming messages.
+2.  **Data Retrieval:** When a resume is detected, it accesses a Google Doc (via a hardcoded link or dynamic input) to retrieve the relevant Job Description.
+3.  **Processing:** It sends the email content, attachments (resumes), and job description to an AI model (`gpt4_turbo`) to score the candidate.
+4.  **Decisioning:** It classifies the candidate as "Approved," "Not Approved," or "Partially Approved."
+5.  **Action:** It automatically composes and sends an email via Gmail to the hiring manager (and potentially the user) with the results.
+
+### 2. ISO 27001 Applicability
+**Status: APPLICABLE**
+
+ISO 27001 applies to this agent for the following reasons:
+*   **Asset Management (A.8):** The agent processes internal business documents (Job Descriptions) and incoming correspondence.
+*   **Human Resource Security (A.7) & Privacy:** The agent handles Personally Identifiable Information (PII) contained in resumes (names, addresses, phone numbers, employment history). This falls under the protection of information assets and privacy regulations (which ISO 27001 supports via ISO 27701).
+*   **Access Control (A.9):** The agent acts as a non-human identity with access to corporate Google Workspace resources (Drive, Gmail, Calendar).
+
+### 3. Specific ISO 27001 Violations
+The following are definitive, non-speculative violations based on the configuration provided:
+
+**A. Violation of Principle of Least Privilege (ISO 27001:2013 A.9.1.2 / A.9.2.1)**
+*   **Finding:** The authentication configuration (Node ID `QXV0aDo2OTNiMmU4NGU2YTA4ODk1NWYzMmY4ODY=`) grants the agent **excessive scopes** that are not utilized in the workflow.
+*   **Evidence:** The agent requests and possesses the following scopes:
+    *   `https://www.googleapis.com/auth/calendar.events` (Read/Write)
+    *   `https://www.googleapis.com/auth/spreadsheets` (Read/Write)
+*   **Risk:** The agent logic *only* utilizes Gmail and Google Docs. However, if this agent is compromised, the attacker immediately gains write access to the user's Calendar and Spreadsheets, which are unnecessary for the business function of screening resumes.
+
+**B. Failure of Information Classification & Segregation (ISO 27001:2013 A.8.2 / A.13.1)**
+*   **Finding:** The Trigger mechanism (`onGmailMessageReceived`) is configured without adequate ingress filtering.
+*   **Evidence:** The `triggerSetup` uses `participantsTypeFilter: "all"` and `attachmentFilter: "all"`. The logic node "Job application?" executes *after* the data has been ingested and processed by the system.
+*   **Risk:** The agent ingests *every* email received by `m@mftestco.com` before filtering takes place. This violates the segregation of duties/data. If this email account receives sensitive HR data (e.g., employee termination discussions, salary negotiations) or unrelated confidential business data, the AI model processes this data indiscriminately.
+
+**C. Lack of Input Validation/Integrity Controls (ISO 27001:2013 A.14.2)**
+*   **Finding:** Automated external communication without human verification ("Human in the Loop").
+*   **Evidence:** The Action Nodes for sending emails (IDs `...983`, `...984`, `...985`) are explicitly configured with `"requireConfirmation": "Never"`.
+*   **Risk:** The agent is authorized to reject candidates or approve them automatically based on non-deterministic AI outputs (`gpt4_turbo`). This poses an integrity risk to the hiring process and a reputational risk. From an ISO perspective, this lacks the verification controls required for automated processing of sensitive transactions.
+
+**D. Insecure Configuration / Hardcoded Assets (ISO 27001:2013 A.9.4.5)**
+*   **Finding:** Hardcoded reference to specific data assets in the prompt instructions.
+*   **Evidence:** Action Node `...981` contains a prompt with a direct link to a Google Doc (`https://docs.google.com/document/d/1h1p...`).
+*   **Risk:** Access control relies on the prompt configuration rather than dynamic variables. If the document permissions change or the agent is cloned/reused, this hardcoded link remains, potentially exposing the wrong job description or leaking internal document IDs.
+
+### 4. Recommendations for Remediation
+
+1.  **Scope Scrubbing (Critical):** Immediately revoke the current OAuth token and reissue a new token requesting *only* the scopes required: `gmail.readonly`, `gmail.send`, `drive.readonly` (or `documents.readonly`). Remove Calendar and Spreadsheet scopes.
+2.  **Implement Ingress Filtering:** Modify the Gmail Trigger to only activate on emails with a specific Label (e.g., "Applying") or a specific Subject Line pattern. Do not allow the agent to ingest the entire inbox stream.
+3.  **Human-in-the-Loop:** Change the `requireConfirmation` setting on all "Send Email" nodes from `"Never"` to `"Always"` or `"High Stakes"`. A human should review the AI's assessment before an external email is sent to a candidate or HR.
+4.  **Prompt Sanitization:** Remove the hardcoded Google Doc link from the prompt. Pass the Job Description ID dynamically as a variable based on the specific triggering email context.
+
+### 5. Overall Compliance Rating
+
+**Rating: NON-COMPLIANT**
+
+**Justification:** While the agent performs a utility function, the violation of the **Principle of Least Privilege** (Control A.9) is a critical failure. The agent holds write-access keys to corporate Calendars and Spreadsheets without any operational need. Combined with the indiscriminant ingestion of all email traffic (Privacy/Data Leakage risk), this agent introduces unacceptable risk in its current state.

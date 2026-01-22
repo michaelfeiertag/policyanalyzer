@@ -1,0 +1,41 @@
+Agent: Lead Outreacher19 minutes ago
+ID: lead-outreacher-6971943a0197c79d295d27cb
+Log file: None
+Regulation: FERPA
+============================================================
+
+Based on the review of the agent definition `lead-outreacher-6971943a0197c79d295d27cb` and its configuration, here is the FERPA compliance assessment.
+
+### 1. Summary of Agent Function
+The agent, named "Lead Outreacher," functions as an automated Sales Development Representative (SDR). Its workflow involves:
+*   **Triggering:** Monitoring a specific Google Sheet for new rows (leads).
+*   **Execution:** executing a multi-stage cold email drip campaign (three emails spaced 3 days apart) using a connected Gmail account.
+*   **Content:** The instructions and prompt templates explicitly direct the agent to discuss business metrics (e.g., "ROAS," "Company Size," "pain points") and solicit sales meetings.
+*   **Goal:** To close commercial deals.
+
+### 2. FERPA Applicability
+**Verdict: FERPA is NOT Applicable.**
+
+**Reasoning:**
+The Family Educational Rights and Privacy Act (FERPA) protects the privacy of **student education records** at educational institutions that receive federal funding.
+
+1.  **Nature of Data:** The agent is configured to ingest "Leads" from a spreadsheet for the purpose of B2B sales. The prompt templates reference "Lead's Company," "specific area or industry-related goal," and "ROAS" (Return on Ad Spend). This constitutes commercial business contact information (B2B data), not "Education Records" (grades, transcripts, disciplinary records, or class schedules).
+2.  **Context of Use:** The instructions explicitly define the persona as an "experienced SDR" (Sales Development Representative) aiming to "close more deals." This is a commercial function, not an educational or administrative function related to student enrollment or academic performance.
+3.  **Prospective Status:** Even if this agent were used by a university to recruit students (which contradicts the "Company" and "ROAS" prompts), records regarding *prospective* students who have not yet enrolled in the institution are generally not subject to FERPA protections.
+
+### 3. Specific FERPA Violations
+**None Found.**
+
+As the data being processed does not meet the definition of "Education Records" and the context is commercial outreach rather than educational administration, no FERPA provisions are triggered or violated.
+
+### 4. Recommendations for Remediation
+**No remediation is required regarding FERPA.**
+
+*Note for the Security Officer:* While FERPA is not a concern, this agent engages in automated cold emailing. You should assess this agent against **CAN-SPAM Act** (US) or **GDPR** (EU) requirements, specifically ensuring:
+*   The email templates include a physical postal address (CAN-SPAM requirement).
+*   The agent is configured to handle "Unsubscribe" or "Stop" requests immediately (currently, the agent cancels timers upon a *reply*, but specific opt-out mechanics should be verified).
+
+### 5. Overall Compliance Rating
+**RATING: COMPLIANT (FERPA N/A)**
+
+The agent does not process, store, or transmit protected student education records as defined by the statute. It presents no FERPA-related risk to the organization.

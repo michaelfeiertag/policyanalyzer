@@ -1,0 +1,41 @@
+Agent: Brand Monitor13 days ago
+ID: brand-monitor-695d7c0b17d213e56045761c
+Log file: None
+Regulation: FERPA
+============================================================
+
+Based on the review of the [AGENT_DEFINITION] provided, here is the security and compliance assessment regarding FERPA (Family Educational Rights and Privacy Act).
+
+### 1. Summary of Agent Function
+The agent, named "Brand Monitor," is designed to track online sentiment and news regarding a specific brand. Its workflow is as follows:
+1.  **Ingest:** It receives a request via an embedded chat widget asking for a "Brand Name" and optional keywords.
+2.  **Process:** It uses a `Browser` tool to search the public internet (News, Social Media, Reviews) for the provided brand name.
+3.  **Output:** It generates a text summary of the brand's online presence (sentiment, insights, trends) and displays it back to the user in the chat window.
+4.  **Legacy/Disabled Functionality:** The agent contains an action to email a summary to a specific hardcoded Gmail address (`Michael.feiertag@gmail.com`). However, the logic edge connecting to this action has a condition of `0=1` (False), meaning **this email action is unreachable and will never execute** in its current configuration.
+
+### 2. FERPA Applicability
+**FERPA is NOT Applicable.**
+
+FERPA applies to the protection of **Education Records** (records, files, documents, and other materials that contain information directly related to a student) maintained by an educational agency or institution.
+
+This agent is not applicable to FERPA for the following reasons:
+*   **Nature of Data:** The agent processes **Publicly Available Information** (PAI). It scrapes public websites, news outlets, and social media for "Brand" information. It does not access, retrieve, or process student transcripts, schedules, financial aid records, or disciplinary logs.
+*   **Input Scope:** The agent asks for a "Brand Name." While a user *could* theoretically input a student's name, the agent functions by searching the *public* web for that name. Searching for public information regarding a person does not constitute accessing an Education Record under FERPA.
+
+### 3. Specific Violations
+**No FERPA violations found.**
+
+*   **Data Access:** The agent does not connect to any internal Student Information Systems (SIS) or databases containing protected student data.
+*   **Data Disclosure:** As the agent only summarizes data already available on the public internet, it cannot "disclose" protected private data in violation of FERPA regulations.
+*   **Hardcoded Email (General Security Note):** While not a FERPA violation in this context (because the data is public), the presence of a hardcoded personal email address (`Michael.feiertag@gmail.com`) in the definition is a general data governance risk. However, as noted in the summary, the logic gate (`0=1`) prevents data from ever being sent to this address.
+
+### 4. Specific Recommendations for Remediation
+While the agent is FERPA compliant, the following recommendations are made for general enterprise security hygiene:
+
+1.  **Remove Dead Code:** Delete the unreachable `Send the summary` (LindyMail) node and the associated logic. Although currently disabled by the `0=1` condition, accidentally changing this condition in the future could result in exfiltrating business intelligence to a personal Gmail account.
+2.  **Input Guardrails:** If this agent is deployed within a university context, ensure the "System Instructions" explicitly state that the agent is for Brand Monitoring only and should not be used to search for specific student individuals, simply to align with general privacy best practices.
+
+### 5. Overall Compliance Rating
+**COMPLIANT**
+
+The agent operates entirely on public data and does not interact with Education Records. It presents no FERPA risk.

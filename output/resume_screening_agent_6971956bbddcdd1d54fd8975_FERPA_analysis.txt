@@ -1,0 +1,48 @@
+Agent: Resume Screening Agent
+ID: resume-screening-agent-6971956bbddcdd1d54fd8975
+Log file: None
+Regulation: FERPA
+============================================================
+
+Based on the agent definition provided, here is the assessment regarding FERPA compliance.
+
+**Note:** You mentioned a `[SAMPLE_LOG]` was attached, but only the `[AGENT_DEFINITION]` (JSON) was provided. This assessment is based strictly on the architectural definition and configuration of the agent.
+
+### 1. Summary of Agent Function
+The "Resume Screening Agent" is an automated recruitment workflow designed to assist Human Resources. Its specific functions are:
+*   **Trigger:** Monitors a Gmail inbox for incoming messages containing attachments.
+*   **Logic:** Determines if the email is a job application.
+*   **Context Retrieval:** Fetches a specific Job Description from a Google Doc.
+*   **AI Processing:** Uses an LLM (GPT-4 Turbo) to compare the attached resume against the Job Description.
+*   **Output:** Classifies the candidate as "Approved," "Not Approved," or "Partially Approved" and automatically drafts/sends an email to the hiring manager (or user) with the results.
+
+### 2. Is FERPA Applicable?
+**Definitive Answer: NO.**
+
+**Reasoning:**
+FERPA (Family Educational Rights and Privacy Act) applies to "Education Records" maintained by an "Educational Agency or Institution" (or a party acting on their behalf).
+
+1.  **Nature of the Record:** This agent processes **Resumes** submitted by applicants for a **Job**. Documents submitted by an individual for the purpose of seeking employment (even if that individual is a student) are considered "Employment Records," not "Education Records."
+2.  **Employment Records Exception:** Under 34 CFR § 99.3, records made by an educational agency that relate exclusively to an individual in their capacity as an employee are explicitly **exempt** from the definition of Education Records.
+3.  **Source of Data:** The agent triggers when a candidate *sends* an email (`onGmailMessageReceived`). By voluntarily submitting their resume to your organization for a job application, the candidate implicitly consents to the processing of that document for hiring purposes. This falls outside the scope of FERPA's unauthorized disclosure protections.
+
+**Exceptions (Edge Cases):**
+FERPA would *only* apply if your organization is a University **AND** this agent is being used specifically to hire for positions where being a student is a prerequisite for employment (e.g., Graduate Teaching Assistants or Work-Study roles). However, for a standard "Large Enterprise" or general corporate hiring, FERPA is not the governing regulation.
+
+### 3. Specific FERPA Violations
+**None identified.**
+
+As the relevant data type (Employment Applications/Resumes) falls under the "Sole Possession" or "Employment Records" exemptions of FERPA, there are no violations of this specific statute in the agent's architecture.
+
+### 4. Recommendations for Remediation
+While FERPA is not a risk, this agent presents significant risks under other regulatory frameworks (GDPR, CCPA, EEOC, and NYC Local Law 144) that a Security and Compliance Officer should be aware of:
+
+*   **Risk:** **Automated Employment Decision Tools (AEDT).** The agent makes a determination ("Approved" vs. "Not Approved") using AI (`gpt4_turbo`).
+    *   *Recommendation:* Ensure a "Human in the Loop" is strictly enforced. The agent is currently configured to send emails directly (`Action: Gmail.send`). You should change the email action to `saveAsDraft: true` so a human must review the AI's rejection/acceptance decision before it is communicated. This mitigates risks regarding AI bias in hiring.
+*   **Risk:** **Data Retention.** The agent processes PII (Resumes) via OpenAI (Logic Node 6971956bbddcdd1d54fd8982).
+    *   *Recommendation:* Verify your enterprise agreement with the model provider ensures that applicant data is not used to train public models.
+
+### 5. Overall Compliance Rating (FERPA Context)
+**RATING: COMPLIANT (Not Applicable)**
+
+*The agent does not process FERPA-protected Education Records in its defined capacity as a corporate resume screener. Therefore, it introduces no regulatory risk regarding FERPA.*

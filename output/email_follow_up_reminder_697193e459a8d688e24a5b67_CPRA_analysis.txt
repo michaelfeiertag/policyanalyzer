@@ -1,0 +1,55 @@
+Agent: Email Follow-up Reminder20 minutes ago
+ID: email-follow-up-reminder-697193e459a8d688e24a5b67
+Log file: None
+Regulation: CPRA
+============================================================
+
+Here is the assessment for the "Email Follow-up Reminder" agent based on the provided definition.
+
+### 1. Summary of Agent Function
+The agent is an automated workflow designed to monitor a user's sent Gmail messages. It uses a Large Language Model (LLM) to analyze the content of sent emails to determine if a response is expected. If a response is required, the agent waits for a specified duration (configured for 3 days), checks if a reply was received, and if not, generates a draft follow-up email for the user to send.
+
+### 2. CPRA Applicability
+**Applicable: YES**
+
+The California Privacy Rights Act (CPRA) applies to this agent for the following reasons:
+*   **Processing of Personal Information (PI):** The agent processes names, email addresses, and unique identifiers (IDs) of both the sender and external recipients.
+*   **Processing of Sensitive Personal Information (SPI):** Under CPRA (Cal. Civ. Code § 1798.140(ae)), the **contents** of a consumer’s mail, email, and text messages (unless the business is the intended recipient) are classified as Sensitive Personal Information. This agent reads the full body (`bodyAsText`) of emails sent to external parties.
+*   **Automated Processing:** The agent utilizes automated logic to analyze personal data and make decisions (whether to follow up).
+
+### 3. Specific CPRA Violations
+The assessment identifies **Definitive Violations** related to the principle of **Data Minimization** and **Purpose Limitation**.
+
+**Violation 1: Data Minimization (Collection of Unnecessary Sensitive Information)**
+*   **Regulatory Reference:** CPRA prohibits the collection of personal information that is not "reasonably necessary and proportionate to achieve the purposes for which the personal information was collected or processed."
+*   **Evidence:** The agent's `stateGraph` (the logic flow) **only** interacts with Gmail and an internal Timer. It contains zero nodes or logic requiring access to Google Drive, Google Docs, Google Sheets, or Google Calendar.
+*   **The Violation:** Despite having no functional need for them, the agent's authentication configuration (`auth.scopes`) requests full Read/Write access to:
+    *   `https://www.googleapis.com/auth/drive` (Full access to all files)
+    *   `https://www.googleapis.com/auth/documents` (Google Docs)
+    *   `https://www.googleapis.com/auth/spreadsheets` (Google Sheets)
+    *   `https://www.googleapis.com/auth/calendar.events` (Calendar)
+*   **Risk:** This grants the agent (and the vendor processing the data) access to the user's entire cloud storage and schedule. This is a direct violation of the minimization principle.
+
+**Violation 2: Excessive Access Rights (Security & Purpose Limitation)**
+*   **Regulatory Reference:** Businesses must implement reasonable security procedures and practices appropriate to the nature of the personal information.
+*   **Evidence:** The agent functions by *drafting* emails (creating drafts). However, the requested scope includes `https://www.googleapis.com/auth/gmail.send` (Send directly) and `https://www.googleapis.com/auth/gmail.modify` (Delete/Edit mail).
+*   **The Violation:** While the agent is configured to `saveAsDraft: true`, the underlying permissions grant the agent the ability to send emails immediately and modify/delete existing email threads without user confirmation. This violates the principle of Least Privilege, which is a component of the "reasonable security" requirement under CPRA.
+
+### 4. Remediation Recommendations
+To bring this agent into compliance, the following changes are mandatory:
+
+1.  **Scope Reduction (Critical):** Immediate removal of the following scopes from the `auth` configuration. They are unused by the agent's logic and represent a significant unjustified liability:
+    *   `.../drive`
+    *   `.../drive.readonly`
+    *   `.../documents`
+    *   `.../spreadsheets`
+    *   `.../calendar.events`
+    *   `.../calendar.events.readonly`
+    *   `.../calendar.readonly`
+2.  **Permission Tightening:** If the business requirement is strictly to *draft* emails for user review, remove `gmail.send`. If the agent must be able to send, this scope can remain, but the current configuration is over-privileged for a "Reminder" agent.
+3.  **Data Retention Policy:** Ensure the `onGmailMessageSent` trigger does not retain the `bodyAsText` (SPI) in the vendor's logs longer than necessary to perform the "Response required?" inference.
+
+### 5. Overall Compliance Rating
+**Rating: NON-COMPLIANT**
+
+The agent is currently **Non-Compliant** due to the gross violation of Data Minimization principles. Requesting full Read/Write access to a user's Drive, Docs, and Sheets for an agent that only processes Email is a definitive regulatory breach that exposes the organization to unnecessary legal risk.

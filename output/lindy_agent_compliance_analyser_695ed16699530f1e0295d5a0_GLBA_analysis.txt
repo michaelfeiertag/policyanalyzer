@@ -1,0 +1,41 @@
+Agent: Lindy Agent Compliance Analyser14 days ago+2
+ID: lindy-agent-compliance-analyser-695ed16699530f1e0295d5a0
+Log file: None
+Regulation: GLBA
+============================================================
+
+Here is the security and compliance assessment for the agent "Lindy Agent Compliance Analyser".
+
+### 1. Summary of Agent Function
+The agent is designed to iterate through a list of agents within a Lindy workspace and retrieve deep configuration details.
+*   **Workflow:** It lists agents, loops through them, generates a base64 encoded ID using a code execution node, and performs a raw HTTP POST request to the Lindy GraphQL API.
+*   **Data Scope:** The GraphQL query embedded in the request attempts to fetch extensive metadata, including: User Identity (`me`), Workspace Billing Info (credits, subscription plans), all Agent Definitions, internal State Graphs (source logic), and User Permissions.
+
+### 2. GLBA Applicability
+**Applicable (Conditional)**
+GLBA (Gramm-Leach-Bliley Act) applies if your enterprise is a "financial institution" or significantly engaged in financial activities.
+*   **Why it applies here:** While the agent primarily targets IT/Configuration data, it specifically queries **Billing Information** (`subscriptionPlan`, `creditBalance`, `lastPaymentFailure`) and user identities.
+*   If this agent is used within a financial institution's environment, it falls under the **GLBA Safeguards Rule**, which mandates the implementation of administrative, technical, and physical safeguards to ensure the security and confidentiality of customer records and information systems.
+
+### 3. Specific Violations
+**YES. This agent introduces definitive, high-severity risks that violate the GLBA Safeguards Rule.**
+
+**Violation A: Hardcoded User Session Credentials (GLBA Safeguards Rule - Access Control)**
+*   **Evidence:** In the `ActionNode` (ID: `695ed263d30659e475b9b9db`), the HTTP Request headers contain a hardcoded `Cookie` value: `ph_phc_...; lsid=s%3A9Qhv...; lindy_anon_id=...`.
+*   **The Risk:** This cookie belongs to a specific human user (likely the creator, "Michael Feiertag"). This is a **Session Hijacking / Replay** vulnerability.
+*   **Compliance Impact:** The agent bypasses the enterprise authentication layer. Any user who runs this agent effectively impersonates the original creator. This violates the Safeguards Rule requirement to "protect against unauthorized access or use" of information. If the original user has Admin rights, this agent grants Admin rights to anyone who runs it.
+
+**Violation B: Excessive Data Exposure (Principle of Least Privilege)**
+*   **Evidence:** The GraphQL query body requests `billingInfo`, `lastPaymentFailure`, and `subscriptionPlan`.
+*   **The Risk:** The agent instructions claim to "list agents," but the underlying API call exfiltrates financial/billing context and full internal logic of other agents.
+*   **Compliance Impact:** Accessing billing failure dates and credit usage via an undocumented API call using a hijacked session violates the standard of limiting access to data only to those with a legitimate business need.
+
+### 4. Recommendations for Remediation
+1.  **Immediate Revocation:** The session ID (`lsid`) hardcoded in the agent definition is compromised. The user associated with that session must log out and reset their session immediately to invalidate the token.
+2.  **Remove Hardcoded Credentials:** The agent must be rewritten to use the platform's native authentication (e.g., the `Lindy` toolset or `Get tasks list` action) rather than a raw HTTP request with a pasted Cookie header.
+3.  **Sanitize Data Request:** Remove the request for `billingInfo` and `lastPaymentFailure` from the query unless explicitly required and authorized for the agent's function.
+
+### 5. Overall Compliance Rating
+**NON-COMPLIANT**
+
+**Reasoning:** The presence of hardcoded, live session credentials (Cookies) in the agent's source code constitutes a critical security failure. It allows for identity spoofing and unauthorized privilege escalation, which is a definitive violation of the security standards required by GLBA.

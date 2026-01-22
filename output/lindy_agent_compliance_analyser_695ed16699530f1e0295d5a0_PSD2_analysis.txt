@@ -1,0 +1,42 @@
+Agent: Lindy Agent Compliance Analyser14 days ago+2
+ID: lindy-agent-compliance-analyser-695ed16699530f1e0295d5a0
+Log file: None
+Regulation: PSD2
+============================================================
+
+Based on the provided agent definition and configuration, here is the assessment regarding PSD2 (Payment Services Directive 2) compliance.
+
+### 1. Summary of the Agent's Function
+The agent, "Lindy Agent Compliance Analyser," is designed to retrieve and list agents within a user's Lindy workspace.
+*   **Mechanism:** It iterates through a list of items and executes a manual **HTTP POST request** (Node ID: `695ed263d30659e475b9b9db`) to the Lindy GraphQL endpoint (`https://www.lindy.ai/`).
+*   **Data Accessed:** The body of the request is a complex GraphQL query (`TasksLayoutQuery`) that requests deep internal state data, including **Billing Information** (`subscriptionPlan`, `creditUsage`, `lastPaymentFailure`), Identity details, and Agent Definitions.
+*   **Authentication:** The agent uses a **hardcoded session cookie** in the request headers to authenticate as a specific user.
+
+### 2. Is PSD2 Applicable?
+**No.**
+
+PSD2 applies to **Payment Services** and the access of **Payment Accounts** (e.g., bank accounts, credit card transaction history) via Open Banking APIs.
+*   **Scope:** This agent interacts with the internal API of a SaaS productivity tool (Lindy.ai) to view subscription status and credit usage for that specific software.
+*   **Reasoning:** While the agent accesses "billing info," this refers to the commercial subscription metadata between a vendor and a client, not a regulated payment account held at a financial institution. The agent does not initiate payments, transfer funds between bank accounts, or aggregate banking transaction data. Therefore, it falls outside the regulatory scope of PSD2.
+
+### 3. PSD2 Violations Found
+**None.**
+
+Since the regulation is not applicable to the specific data types and actions performed by this agent (SaaS metadata retrieval), there are no direct violations of PSD2 articles (such as SCA requirements or AISP licensing).
+
+### 4. Specific Recommendations for Remediation
+While there are no PSD2 violations, the agent contains a **Critical Security Vulnerability** that poses a significant risk to your organization and likely violates other compliance frameworks (e.g., SOC2, ISO 27001, GDPR):
+
+*   **Issue:** **Hardcoded Session Credentials.**
+    *   **Location:** Action Node `695ed263d30659e475b9b9db` -> Configuration -> Headers -> `Cookie`.
+    *   **Details:** The agent includes a hardcoded live session cookie (`lsid=s%3A9Qhv...`) and analytics tokens.
+    *   **Risk:** If this agent definition is shared or inspected by another user, the hardcoded cookie allows the viewer to **hijack the creator's session**, effectively impersonating them to access the workspace, billing data, and private agents.
+*   **Recommendation:** Immediate remediation is required.
+    1.  **Revoke the Session:** The user associated with the hardcoded `lsid` cookie should log out immediately to invalidate the session token.
+    2.  **Remove Hardcoded Headers:** Delete the manual HTTP Request node.
+    3.  **Use Native Tools:** Replace the raw HTTP request with the native `Lindy` tool (e.g., `Get tasks list`) which handles authentication securely and dynamically based on the current user's context.
+
+### 5. Overall Compliance Rating (PSD2)
+**COMPLIANT**
+
+*(Note: While compliant with PSD2 specifically, this agent is **High Risk** from a general cybersecurity perspective due to the exposed hardcoded session credentials mentioned in section 4.)*

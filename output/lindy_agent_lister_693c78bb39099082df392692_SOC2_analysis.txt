@@ -1,0 +1,56 @@
+Agent: Lindy Agent ListerAbout 8 hours ago+2
+ID: lindy-agent-lister-693c78bb39099082df392692
+Log file: None
+Regulation: SOC2
+============================================================
+
+Here is the compliance assessment for the agent **Lindy Agent Lister** (ID: `693c78bb39099082df392692`).
+
+### 1. Summary of Agent Function
+The "Lindy Agent Lister" is a recurring automation tool designed to run hourly (`0 * * * *`). Its workflow performs the following steps:
+1.  **Retrieves Data:** Queries the internal Lindy API to fetch a list of all agents in the current workspace (getting ID, Name, and Last Execution Time).
+2.  **Processes Data:** Enters a control loop (capped at 500 iterations) to process the retrieved agents.
+3.  **Exfiltrates/Stores Data:** Connects to a specific Google Sheet ("Lindy Agents") using the identity `m@mftestco.com`. It performs an "upsert" operation (update or insert) to log the Agent ID, Name, and Last Task Date into the spreadsheet.
+
+### 2. SOC 2 Applicability
+**Verdict: Applicable**
+
+SOC 2 applies to this agent for the following reasons:
+*   **Security (Access Controls):** The agent utilizes a specific user identity (`m@mftestco.com`) and OAuth tokens to access external cloud resources (Google Workspace). The management of these credentials falls under SOC 2 CC6 (Logical and Physical Access Controls).
+*   **Processing Integrity:** The agent is an automated system reporting on system configurations. Inaccurate reporting or silent failures affect the integrity of system data processing (CC7).
+*   **Confidentiality:** The agent extracts internal system architecture data (Agent Lists/Metadata) and moves it to a secondary storage location (Google Sheets).
+
+### 3. Specific SOC 2 Violations
+The review of the provided JSON definition identifies definitive violations, specifically regarding **CC6.1 (Logical Access Security)** and **CC6.3 (Least Privilege)**.
+
+**Violation 1: Gross Violation of Least Privilege (CC6.3)**
+*   **Evidence:** In the `ActionNode` (ID `69710848c69db5cec70fe557`), the agent performs a specific task: updating a Google Sheet. However, the OAuth token associated with this node includes the following scopes:
+    *   `https://www.googleapis.com/auth/gmail.send` (Send email as user)
+    *   `https://www.googleapis.com/auth/gmail.readonly` (Read user email)
+    *   `https://www.googleapis.com/auth/drive` (Full access to delete/modify all Drive files)
+    *   `https://www.googleapis.com/auth/calendar.events` (Read/Write calendar)
+*   **Risk:** The agent possesses "God Mode" permissions for the user `m@mftestco.com`. If this agent were compromised, an attacker could read emails, send phishing emails from a trusted domain, and delete all files in the user's Drive. The agent *only* requires the `spreadsheets` scope.
+*   **Status:** **Critical Failure.**
+
+**Violation 2: Processing Integrity / Data Completeness (CC7.2)**
+*   **Evidence:** The loop configuration (Node `69710841c69db5cec70fe51d`) has a hardcoded `maxIterations` value of `500`.
+*   **Risk:** If the enterprise scales beyond 500 agents, the agent will silently truncate the list. The resulting compliance log (the Spreadsheet) will be incomplete, but there is no mechanism to alert the user that data was dropped. This creates a false sense of accuracy regarding system state.
+*   **Status:** **Definitive Failure.**
+
+**Violation 3: Lack of Error Handling (CC7.4)**
+*   **Evidence:** The Google Sheets action has `failIfNotFound` set to `false`, and there are no conditional edges handling failure states (e.g., API timeouts, authentication revocation).
+*   **Risk:** If the Google Sheet is renamed, deleted, or permissions change, the agent will continue to execute its "success" path or fail silently without generating an incident report or notification.
+*   **Status:** **Operational Risk.**
+
+### 4. Recommendations for Remediation
+
+1.  **Revoke and Re-issue Token (Critical):** Immediately strip the OAuth connection for this agent. Create a new connection strictly limited to the `https://www.googleapis.com/auth/spreadsheets` scope. Remove Gmail, Drive (File deletion), and Calendar permissions.
+2.  **Implement Pagination/Alerting:** Increase the `maxIterations` limit or implement a check: if the number of items retrieved equals the limit, trigger a "Warning" message to the user indicating the list may be truncated.
+3.  **Add Error Handling:** Add a failure path to the Google Sheets node. If the update fails, the agent should use the `Send message` tool to alert the user that the compliance log could not be updated.
+4.  **Parameterize Configuration:** Move the Spreadsheet ID and Sheet ID to environment variables or inputs rather than hardcoding them to prevent breakage if the target file changes.
+
+### 5. Overall Compliance Rating
+
+**Rating: NON-COMPLIANT**
+
+This agent poses a **High Security Risk**. While the functional logic is sound, the violation of the Principle of Least Privilege regarding the Google Workspace OAuth scopes is a critical failure of SOC 2 controls. A compromised instance of this agent would grant full access to the associated employee's email and file systems. It should be disabled until the authentication scopes are minimized.

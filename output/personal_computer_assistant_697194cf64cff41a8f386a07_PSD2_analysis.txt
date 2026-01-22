@@ -1,0 +1,48 @@
+Agent: Personal Computer Assistant
+ID: personal-computer-assistant-697194cf64cff41a8f386a07
+Log file: None
+Regulation: PSD2
+============================================================
+
+Based on the provided agent definition, here is the compliance assessment regarding PSD2 (Revised Payment Services Directive).
+
+### 1. Summary of Agent Function
+The **Personal Computer Assistant** is a "Computer Use" agent (utilizing the `LindyComputer` toolset). It operates by launching a sandboxed computer session and interacting with it via browser automation (simulated clicks, typing, and navigation).
+
+Its configured purpose is to act as a general digital companion. Crucially, its **Conversation Starters** explicitly invite the user to perform financial tasks, specifically: **"Check my credit card statement"**, "Buy groceries on Instacart," and "Order food on Doordash."
+
+### 2. PSD2 Applicability
+**Yes, PSD2 is applicable.**
+
+PSD2 regulates **Account Information Service Providers (AISPs)** and **Payment Initiation Service Providers (PISPs)**.
+*   **AISP Role:** When the agent offers to "Check my credit card statement," it is acting as an AISP (accessing read-only financial data).
+*   **PISP Role:** When the agent offers to "Buy groceries" or "Order food," it interacts with payment gateways, acting as a PISP (initiating a payment transaction on the user's behalf).
+
+Because the agent acts as an intermediary between the user and their banking/payment interfaces, it falls under the jurisdiction of PSD2 for any operations involving EU/EEA accounts or entities.
+
+### 3. Specific PSD2 Violations
+The agent exhibits definitive, significant violations of the Regulatory Technical Standards (RTS) on Strong Customer Authentication (SCA) and Common and Secure Communication (CSC).
+
+*   **Violation 1: Non-Compliant Screen Scraping (RTS Article 30-33)**
+    *   **Evidence:** The agent uses `LindyComputer` to interact with standard web interfaces. It does not use dedicated Open Banking APIs.
+    *   **The Risk:** PSD2 mandates that Third Party Providers (TPPs) identify themselves using eIDAS certificates and access data via dedicated interfaces (APIs). This agent accesses the customer-facing interface (screen scraping) without identifying itself as a regulated entity. While screen scraping is allowed as a "fallback" in rare cases, it is prohibited as a primary method for unregistered agents.
+
+*   **Violation 2: Insecure Credential Handling / Impersonation**
+    *   **Evidence:** To "Check a credit card statement" via a browser, the agent requires the user's online banking credentials (username/password) to be entered into the session.
+    *   **The Risk:** PSD2 prohibits the sharing of personalized security credentials (such as passwords) with third parties in a way that allows full impersonation. The agent is effectively impersonating the user rather than authenticating as an authorized delegate.
+
+*   **Violation 3: Incompatibility with Strong Customer Authentication (SCA)**
+    *   **Evidence:** The agent operates autonomously (`ActionNode`).
+    *   **The Risk:** Banking interfaces are legally required to enforce SCA (2FA). This agent lacks the workflow to handle dynamic linking or out-of-band authentication challenges legitimately. It creates a high risk of account lockouts or the user being forced to bypass security controls to enable the agent.
+
+### 4. Recommendations for Remediation
+To mitigate legal and security risks, the following changes are required immediately:
+
+1.  **Remove Financial Intents:** Delete the conversation starter **"Check my credit card statement"**. The agent must not be advertised or used for accessing banking portals directly via browser automation.
+2.  **Restrict Banking URLs:** Configure the `LindyComputer` sandbox environment to blacklist domains associated with major banking institutions to prevent users from manually directing the agent to these sites.
+3.  **Use Authorized Integrations:** If financial data access is required, the agent must replace "Computer Use" with a verified API integration (e.g., Plaid, Stripe, or direct Open Banking APIs) that handles tokenized authentication compliant with PSD2.
+
+### 5. Compliance Rating
+**NON-COMPLIANT**
+
+This agent introduces critical compliance risks by encouraging users to grant an automated script unregulated access to banking interfaces via screen scraping. It should not be deployed in its current configuration.

@@ -1,0 +1,54 @@
+Agent: Lindy Agent Compliance Analyser14 days ago+2
+ID: lindy-agent-compliance-analyser-695ed16699530f1e0295d5a0
+Log file: None
+Regulation: SOC2
+============================================================
+
+Based on the review of the [AGENT_DEFINITION] provided, here is the security and compliance assessment.
+
+### 1. Summary of Agent Function
+The agent, titled "Lindy Agent Compliance Analyser," is ostensibly designed to list agents within a user's workspace. However, the internal logic reveals a more complex and dangerous workflow:
+1.  It retrieves a list of tasks/agents.
+2.  It enters a loop to process these items.
+3.  It executes a **JavaScript code block** to Base64 encode the Agent ID.
+4.  It executes a raw **HTTP POST request** (likely to the Lindy GraphQL API) to retrieve detailed metadata.
+5.  **Critical:** The HTTP request sends a massive GraphQL query requesting sensitive data (billing, identity, full agent definitions, usage credits) using **hardcoded session cookies** embedded directly in the request headers.
+
+### 2. SOC 2 Applicability
+**Applicable.**
+SOC 2 (specifically the Trust Services Criteria for **Security**, **Confidentiality**, and **Availability**) applies to this agent for the following reasons:
+*   **Security (CC6):** The agent handles authentication credentials (session tokens) and interacts with the system's API to access protected resources.
+*   **Confidentiality (CC6):** The agent processes sensitive enterprise data, including proprietary agent definitions, user identities, and billing information.
+*   **Processing Integrity:** The agent performs automated actions on behalf of a user which affects the state and data visibility of the workspace.
+
+### 3. Specific Violations of SOC 2
+This agent contains **Critical** violations that represent an immediate security threat.
+
+**A. Violation of CC6.1 & CC6.7 (Logical Access & Transmission of Credentials)**
+*   **Finding:** Hardcoded Session Credentials (Session Hijacking/Replay Attack Risk).
+*   **Evidence:** In the Action Node (`695ed263d30659e475b9b9db`), the `headers` configuration contains a hardcoded `Cookie` string including `lsid` (Lindy Session ID), `_cfuvid` (Cloudflare ID), and `ph_phc_...` (PostHog analytics with distinct user IDs).
+*   **Impact:** This constitutes **Credential Dumping**. The agent does not use the invoking user's context dynamically; it replays the specific session of the user who configured the agent. If this agent is shared with another user, the second user will inadvertently masquerade as the creator, bypassing audit logs and access controls.
+
+**B. Violation of CC6.3 (Principle of Least Privilege)**
+*   **Finding:** Excessive Data Access.
+*   **Evidence:** The HTTP `body` contains an extremely large GraphQL query (`TasksLayoutQuery`) that requests data far beyond the scope of "Listing Agents." It requests:
+    *   `billingInfo` (Subscription plans, credit balance, payment failures).
+    *   `Identity` (Email, admin status, feature flags).
+    *   Detailed `AgentDefinition` internals (full state graphs, prompts, knowledge bases).
+*   **Impact:** The agent requests administrative and financial data not required for its stated function. In a compromised scenario, this maximizes the data exfiltration blast radius.
+
+**C. Violation of CC6.1 (Secrets Management)**
+*   **Finding:** Improper Storage of Secrets.
+*   **Evidence:** Sensitive session cookies and analytics tokens are stored in plain text within the JSON configuration of the agent's logic graph.
+*   **Impact:** Secrets are visible to anyone with "View" access to the agent's configuration, bypassing secrets management best practices.
+
+### 4. Recommendations for Remediation
+1.  **Immediate Action:** Revoke the session ID (`lsid`) found in the HTTP header configuration immediately to prevent unauthorized access.
+2.  **Remove Hardcoded Credentials:** The `HTTP` action node must be stripped of the `Cookie` header. The agent should rely on the platform's native, securely scoped authentication context (e.g., passing a dynamic bearer token provided by the runtime environment).
+3.  **Scope Reduction:** Rewrite the GraphQL query to only request the specific fields needed (e.g., `id`, `name`, `status`) rather than the full application state (`TasksLayoutQuery`).
+4.  **Secrets Management:** If specific API keys are required for external calls, they must be stored in a secure environment variable or vault, not in the agent's JSON definition.
+
+### 5. Overall Compliance Rating
+**NON-COMPLIANT**
+
+**Risk Level:** **Critical**. This agent introduces a high risk of identity spoofing, privilege escalation, and data leakage due to the hardcoded session cookies. It should be disabled immediately until remediated.

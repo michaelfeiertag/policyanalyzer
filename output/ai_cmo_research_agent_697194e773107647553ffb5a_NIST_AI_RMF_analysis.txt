@@ -1,0 +1,58 @@
+Agent: AI CMO | Research Agent
+ID: ai-cmo-research-agent-697194e773107647553ffb5a
+Log file: None
+Regulation: NIST-AI-RMF
+============================================================
+
+Based on the review of the [AGENT_DEFINITION] provided, here is the assessment regarding NIST AI Risk Management Framework (AI RMF 1.0) compliance.
+
+### 1. Summary of Agent Function
+The **AI CMO | Research Agent** is an automated workflow designed to conduct strategic market research.
+*   **Inputs:** It accepts a company URL.
+*   **Processing:** It scrapes the provided website, uses Perplexity (AI search) to identify competitors, conducts deep research on market size (TAM/SAM/SOM), customer personas, and brand strategy.
+*   **Outputs:** It generates multiple Google Docs containing strategic analysis (Competitor Analysis, Customer Profiles, Brand Guidelines) and saves them to a Google Drive.
+*   **Integration:** It utilizes third-party AI models (Perplexity Sonar, GPT-5 via Lindy) and has authenticated access to the user's Google Workspace.
+
+### 2. Applicability of NIST AI RMF
+**Yes, NIST AI RMF is applicable.**
+This agent fits the NIST criteria for an AI system that generates content influencing high-stakes business decisions (Strategic Planning).
+*   **Generative Risk:** The agent uses LLMs to hallucinate/estimate financial metrics (Market Size, Revenue) and competitive vulnerabilities. Inaccurate outputs here pose a "Business/Mission" risk under NIST classifications.
+*   **Security Risk:** The agent connects to external environments (Web scraping, Perplexity API) and internal environments (Google Drive/Docs) with authenticated access, introducing data leakage and integrity risks.
+
+### 3. Specific Violations of NIST AI RMF
+The following are **definitive, significant violations** found in the configuration that present practical risk:
+
+**A. Violation of Principle of Least Privilege (NIST MANAGE 2.4)**
+*   **Location:** `auth.scopes` (Node ID: `...fb86` and others).
+*   **Finding:** The agent requests OAuth scopes for `https://www.googleapis.com/auth/gmail.send`, `gmail.modify`, `calendar`, and `spreadsheets`.
+*   **Risk:** The agent's logic *only* utilizes Google Docs and Drive creation. However, it holds active tokens to read/send emails and modify calendars. If this agent is hijacked or malfunctions (prompt injection), it has the authority to exfiltrate emails or send unauthorized messages.
+*   **NIST Function:** **MANAGE (Security Risks)**
+
+**B. Insecure Default Output Configuration (NIST MANAGE 2.4)**
+*   **Location:** Action Nodes `...fb78`, `...fb7c`, `...fb85`, `...fb8c` (Google Docs Create actions).
+*   **Finding:** The `sharingPreference` is hardcoded to `"Anyone with the link can edit"`.
+*   **Risk:** The agent automatically creates sensitive strategic documents (Competitor Analysis, Customer Psychology) and makes them publicly writable by anyone with the link. This creates an immediate data leak of proprietary research and allows external actors to poison the strategic data.
+*   **NIST Function:** **MANAGE (Privacy & Security)**
+
+**C. Lack of Reliability/Veracity Controls for Financial Data (NIST MEASURE 2.2)**
+*   **Location:** Action Node `...fb84` (Market Size Analysis).
+*   **Finding:** The agent prompts the AI to "Estimate potential market size... TAM, SAM, SOM" and writes this directly to a formal report document.
+*   **Risk:** LLMs are prone to hallucinating numbers. There is no intermediate step for human verification of these financial figures before they are codified into a document. This violates the integrity requirements for decision-support systems.
+*   **NIST Function:** **MEASURE (Reliability)**
+
+**D. Third-Party Data Transmission (NIST GOVERN 1.6)**
+*   **Location:** Action Node `...fb73`, `...fb82` (Perplexity API calls).
+*   **Finding:** The agent sends specific internal context (Company Name, URL, derived strategy) to Perplexity's "Sonar-Deep-Research" models.
+*   **Risk:** Unless an enterprise agreement is in place with Lindy/Perplexity ensuring zero-retention, this constitutes a leak of internal strategic interest to third-party model providers, potentially exposing the user's strategic intent to competitors.
+*   **NIST Function:** **GOVERN (Data Privacy)**
+
+### 4. Remediation Recommendations
+1.  **Scope Reduction (Critical):** Update the Google Auth provider settings to remove `gmail.*`, `calendar.*`, and `spreadsheets` scopes. The agent should only request `drive.file` or `documents` scopes required for its actual function.
+2.  **Secure Default Permissions (Critical):** Change the `sharingPreference` on all "Create Document" nodes from `"Anyone with the link can edit"` to `"Private (only me)"` or `"Anyone in my organization can view"`.
+3.  **Human-in-the-Loop for Metrics:** Insert a `User Confirmation` or `Review` node after the "Market Size Analysis" (Node `...fb84`) and before the "Create Research Report" (Node `...fb87`) to allow the user to validate estimated financials.
+4.  **Disclaimer Injection:** Update the `content` prompts for document creation to prepend a disclaimer: *"Generated by AI. All financial figures and market estimates must be verified."*
+
+### 5. Overall Compliance Rating
+**NON-COMPLIANT**
+
+**Reasoning:** While the functional logic is sound, the agent introduces unacceptable security risks by granting excessive Email/Calendar privileges that are never used, and by creating sensitive strategic documents with "Public Edit" access by default. These are direct violations of standard security governance required by NIST AI RMF.

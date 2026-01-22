@@ -1,0 +1,48 @@
+Agent: Resume Screening Agent
+ID: resume-screening-agent-6971956bbddcdd1d54fd8975
+Log file: None
+Regulation: ADA
+============================================================
+
+Based on the provided Agent Definition and the regulatory framework regarding the Americans with Disabilities Act (ADA) and the Equal Employment Opportunity Commission’s (EEOC) technical assistance on "The Americans with Disabilities Act and the Use of Software, Algorithms, and Artificial Intelligence," here is the assessment.
+
+### 1. Summary of Agent Function
+The **Resume Screening Agent** is an automated recruitment workflow designed to receive job applications via Gmail. It triggers when an email containing a resume is received. The agent performs the following steps:
+1.  Retrieves a specific Job Description (JD) from a hardcoded Google Doc.
+2.  Uses an LLM (GPT-4 Turbo) to compare the resume against the JD.
+3.  Classifies the candidate into three buckets: Approved, Partially Approved, or Not Approved.
+4.  **Automatically sends a response email** to the candidate (or internal HR, though the prompts suggest a mix) notifying them of the decision. Crucially, the "Not Approved" path sends an email stating the candidate "does not qualify for the next stage."
+
+### 2. Is ADA Applicable?
+**Yes.**
+The ADA applies to this agent because it acts as an **employment selection procedure**. Under the ADA and recent EEOC guidance, employers using AI tools to screen resumes are liable if the tool "screens out" an individual with a disability who is otherwise qualified to perform the essential functions of the job.
+
+Because this agent makes **definitive hiring decisions** (rejecting candidates) rather than just sorting them for human review, strict ADA compliance regarding "screening out" and "reasonable accommodation" is required.
+
+### 3. Specific Violations Found
+I have identified **3 significant violations** that present immediate practical risk:
+
+**A. Automated "Screen Out" Without Human Oversight (EEOC Violation)**
+*   **Evidence:** In the logic flow, Edge `6971956bcea360a53ef6fd43` directs "Not approved" candidates to Action Node `6971956bbddcdd1d54fd8984`. This node composes and sends an email with the subject "Unqualified Candidate" and body text stating: *"Based on these findings, the candidate does not qualify for the next stage."*
+*   **Violation:** The agent automatically rejects candidates. If a candidate has a disability that creates a resume gap (e.g., medical leave) or prevents them from meeting a specific keyword criteria that is not an "essential function," the AI screens them out. The lack of human review before rejection violates the requirement to ensure qualified individuals are not screened out due to disability-related characteristics.
+
+**B. Lack of Reasonable Accommodation Protocol**
+*   **Evidence:** The workflow is linear: `Email In` -> `Decision` -> `Rejection Out`.
+*   **Violation:** There is no mechanism in the agent's workflow to detect or handle requests for accommodation. If a candidate's resume format is non-standard due to the use of assistive technology, or if they mention a disability in the email body requiring manual review, the agent treats this as a standard application. If the AI fails to parse the resume correctly due to formatting (accessibility issues), the candidate is summarily rejected, which is a functional ADA violation.
+
+**C. Enforcement of Potentially Biased Criteria (The "Black Box" Risk)**
+*   **Evidence:** The Logic Node `6971956bbddcdd1d54fd8982` uses the prompt condition: *"the resume does not meet the key requirements of the job description."*
+*   **Violation:** The agent strictly enforces the JD retrieved from the Google Doc. If the JD contains criteria that screen out disabilities but are not business necessities (e.g., "Must have valid driver's license" for a remote desk job), the Agent enforces this discriminatorily. While the JD text itself isn't in the JSON, the *mechanism* relies on rigid AI interpretation without distinguishing between "Essential Functions" and "Marginal Functions," a distinction required by ADA.
+
+### 4. Recommendations for Remediation
+To mitigate legal risk, the following changes must be made immediately:
+
+1.  **Disable Auto-Rejection:** Change Action Node `6971956bbddcdd1d54fd8984` (The "Unqualified" path). Instead of emailing the candidate a rejection, it must email the **Hiring Manager** a summary labeled "Proposed Rejection" for human verification.
+2.  **Implement an Accommodation Check:** Add a Logic Node immediately after the trigger to check the email body for keywords related to "accommodation," "disability," or "alternate format." If detected, route these directly to a Human HR representative, bypassing the AI screening.
+3.  **Prompt Engineering for "Essential Functions":** Update the instructions in the Resume Screening Logic Node to explicitly instruct the AI to: *"Evaluate candidates based only on Essential Functions listed in the JD. Ignore employment gaps longer than 6 months if qualifications are met."*
+4.  **Audit the Input JD:** Ensure the Google Doc linked in Node `...981` has been vetted by Legal/HR to ensure all listed requirements are strictly "Essential Functions" as defined by the ADA.
+
+### 5. Overall Compliance Rating
+**NON-COMPLIANT**
+
+This agent introduces high legal risk by automating rejection decisions that can disparately impact individuals with disabilities without human oversight or accommodation pathways. It should not be deployed in its current state.

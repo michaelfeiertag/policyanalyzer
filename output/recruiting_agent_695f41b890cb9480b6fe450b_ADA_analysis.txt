@@ -1,0 +1,46 @@
+Agent: Recruiting Agent13 days ago+2
+ID: recruiting-agent-695f41b890cb9480b6fe450b
+Log file: None
+Regulation: ADA
+============================================================
+
+Based on the review of the provided [AGENT_DEFINITION] and [SAMPLE_LOG] (implied by the functionality described in the definition), here is the assessment regarding the Americans with Disabilities Act (ADA).
+
+### 1. Summary of Agent Function
+The **Recruiting Agent** is an automated talent sourcing tool designed to:
+1.  **Query Candidates:** Interface with the "People Data Labs" (PDL) API to search for individuals based on specific criteria (Role, Title, Location, Industry, Skills, Gender).
+2.  **Organize Data:** Automatically generate and populate Google Sheets with candidate data.
+3.  **Outreach:** facilitate email outreach to identified candidates via Gmail integration.
+4.  **Interface:** Interact with the user via a chat interface to refine search criteria.
+
+### 2. ADA Applicability
+**Yes, the ADA is applicable.**
+*   **Regulatory Context:** **ADA Title I (Employment)** applies to employers (with 15+ employees) regarding recruitment and hiring processes. As this agent is designed to "make hires," "prospect," and "find leads," it acts as a **pre-employment selection procedure**.
+*   **Digital Accessibility:** As software used by employees (the recruiters), the interface and outputs must be accessible to employees with disabilities (e.g., compatible with screen readers) to avoid violating Title I (failure to provide reasonable accommodation/accessible tools).
+
+### 3. Specific Violations of ADA
+**No definitive ADA violations were found in the agent's logic.**
+
+While the agent introduces regulatory risk (see *Critical Compliance Note* below), it does **not** explicitly violate the ADA based on the provided JSON definition.
+
+*   **No Prohibited Medical Inquiries:** The agent’s logic and the PDL schema do not request, store, or filter by medical history, disability status, or workers' compensation history.
+*   **No Discriminatory Exclusion (Disability):** The logical filters defined in the instructions (`Role`, `Title`, `Location`, `Industry`, `Skills`) are standard, job-related criteria. There is no evidence of logic designed to screen out individuals based on disability.
+*   **Accessible Outputs:** The agent outputs data in **Google Sheets** and **Markdown Tables**. Both formats are text-based and inherently compatible with assistive technologies (screen readers), meeting standard accessibility requirements for employee tools.
+
+### **CRITICAL COMPLIANCE NOTE (Non-ADA)**
+While you specifically requested ADA assessment, a significant **Title VII (Civil Rights Act)** violation was identified in the logic that presents immediate practical risk:
+
+*   **Definitive Violation:** The agent instructions (Node `ActionNode...513`) explicitly state: *"The filters you support are location... job title, **gender**."* and the PDL schema imports `sex`.
+*   **Risk:** Using **Gender** as a filter for candidate sourcing is a violation of **Title VII of the Civil Rights Act of 1964**. While this is not an ADA violation, it is a severe regulatory breach in a hiring agent.
+*   **Potential ADEA Risk:** The PDL schema imports `birth_date`. While the instructions do not explicitly ask to filter by it, storing this data for candidates pre-offer creates risk under the **Age Discrimination in Employment Act (ADEA)**.
+
+### 4. Recommendations for Remediation
+Although the agent is ADA compliant, the following actions are required to mitigate broader Equal Employment Opportunity (EEO) risks found in the code:
+
+1.  **Remove Gender Filtering (Title VII):** Edit the `instructions` in the Root Config and the `prompt` in the `ActionNode` (Search for leads) to delete the word "gender." Ensure the agent is strictly prohibited from accepting gender as a search criterion.
+2.  **Suppress Protected Class Data (ADEA/Title VII):** Modify the `ActionNode` (People Data Labs) configuration to exclude `sex`, `gender`, and `birth_date` from the returned data payload to prevent accidental storage or bias in the Google Sheet.
+
+### 5. Overall Compliance Rating (ADA)
+**COMPLIANT**
+
+*Note: While rated "Compliant" specifically for ADA, this agent is **Non-Compliant** regarding Title VII (Gender Discrimination) and requires immediate remediation before deployment.*

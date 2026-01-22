@@ -190,6 +190,12 @@ Examples:
   %(prog)s --regulation EU-AI-Act --skip-import
       Analyze existing agent files against EU AI Act
 
+  %(prog)s --regulations-file regulations.txt --skip-import -j 8 -o results/
+      Analyze against all regulations in file (parallel)
+
+  %(prog)s --regulations-file regulations.txt --skip-import --retry -o results/
+      Retry only failed/missing analyses from previous run
+
   %(prog)s --custom-policy my_policy.txt --output-dir results/
       Analyze against custom policy and save results to files
 """
@@ -198,6 +204,11 @@ Examples:
     parser.add_argument(
         "--regulation", "-r",
         help="Regulation to check against (e.g., GDPR, EU-AI-Act, HIPAA)"
+    )
+    parser.add_argument(
+        "--regulations-file", "-R",
+        type=Path,
+        help="File containing list of regulations to check (one per line)"
     )
     parser.add_argument(
         "--custom-policy", "-p",
@@ -241,12 +252,31 @@ Examples:
         metavar="N",
         help="Number of parallel analyses to run (default: 1)"
     )
+    parser.add_argument(
+        "--retry",
+        action="store_true",
+        help="Only analyze agent/regulation pairs missing from output directory"
+    )
 
     args = parser.parse_args()
 
+    # Load regulations from file if specified
+    regulations = []
+    if args.regulations_file:
+        if not args.regulations_file.exists():
+            parser.error(f"Regulations file not found: {args.regulations_file}")
+        regulations = [
+            line.strip() for line in args.regulations_file.read_text().splitlines()
+            if line.strip() and not line.strip().startswith("#")
+        ]
+        if not regulations:
+            parser.error(f"No regulations found in {args.regulations_file}")
+    elif args.regulation:
+        regulations = [args.regulation]
+
     # Validate that at least one policy source is provided (unless just listing)
-    if not args.list_agents and not args.regulation and not args.custom_policy:
-        parser.error("At least one of --regulation or --custom-policy is required")
+    if not args.list_agents and not regulations and not args.custom_policy:
+        parser.error("At least one of --regulation, --regulations-file, or --custom-policy is required")
 
     # Track overall timing
     total_start = time.time()
@@ -293,14 +323,52 @@ Examples:
     if args.output_dir:
         args.output_dir.mkdir(parents=True, exist_ok=True)
 
-    # Analyze each agent
+    # Build list of tasks: (agent, regulation) pairs
+    # If no regulations specified (custom policy only), use None as regulation
+    if not regulations:
+        regulations = [None]
+
+    tasks = []
+    for agent in agents:
+        for regulation in regulations:
+            tasks.append({"agent": agent, "regulation": regulation})
+
+    # Filter out tasks that already have output files (--retry mode)
+    if args.retry:
+        if not args.output_dir:
+            parser.error("--retry requires --output-dir to check for existing results")
+
+        original_count = len(tasks)
+        filtered_tasks = []
+        for task in tasks:
+            agent_id = task["agent"]["id"]
+            regulation = task["regulation"]
+            reg_name = sanitize_for_filename(regulation) if regulation else "custom"
+            output_file = args.output_dir / f"{sanitize_for_filename(agent_id)}_{reg_name}_analysis.txt"
+            if not output_file.exists():
+                filtered_tasks.append(task)
+
+        skipped = original_count - len(filtered_tasks)
+        if skipped > 0:
+            print(f"Retry mode: skipping {skipped} existing results, {len(filtered_tasks)} remaining")
+        tasks = filtered_tasks
+
+        if not tasks:
+            print("All analyses already complete. Nothing to retry.")
+            sys.exit(0)
+
+    # Analyze each agent/regulation pair
     parallel = max(1, args.parallel)
-    print(f"\nAnalyzing {len(agents)} agents (parallel={parallel})...\n")
+    total_tasks = len(tasks)
+    reg_info = f", {len(regulations)} regulation(s)" if regulations[0] else ""
+    print(f"\nAnalyzing {len(agents)} agents{reg_info} = {total_tasks} tasks (parallel={parallel})...\n")
     results = []
 
-    def analyze_agent(agent_info: tuple[int, dict]) -> dict:
-        """Analyze a single agent. Returns result dict."""
-        idx, agent = agent_info
+    def analyze_task(task_info: tuple[int, dict]) -> dict:
+        """Analyze a single agent/regulation pair. Returns result dict."""
+        idx, task = task_info
+        agent = task["agent"]
+        regulation = task["regulation"]
         agent_id = agent["id"]
         agent_name = agent["name"]
         log_file = agent["log_file"]
@@ -308,7 +376,7 @@ Examples:
         success, output, elapsed = run_policy_analyzer(
             agent["file"],
             log_file,
-            args.regulation,
+            regulation,
             args.custom_policy,
             args.model,
             args.verbose,
@@ -319,6 +387,7 @@ Examples:
             "idx": idx,
             "agent_id": agent_id,
             "agent_name": agent_name,
+            "regulation": regulation,
             "success": success,
             "output": output,
             "had_log": log_file is not None,
@@ -328,26 +397,30 @@ Examples:
 
     if parallel == 1:
         # Sequential execution with progress
-        for i, agent in enumerate(agents, 1):
-            log_info = f" with log {agent['log_file'].name}" if agent["log_file"] else ""
-            print(f"[{i}/{len(agents)}] Analyzing: {agent['name']}{log_info}...", end=" ", flush=True)
-            result = analyze_agent((i, agent))
+        for i, task in enumerate(tasks, 1):
+            agent = task["agent"]
+            regulation = task["regulation"]
+            log_info = f" +log" if agent["log_file"] else ""
+            reg_info = f" [{regulation}]" if regulation else ""
+            print(f"[{i}/{total_tasks}] {agent['name']}{reg_info}{log_info}...", end=" ", flush=True)
+            result = analyze_task((i, task))
             print(f"({result['elapsed']:.1f}s)")
             results.append(result)
     else:
         # Parallel execution
-        print(f"Starting {len(agents)} analyses...")
+        print(f"Starting {total_tasks} analyses...")
         completed = 0
         with concurrent.futures.ThreadPoolExecutor(max_workers=parallel) as executor:
             futures = {
-                executor.submit(analyze_agent, (i, agent)): agent
-                for i, agent in enumerate(agents, 1)
+                executor.submit(analyze_task, (i, task)): task
+                for i, task in enumerate(tasks, 1)
             }
             for future in concurrent.futures.as_completed(futures):
                 result = future.result()
                 completed += 1
-                log_info = f" with log" if result["had_log"] else ""
-                print(f"[{completed}/{len(agents)}] Done: {result['agent_name']}{log_info} ({result['elapsed']:.1f}s)")
+                log_info = " +log" if result["had_log"] else ""
+                reg_info = f" [{result['regulation']}]" if result["regulation"] else ""
+                print(f"[{completed}/{total_tasks}] Done: {result['agent_name']}{reg_info}{log_info} ({result['elapsed']:.1f}s)")
                 results.append(result)
 
     # Sort results by original order for consistent output
@@ -357,23 +430,29 @@ Examples:
     for result in results:
         agent_name = result["agent_name"]
         agent_id = result["agent_id"]
+        regulation = result["regulation"]
         log_file = result["log_file"]
         output = result["output"]
         success = result["success"]
 
         if args.output_dir:
-            output_file = args.output_dir / f"{sanitize_for_filename(agent_id)}_analysis.txt"
-            with open(output_file, "w") as f:
-                f.write(f"Agent: {agent_name}\n")
-                f.write(f"ID: {agent_id}\n")
-                f.write(f"Log file: {log_file.name if log_file else 'None'}\n")
-                f.write(f"Regulation: {args.regulation or 'Custom policy'}\n")
-                f.write("=" * 60 + "\n\n")
-                f.write(output)
-            print(f"  -> Saved: {output_file.name}")
+            reg_name = sanitize_for_filename(regulation) if regulation else "custom"
+            output_file = args.output_dir / f"{sanitize_for_filename(agent_id)}_{reg_name}_analysis.txt"
+            if success:
+                with open(output_file, "w") as f:
+                    f.write(f"Agent: {agent_name}\n")
+                    f.write(f"ID: {agent_id}\n")
+                    f.write(f"Log file: {log_file.name if log_file else 'None'}\n")
+                    f.write(f"Regulation: {regulation or 'Custom policy'}\n")
+                    f.write("=" * 60 + "\n\n")
+                    f.write(output)
+                print(f"  -> Saved: {output_file.name}")
+            else:
+                print(f"  -> Skipped (failed): {output_file.name}")
         else:
+            reg_info = f" [{regulation}]" if regulation else ""
             print("\n" + "=" * 60)
-            print(f"ANALYSIS: {agent_name}")
+            print(f"ANALYSIS: {agent_name}{reg_info}")
             print("=" * 60)
             print(output)
             print()
@@ -389,10 +468,15 @@ Examples:
     successful = sum(1 for r in results if r["success"])
     with_logs = sum(1 for r in results if r["had_log"])
     analysis_time = sum(r["elapsed"] for r in results)
+    unique_agents = len(set(r["agent_id"] for r in results))
+    unique_regulations = len(set(r["regulation"] for r in results if r["regulation"]))
 
-    print(f"Total agents analyzed: {len(results)}")
-    print(f"Successful analyses: {successful}")
-    print(f"Agents with log files: {with_logs}")
+    print(f"Total analyses: {len(results)}")
+    print(f"  Agents: {unique_agents}")
+    if unique_regulations > 0:
+        print(f"  Regulations: {unique_regulations}")
+    print(f"Successful: {successful}")
+    print(f"With log files: {with_logs}")
 
     print(f"\nTiming:")
     if import_time > 0:
@@ -401,10 +485,11 @@ Examples:
     print(f"  Total elapsed:   {total_elapsed:6.1f}s")
 
     if results:
-        print(f"\nPer-agent timing:")
+        print(f"\nPer-task timing:")
         for r in sorted(results, key=lambda x: x["elapsed"], reverse=True):
             status = "ok" if r["success"] else "FAILED"
-            print(f"  {r['elapsed']:5.1f}s  [{status:6}]  {r['agent_name']}")
+            reg_info = f" [{r['regulation']}]" if r["regulation"] else ""
+            print(f"  {r['elapsed']:5.1f}s  [{status:6}]  {r['agent_name']}{reg_info}")
 
     if args.output_dir:
         print(f"\nResults saved to: {args.output_dir}")

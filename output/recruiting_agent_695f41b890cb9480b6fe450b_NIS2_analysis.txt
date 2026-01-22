@@ -1,0 +1,59 @@
+Agent: Recruiting Agent13 days ago+2
+ID: recruiting-agent-695f41b890cb9480b6fe450b
+Log file: None
+Regulation: NIS2
+============================================================
+
+Here is the assessment of the "Recruiting Agent" based on the provided definition and NIS2 regulatory framework.
+
+### 1. Summary of Agent Function
+The **Recruiting Agent** is an automated prospecting tool designed to:
+1.  **Search for individuals or companies** using the "People Data Labs" (PDL) third-party API based on criteria like role, location, and industry.
+2.  **Process PII** including full names, personal emails, mobile phones, employment history, and LinkedIn URLs.
+3.  **Create and Populate Google Sheets** with this data.
+4.  **Send Mass Emails** via the user's Gmail account. It contains a logic loop capable of iterating through up to 500 leads and sending emails to them.
+
+### 2. NIS2 Applicability
+**Yes, NIS2 is applicable.**
+
+*   **Entity Scope:** As a "large enterprise," your organization likely falls under the category of an **Essential** or **Important Entity** (Article 3), particularly if you operate in critical sectors or rely on these agents for core business processes.
+*   **Security of Information Systems:** NIS2 (Article 21) mandates that entities take technical and organizational measures to manage risks posed to the security of network and information systems. This agent integrates directly with your corporate environment (Google Workspace) and handles external data ingestion.
+*   **Supply Chain Security:** The agent relies on an external API (People Data Labs), bringing third-party data into your corporate network, which falls under Article 21(2)(d) regarding supply chain security.
+
+### 3. Specific NIS2 Violations
+Based on the configuration provided, the following **definitive** violations of NIS2 Article 21 ("Cybersecurity risk-management measures") have been identified:
+
+**A. Violation of Basic Cyber Hygiene / Principle of Least Privilege (Article 21(2)(j))**
+*   **Finding:** The agent's Google Auth configuration requests **excessive, dangerous scopes** that are not required for its function.
+*   **Evidence:** The `config.nodes[...].auth.scopes` list includes:
+    *   `https://www.googleapis.com/auth/drive` (Full read/write access to *all* Google Drive files, not just the sheet created).
+    *   `https://www.googleapis.com/auth/gmail.modify` (Ability to delete/modify emails).
+    *   `https://www.googleapis.com/auth/calendar.events` (Full access to calendar).
+*   **Risk:** If this agent is compromised (prompt injection or session hijacking), the attacker gains full control over the employee's entire corporate Drive and Email, not just the recruiting data.
+
+**B. Supply Chain & Data Security Risk (Article 21(2)(d))**
+*   **Finding:** The agent creates a direct, unmonitored pipeline of unverified PII (Personal Identifiable Information) from a third-party aggregator (People Data Labs) into corporate storage (Google Sheets).
+*   **Evidence:** The input schema requests `recommended_personal_email` and `mobile_phone`.
+*   **Risk:** Ingesting personal data of non-consenting individuals into corporate systems creates a compliance liability (GDPR intersection) and increases the attack surface for social engineering (spear-phishing) if the external data source is poisoned.
+
+**C. Business Continuity & Operational Security (Article 21(2)(c))**
+*   **Finding:** The agent lacks sufficient rate-limiting or human-in-the-loop safeguards for mass communication.
+*   **Evidence:** The `Enter loop` node has a `maxIterations` setting of **500**, and the subsequent `Send email` node operates automatically.
+*   **Risk:** An error in the search criteria or a hallucination could cause the agent to spam 500 recipients in minutes using the corporate domain. This presents an availability risk: your corporate domain could be blacklisted by spam filters (Spamhaus, etc.), halting legitimate business email traffic.
+
+### 4. Recommendations for Remediation
+To bring this agent into compliance, the following actions are required:
+
+1.  **Scope Reduction (Critical):** Immediate reconfiguration of the Google Authentication provider.
+    *   **Remove:** `drive` (replace with `drive.file`), `calendar.*`, `gmail.modify`, `gmail.labels`, `gmail.readonly`.
+    *   **Retain Only:** `spreadsheets` and `gmail.send`.
+2.  **Implement Guardrails on Automation:**
+    *   Change the `Send email` node configuration to **"requireConfirmation": "Always"**. The user must approve emails before they are sent.
+    *   Reduce `maxIterations` in the loop from 500 to a safer batch size (e.g., 20-50) to prevent domain reputation damage.
+3.  **Data Minimization:** Modify the PDL search prompt to exclude `recommended_personal_email` and `mobile_phone` unless a specific legal basis (Legitimate Interest assessment) is documented. Restrict data collection to professional emails (`work_email`).
+
+### 5. Overall Compliance Rating
+
+**NON-COMPLIANT**
+
+*The agent creates significant practical risk due to gross violation of Least Privilege principles (granting full Drive/Calendar access unnecessarily) and unrestricted automation capabilities that threaten corporate domain reputation.*

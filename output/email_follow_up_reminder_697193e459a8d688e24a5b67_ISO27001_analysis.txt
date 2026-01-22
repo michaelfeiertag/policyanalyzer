@@ -1,0 +1,72 @@
+Agent: Email Follow-up Reminder20 minutes ago
+ID: email-follow-up-reminder-697193e459a8d688e24a5b67
+Log file: None
+Regulation: ISO27001
+============================================================
+
+Based on the provided Agent Definition and Logic Graph, here is the ISO 27001 assessment.
+
+### 1. Summary of Agent Function
+The "Email Follow-up Reminder" agent integrates with a user's corporate Gmail account. Its specific workflow is:
+1.  **Trigger:** Monitors the "Sent" folder for all new outgoing emails.
+2.  **Analysis:** Uses a Large Language Model (LLM) to read the email body and determine if a response is contractually or contextually required.
+3.  **Wait State:** Initiates a 3-day (4320 minutes) delay.
+4.  **Verification:** Checks if a reply has been received from the recipient.
+5.  **Action:** If no reply is detected, it uses an LLM (Claude 3.5 Sonnet) to draft a follow-up email and saves it to the user’s "Drafts" folder.
+
+### 2. ISO 27001 Applicability
+**Status: APPLICABLE**
+
+ISO 27001 applies to this agent for the following reasons:
+*   **Asset Processing:** The agent processes corporate information assets (email metadata, subject lines, bodies, and attachments).
+*   **Third-Party Processing:** The agent transmits this data to external processors (Lindy.ai and the underlying LLM provider) for analysis.
+*   **Access Rights:** The agent maintains persistent, read/write access to the organization's communication infrastructure (Google Workspace).
+*   **Information Security Scope:** The automated nature of the agent acts as an extension of the employee, meaning the organization's ISMS (Information Security Management System) policies regarding data handling, access control, and supplier relationships directly apply.
+
+### 3. Definitive Violations (ISO 27001:2022 / Annex A)
+
+The following are **definitive** violations based strictly on the provided JSON configuration. No speculation on agent behavior is required; the configuration itself violates standard controls.
+
+**Violation 1: Violation of Principle of Least Privilege (Control A.8.2, A.5.15)**
+*   **Evidence:** The `auth` section of the agent definition requests the following OAuth scopes:
+    *   `https://www.googleapis.com/auth/drive` (Read/Write all Google Drive files)
+    *   `https://www.googleapis.com/auth/documents` (Read/Write Google Docs)
+    *   `https://www.googleapis.com/auth/spreadsheets` (Read/Write Google Sheets)
+    *   `https://www.googleapis.com/auth/calendar.events` (Read/Write Calendar)
+*   **The Issue:** The `stateGraph` (logic flow) **only** utilizes Gmail nodes (`EntryPointTriggerNode` and `ActionNode` for Gmail). There is no logic in the agent that accesses Drive, Docs, Sheets, or Calendar.
+*   **Risk:** The agent is over-privileged. A compromise of this agent's token would grant an attacker full access to the user's files and calendar, despite the agent having no functional need for them.
+
+**Violation 2: Lack of Information Filtering / Data Leakage Prevention (Control A.8.12, A.5.14)**
+*   **Evidence:** The `EntryPointTriggerNode` is configured to trigger on `onGmailMessageSent` without restricted filters. The `LogicNode` ("Response required?") immediately processes the `bodyAsText` of the email via an AI model.
+*   **The Issue:** There is no logic step to filter out highly sensitive data *before* transmission to the third-party LLM. Emails marked "Confidential," "Legal Privilege," or containing PII/HR data are treated exactly the same as routine correspondence.
+*   **Risk:** Uncontrolled exfiltration of sensitive internal data to external AI providers violates Information Transfer policies.
+
+**Violation 3: Use of Deprecated Components (Control A.8.8, A.8.19)**
+*   **Evidence:** The `ActionNode` with ID `697193e559a8d688e24a5b71` uses the tool `Timer.wait`. The definition explicitly states: `"displayName": "Wait (Deprecated)"`.
+*   **The Issue:** The agent is deployed using software components effectively marked as End-of-Life (EOL) or superseded by the vendor.
+*   **Risk:** Deprecated components may not receive security patches or may function unpredictably, violating Technical Vulnerability Management controls.
+
+### 4. Remediation Recommendations
+
+To bring this agent into compliance, the following actions are mandatory:
+
+1.  **Scope Minimization (Critical):**
+    *   Modify the authentication configuration to remove all scopes unrelated to email.
+    *   **Remove:** `drive`, `drive.readonly`, `documents`, `spreadsheets`, `calendar.events`, `calendar.readonly`, `userinfo.profile`.
+    *   **Retain:** Only `gmail.readonly`, `gmail.compose`, and `gmail.send` (and `openid/email` for identity).
+
+2.  **Implement Data Filtering:**
+    *   Update the `EntryPointTriggerNode` or add a `LogicNode` immediately after the trigger to check for exclusion criteria.
+    *   *Example:* If `Subject` contains "Confidential", "Internal", or "HR", terminate the flow immediately to prevent the body text from being sent to the LLM for analysis.
+
+3.  **Update Component Configuration:**
+    *   Replace the `Wait (Deprecated)` action node with the vendor-recommended current version ("Set Timer").
+
+4.  **Logging & Retention Policy:**
+    *   Ensure the `saveAsDraft` parameter (currently set to `true`) remains locked. The agent should strictly be prohibited from auto-sending emails (changing `saveAsDraft` to `false`) without human review (Review Control A.8.10).
+
+### 5. Overall Compliance Rating
+
+**Rating: NON-COMPLIANT**
+
+**Reasoning:** While the functionality is useful, the **excessive permissions** requested (Full Drive/Docs/Sheets access for an email tool) constitute a Critical severity violation of the Principle of Least Privilege. This agent introduces significant unnecessary surface area for attack and cannot be approved in its current state.

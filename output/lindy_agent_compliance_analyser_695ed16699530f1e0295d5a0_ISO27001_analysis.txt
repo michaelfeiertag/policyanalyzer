@@ -1,0 +1,55 @@
+Agent: Lindy Agent Compliance Analyser14 days ago+2
+ID: lindy-agent-compliance-analyser-695ed16699530f1e0295d5a0
+Log file: None
+Regulation: ISO27001
+============================================================
+
+Based on the provided `[AGENT_DEFINITION]`, here is the security and compliance assessment. Note that `[SAMPLE_LOG]` was not present in the provided text, so this analysis is based strictly on the agent's static configuration, which contains sufficient evidence for a determination.
+
+### 1. Summary of Agent Function
+The **"Lindy Agent Compliance Analyser"** is designed to list agents within a specific Lindy workspace. Its logic flow is:
+1.  Retrieves a list of tasks/agents.
+2.  Enters a loop to process these agents.
+3.  Executes a JavaScript code snippet to Base64 encode an Agent ID.
+4.  **Executes a raw HTTP POST request** to the Lindy GraphQL endpoint using a specific, hardcoded session cookie to retrieve extensive details about the user, billing, subscription plans, and workspace configuration.
+
+### 2. ISO 27001 Applicability
+**Applicable: Yes.**
+ISO 27001 is directly applicable to this agent for the following reasons:
+*   **Annex A.5 (Information Security Policies):** The agent processes proprietary organizational information (agent lists, workspace details).
+*   **Annex A.8 (Technological Controls):** The agent is a software component performing automated actions that interface with the organization's secure API endpoints.
+*   **Annex A.9 (Access Control):** The agent creates a mechanism for accessing data, requiring strict adherence to authentication protocols.
+
+### 3. Specific Violations of ISO 27001
+The agent creates **CRITICAL** risk and definitive violations of ISO 27001 controls.
+
+**Violation A: Hardcoded Credentials (Annex A.5.15, A.8.5)**
+*   **Evidence:** In the `ActionNode` (ID: `695ed263d30659e475b9b9db`), the HTTP Request configuration includes a hardcoded `Cookie` header.
+    *   *Value found:* `lsid=s%3A9Qhv_jJ2JDZ24rcZYBJWIJjN0iyyQg0k...`
+*   **Violation:** This is a static, long-lived session identifier (User Session ID) embedded directly into the source code/configuration of the agent. This violates the principle of **Secure Authentication** and **Protection of Secrets**. Any user with "View" access to this agent definition can copy this cookie and impersonate the original creator of the agent on the platform, bypassing Multi-Factor Authentication (MFA) and password checks.
+
+**Violation B: Violation of Least Privilege (Annex A.8.2, A.5.12)**
+*   **Evidence:** The HTTP body contains a massive GraphQL query (`TasksLayoutQuery`). While the agent's stated purpose is to "list agents," the query explicitly requests:
+    *   `billingInfo`
+    *   `subscriptionPlan`
+    *   `creditBalance`
+    *   `lastPaymentFailure`
+    *   `isEmailQualified`
+*   **Violation:** The agent requests sensitive financial and administrative data irrelevant to its stated function. ISO 27001 requires that access to information and application system functions be restricted in accordance with the access control policy (Need-to-Know principle).
+
+**Violation C: Insecure Session Management (Annex A.9.4)**
+*   **Evidence:** The agent uses a replayed browser session (Cookie-based auth) inside a server-side automation flow instead of using a proper Service Account, API Key, or OAuth token flow (`auth: null` is set on the node, but auth is manually injected via headers).
+*   **Violation:** This prevents proper auditing and revocation. If this employee leaves the company, this agent will continue to run as a "ghost" session until the cookie expires, or worse, if the cookie is revoked, the business process relying on this agent will silently fail.
+
+### 4. Remediation Recommendations
+To mitigate these risks, the following actions are required immediately:
+
+1.  **Revoke the Exposed Session:** The user associated with the `lsid` in the code must log out and log back in immediately to invalidate the exposed session cookie.
+2.  **Remove Hardcoded Headers:** Delete the manual `Cookie` header from the HTTP Action configuration.
+3.  **Implement Proper Authentication:** Configure the Action Node to use the platform's native Authentication mechanism (OAuth2 or API Key) where the credentials are stored in a secure vault, not in the agent logic.
+4.  **Refine Data Scope:** Rewrite the GraphQL query to request *only* the `id` and `name` of the agents required for the task, removing all billing and user identity fields.
+
+### 5. Overall Compliance Rating
+**NON-COMPLIANT**
+
+**Reasoning:** The presence of hardcoded, valid session credentials in plain text within the agent configuration is a catastrophic security failure. This agent acts as a backdoor into the creator's account and exposes sensitive billing data unnecessary for its function. It cannot be deployed in a production environment.

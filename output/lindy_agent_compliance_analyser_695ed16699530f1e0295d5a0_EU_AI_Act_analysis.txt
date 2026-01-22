@@ -1,0 +1,40 @@
+Agent: Lindy Agent Compliance Analyser14 days ago+2
+ID: lindy-agent-compliance-analyser-695ed16699530f1e0295d5a0
+Log file: None
+Regulation: EU-AI-Act
+============================================================
+
+Based on the review of the provided [AGENT_DEFINITION], here is the compliance assessment regarding the EU AI Act.
+
+### 1. Summary of Agent Function
+The **"Lindy Agent Compliance Analyser"** is a conversational agent designed to list all other agents within a user's Lindy workspace.
+*   **Intended Logic:** It retrieves a list of agents, loops through them, and attempts to fetch detailed metadata (such as internal IDs, configurations, and permissions) by executing a raw JavaScript code block to encode IDs and sending a direct HTTP POST request to the application's internal GraphQL endpoint (`https://www.lindy.ai/graphql`).
+*   **Operational Mechanism:** It utilizes a "Lindy utility" to get the initial list, but then relies on a custom-configured HTTP action to scrape deeper data.
+
+### 2. EU AI Act Applicability
+**Yes, the EU AI Act is applicable.**
+*   **Classification:** The agent qualifies as an **AI System** under Article 3(1) of the Act (a machine-based system designed to operate with varying levels of autonomy and that infers how to generate outputs).
+*   **Risk Category:** While likely not falling under "High Risk" (Annex III) for critical infrastructure or essential services, it is subject to **General Purpose AI (GPAI)** transparency rules and general safety/security obligations.
+*   **Cybersecurity & Data Governance:** The Act mandates that AI systems achieve appropriate levels of accuracy, robustness, and **cybersecurity** (Article 15 principles). The deployment of an agent that handles authentication tokens falls strictly under scrutiny for technical robustness and data governance.
+
+### 3. Specific Violations of EU AI Act
+**Definitive Violation Found:**
+
+**Violation: Failure of Technical Robustness and Cybersecurity (Article 15) & Data Governance.**
+*   **Evidence:** In the `ActionNode` (ID: `695ed263d30659e475b9b9db`), specifically within the `actionConfiguration` > `headers` section, the agent contains **hardcoded, static authentication credentials** in the `Cookie` header.
+*   **Specifics:** The configuration explicitly includes:
+    *   `ph_phc_...`: Analytics tokens (PostHog).
+    *   `lsid=s%3A9Qhv...`: A live **Lindy Session ID** (Session Token).
+    *   `lindy_anon_id`: An anonymous user ID.
+*   **The Risk:** This is a "hardcoded secret." Any instance of this agent will execute the GraphQL request **impersonating the specific user** (likely "Michael Feiertag") whose session cookies were pasted into the definition. It bypasses the authenticating user's own permissions and allows the AI to act with the privileges of the compromised account. This violates the requirement for the system to be resilient against unauthorized access and creates a severe data leakage vector.
+
+### 4. Recommendations for Remediation
+1.  **Immediate Action:** **Revoke the compromised session tokens** (the `lsid` found in the definition) immediately, as they are now exposed in plain text within the agent configuration.
+2.  **Configuration Change:** Delete the `ActionNode` (ID: `695ed263d30659e475b9b9db`) entirely. Do not allow agents to perform raw HTTP requests to internal API endpoints (`/graphql`) using hardcoded headers.
+3.  **Proper Implementation:** Restrict the agent to using the platform's native tools (e.g., the `Get tasks list` tool referenced in node `695ed16699530f1e0295d5b6`) which handle authentication dynamically and securely based on the *current* user's context.
+4.  **Policy Update:** Implement a policy scanner that blocks any Agent Definition containing high-entropy strings or known header keys (like `Cookie`, `Authorization`, `Bearer`) in the `actionConfiguration` of HTTP tools.
+
+### 5. Overall Compliance Rating
+**NON-COMPLIANT**
+
+**Reasoning:** The agent definition contains hardcoded active session credentials (Secrets/PII). This is a critical security vulnerability that violates the fundamental cybersecurity requirements of the EU AI Act and GDPR. The agent poses an immediate risk of identity impersonation and unauthorized data access.

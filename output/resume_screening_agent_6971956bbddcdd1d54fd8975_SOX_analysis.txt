@@ -1,0 +1,33 @@
+Agent: Resume Screening Agent
+ID: resume-screening-agent-6971956bbddcdd1d54fd8975
+Log file: None
+Regulation: SOX
+============================================================
+
+Based on the provided agent definition and configuration, here is the regulatory and compliance assessment regarding the Sarbanes-Oxley Act (SOX).
+
+### 1. Summary of Agent Function
+The **Resume Screening Agent** automates the recruitment screening process.
+*   **Trigger:** It listens for incoming emails (via Gmail) containing resume attachments.
+*   **Process:** It retrieves a specific Job Description from a Google Doc, uses an AI model (`gpt4_turbo`) to compare the resume against the job description, and categorizes the applicant as "Approved," "Not Approved," or "Partially Approved."
+*   **Output:** It automatically sends an email back to the candidate/sender with the result and a summary of the decision.
+
+### 2. Is SOX Applicable?
+**NO.**
+
+**Reasoning:**
+The Sarbanes-Oxley Act (SOX) governs the accuracy of corporate financial disclosures and the Internal Controls over Financial Reporting (ICFR). Recruitment, talent acquisition, and resume screening are **operational Human Resources functions**. They do not involve the processing of financial transactions, the maintenance of financial ledgers, or the direct generation of financial statements. Unless this agent is specifically configured to gatekeep the hiring of key financial officers (e.g., CFO/Controller) in a way that bypasses human oversight—which is speculative—it falls outside the scope of SOX.
+
+### 3. Specific SOX Violations
+**None.**
+
+Since the agent operates outside the scope of financial reporting, it does not violate SOX controls.
+
+*Note on General Security (Non-SOX):* While not a SOX violation, the agent violates the **Principle of Least Privilege**. The authentication configuration requests full read/write access to `spreadsheets` and `calendar` and full `drive` access, yet the agent's logic (`stateGraph`) never utilizes Spreadsheets or Calendars, and only reads specific Google Docs. This is a general security risk but does not constitute a SOX deficiency for this specific use case.
+
+### 4. Recommendations for Remediation
+*   **SOX:** No remediation required.
+*   **General Security (Advisory):** Modify the `auth` configuration to remove `https://www.googleapis.com/auth/spreadsheets`, `https://www.googleapis.com/auth/calendar`, and `https://www.googleapis.com/auth/drive` (downgrade to `drive.readonly` or specific file scope) to align permissions with actual agent functionality.
+
+### 5. Overall Compliance Rating
+**Compliant (SOX Not Applicable)**

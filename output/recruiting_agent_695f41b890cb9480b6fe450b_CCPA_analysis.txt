@@ -1,0 +1,49 @@
+Agent: Recruiting Agent13 days ago+2
+ID: recruiting-agent-695f41b890cb9480b6fe450b
+Log file: None
+Regulation: CCPA
+============================================================
+
+Based on the provided Agent Definition, here is the compliance assessment regarding the California Consumer Privacy Act (CCPA).
+
+### 1. Summary of Agent Function
+The "Recruiting Agent" functions as an automated Sales Development Representative (SDR) or Recruiter. Its workflow is:
+1.  **Data Collection:** It utilizes the **People Data Labs (PDL)** API to search for individuals based on criteria (Role, Location, Industry, etc.).
+2.  **Data Extraction:** It extracts specific Personal Information (PI), including **Full Names, Job Titles, Work Emails, Personal Emails, Mobile Phones, and Employment History**.
+3.  **Storage:** It exports this PI into an unmanaged **Google Sheet**.
+4.  **Action/Outreach:** It iterates through the list of leads and uses **Gmail** to send cold emails to the identified candidates.
+
+### 2. Is CCPA Applicable?
+**YES.**
+
+*   **Jurisdiction:** As a large enterprise (assuming gross revenues >$25M or processing data of >100k consumers), your organization falls under CCPA jurisdiction.
+*   **Data Definition:** The agent explicitly processes "Personal Information" as defined in CCPA Section 1798.140(v), specifically identifiers (names, email addresses), professional/employment-related information, and geolocation data.
+*   **Activity:** The agent is "collecting" (via third-party API), "processing," "storing," and "using" this data for commercial purposes (recruiting/hiring).
+
+### 3. Specific CCPA Violations
+The agent presents **Definitive Violations** and high-risk compliance gaps in its current configuration:
+
+**A. Violation of Notice at Collection (Section 1798.100)**
+*   **The Issue:** The agent collects PI from a third-party source (People Data Labs) and stores it for the business's use. CCPA requires that a business informs consumers *at or before the point of collection* about the categories of PI collected and the purposes for which it will be used.
+*   **The Violation:** The agent automates the collection of consumers who have no direct relationship with your enterprise. There is no mechanism in the agent's workflow to provide this required privacy notice to the candidate before or immediately upon processing their data into your internal systems (Google Sheets).
+
+**B. Violation of "Right to Delete" and Data Governance (Section 1798.105)**
+*   **The Issue:** Businesses must be able to delete a consumer's PI upon request (Data Subject Access Request - DSAR).
+*   **The Violation:** The agent creates **"Shadow Data."** By generating isolated Google Sheets (Action Node `695f41b990cb9480b6fe4512`) containing PI, the agent creates data silos outside your centralized CRM or HRIS. If a consumer submits a Right to Delete request to your enterprise, your compliance team will likely fail to identify and delete the specific Google Sheet created by this agent. This results in a functional failure to comply with a valid deletion request.
+
+**C. Risk regarding Sensitive Personal Information (SPI)**
+*   **The Issue:** The configuration requests `recommended_personal_email` and `mobile_phone` (Action Node `695f41b990cb9480b6fe4513`).
+*   **The Risk:** While business contact info (B2B) is often treated with lower friction, collecting and using *personal* emails and *personal* mobile numbers for commercial solicitation without consent significantly increases the risk of a "Reasonable Expectation of Privacy" claim. Furthermore, utilizing personal mobile numbers can trigger violations of other acts often grouped with privacy compliance (e.g., TCPA).
+
+### 4. Recommendations for Remediation
+To mitigate risk while retaining utility:
+
+1.  **Eliminate Shadow IT Storage:** Modify the agent to write leads directly into a centralized System of Record (e.g., Salesforce, HubSpot, Greenhouse) via API, rather than a Google Sheet. This ensures the data is indexed for DSAR (deletion/access) requests.
+2.  **Restrict Data Fields:** Update the `sqlWhereClause` and output schema to strictly exclude `recommended_personal_email` and `mobile_phone`. Limit collection to `work_email` and professional attributes only.
+3.  **Implement "First Touch" Compliance:** Ensure the email template used by the agent (Node `695f41b990cb9480b6fe451e`) includes a footer with a clear link to your Privacy Policy and a specific "Do Not Contact / Opt-Out" link, fulfilling the requirement to provide notice and choice upon the first interaction.
+4.  **Vendor Assessment:** Verify that your contract with People Data Labs (the data provider) creates a Service Provider relationship that indemnifies your organization regarding the *source* of the data they are providing.
+
+### 5. Overall Compliance Rating
+**NON-COMPLIANT**
+
+**Reasoning:** The agent automates the creation of unmanaged Personal Information repositories (spreadsheets) that bypass standard Data Subject Access Request (DSAR) workflows. This makes it technically impossible for the organization to guarantee full compliance with a consumer's Right to Delete or Right to Know.

@@ -1,0 +1,39 @@
+Agent: Recruiting Agent13 days ago+2
+ID: recruiting-agent-695f41b890cb9480b6fe450b
+Log file: None
+Regulation: FERPA
+============================================================
+
+Based on the review of the agent definition and configuration provided, here is the FERPA compliance assessment.
+
+### 1. Summary of Agent Function
+The "Recruiting Agent" is an automated sales and recruiting development representative (SDR). Its primary workflows are:
+*   **Lead Generation:** It searches a third-party data broker (**People Data Labs**) for individuals based on criteria like role, location, and skills.
+*   **Data Organization:** It creates Google Sheets and populates them with the retrieved data, which includes names, personal emails, job titles, and **education history** (schools, degrees, GPA).
+*   **Outreach:** It can draft and send emails to these leads via the user's Gmail account.
+
+### 2. FERPA Applicability
+**Verdict: Not Applicable / Low Relevance**
+
+**Why:** The Family Educational Rights and Privacy Act (FERPA) protects "Education Records" that are **maintained by an educational agency or institution** (or a party acting on their behalf).
+
+This agent derives its data exclusively from **People Data Labs (PDL)**. PDL is a commercial data aggregator that scrapes information from public sources (e.g., LinkedIn, social media, public resumes). Even though the agent retrieves data points such as "School," "Degrees," "Majors," and "GPA," this data is sourced from the public domain or commercial databases, not directly from the Registrar's office of an educational institution.
+
+Therefore, the data processed by this agent does not meet the statutory definition of an "Education Record" under 34 CFR Part 99.3, as it is not maintained by an educational institution at the time of access.
+
+### 3. Specific FERPA Violations
+**None.**
+
+*   **No Unauthorized Access to Records:** The agent does not connect to Student Information Systems (SIS) or Learning Management Systems (LMS).
+*   **No Improper Disclosure:** Because the data enters the agent from a commercial source (PDL) rather than an educational institution's private records, the disclosure of this data to the user (the recruiter) is not a FERPA violation.
+*   **Data Fields:** While the output schema includes `gpa`, `degrees`, and `majors`, the display of this information is not a violation when the source is a third-party aggregator. If a student publicly self-reports their GPA on LinkedIn and this agent retrieves it, FERPA does not apply.
+
+### 4. Recommendations for Remediation
+No remediation is required regarding FERPA.
+
+*   *Note for Context:* If your enterprise is an Educational Institution (e.g., a University), ensure your staff does not manually input non-directory student data (like social security numbers or disciplinary records) into the chat for the agent to process or place into Google Sheets, as that would then become a record maintenance issue. However, the agent's automated features are compliant.
+
+### 5. Overall Compliance Rating
+**COMPLIANT**
+
+*The agent operates outside the scope of FERPA restrictions as it utilizes commercial, non-educational data sources.*

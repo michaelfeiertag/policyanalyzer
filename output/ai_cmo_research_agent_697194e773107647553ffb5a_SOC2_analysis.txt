@@ -1,0 +1,59 @@
+Agent: AI CMO | Research Agent
+ID: ai-cmo-research-agent-697194e773107647553ffb5a
+Log file: None
+Regulation: SOC2
+============================================================
+
+**Compliance Assessment: AI CMO | Research Agent**
+
+**Agent ID:** `ai-cmo-research-agent-697194e773107647553ffb5a`
+**Reviewer Role:** Security & Compliance Officer
+
+### 1. Summary of Agent Function
+The "AI CMO | Research Agent" accepts a company website URL from a user. It utilizes third-party AI tools (Perplexity, GPT-5) and web scraping to analyze the target company's business model, competitors, and brand tone. It subsequently generates multiple strategic documents (Competitor Analysis, Customer Profiles, Brand Guidelines, etc.) and saves them directly to a Google Drive folder.
+
+### 2. SOC 2 Applicability
+**Applicable: YES**
+
+SOC 2 is applicable to this agent for the following reasons:
+*   **Trust Services Criteria (Confidentiality):** The agent generates and stores high-value intellectual property and strategic data (competitive analysis, customer personas) within the corporate environment (Google Drive).
+*   **Trust Services Criteria (Security):** The agent utilizes OAuth credentials to access corporate resources (Google Workspace). Unauthorized access or misuse of these credentials constitutes a security failure.
+*   **Trust Services Criteria (Processing Integrity):** The agent performs automated creation and modification of files based on inputs; the integrity of where these files are stored and who can access them is critical.
+
+### 3. Definitive SOC 2 Violations
+Based on the provided configuration, the following significant violations have been identified. These are not speculative; they are hard-coded configurations that violate standard SOC 2 controls regarding Access Control and Data Confidentiality.
+
+**Violation A: Public Data Exposure (Critical Severity)**
+*   **Criterion:** Confidentiality / logical access controls.
+*   **Evidence:** In multiple Action Nodes (e.g., `697194e773107647553ffb78`, `697194e773107647553ffb7c`, `697194e773107647553ffb85`), the `sharingPreference` for the created Google Docs is hardcoded to:
+    `"value": "Anyone with the link can edit"`
+*   **Risk:** This configuration bypasses organizational Access Control Lists (ACLs). It creates publicly accessible links with *write* permissions for internal strategy documents. If these links are intercepted or guessed, external actors can view and alter corporate data. This is a direct failure of the Confidentiality principle.
+
+**Violation B: Hardcoded Personal Credentials (High Severity)**
+*   **Criterion:** Security / Identification and Authentication.
+*   **Evidence:** The Google Auth configuration utilizes a specific, hardcoded identity (`m@mftestco.com`) with the ID `693b2e84e6a088955f32f886`.
+*   **Risk:**
+    1.  **Non-Repudiation:** Actions taken by this agent are attributed to a specific individual (`m@mftestco.com`) rather than a service account or the user initiating the agent.
+    2.  **Impersonation:** Any employee who runs this agent effectively gains the ability to create files acting as `m@mftestco.com`.
+    3.  **Dependency:** If this employee leaves the organization and their account is suspended, the agent will break (Availability).
+
+**Violation C: Excessive Scope of Privilege (Medium Severity)**
+*   **Criterion:** Security / Least Privilege.
+*   **Evidence:** The authentication scope includes:
+    *   `https://www.googleapis.com/auth/gmail.send`
+    *   `https://www.googleapis.com/auth/calendar`
+    *   `https://www.googleapis.com/auth/spreadsheets`
+*   **Risk:** The agent's function is strictly limited to creating Google Docs. However, the token grants full access to send emails and read calendars. If this agent or token is compromised, the blast radius extends significantly beyond the intended function.
+
+### 4. Remediation Recommendations
+
+1.  **Restrict Document Sharing:** Immediate reconfiguration of all Google Doc creation nodes. Change `sharingPreference` from `"Anyone with the link can edit"` to `"Private (only me)"` or `"Anyone in my organization can view"`.
+2.  **Implement Dynamic Authentication:** Remove the hardcoded `m@mftestco.com` credential. Configure the agent to require the *current user* to authenticate via OAuth when the agent runs. The agent should act on behalf of the user invoking it, not a hardcoded owner.
+3.  **Scope Reduction:** Re-authorize the Google connection with the principle of least privilege. Remove `gmail.*`, `calendar.*`, and `spreadsheets` scopes if the agent only interacts with Google Docs and Drive.
+4.  **Remove Hardcoded Folder IDs:** The agent writes to a specific folder ID (`1g8A373DKGNTI2ofPgy0S_btYkUmfrfSB`). This should be changed to a dynamic input or a relative path to prevent data from being written to a personal folder inaccessible to other compliance auditors.
+
+### 5. Overall Compliance Rating
+
+**NON-COMPLIANT**
+
+The agent introduces a critical data leakage risk by defaulting sensitive strategy documents to "public-write" access and violates identity management protocols by using hardcoded personal credentials. It should not be deployed in a production environment until Remediation 1 and 2 are addressed.

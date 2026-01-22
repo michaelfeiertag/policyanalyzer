@@ -1,0 +1,60 @@
+Agent: Email Follow-up Reminder20 minutes ago
+ID: email-follow-up-reminder-697193e459a8d688e24a5b67
+Log file: None
+Regulation: SOC2
+============================================================
+
+Based on the provided agent definition, here is the compliance assessment regarding SOC 2 standards.
+
+**Note:** The [SAMPLE_LOG] was not provided in your prompt. This assessment relies exclusively on the logic, permissions, and configuration defined in the `[AGENT_DEFINITION]` JSON.
+
+### 1. Summary of Agent Function
+The agent ("Email Follow-up Reminder") is an automated workflow designed to monitor a user's Gmail account. Its specific workflow is:
+1.  **Trigger:** Detects every email sent by the user (`onGmailMessageSent`).
+2.  **Logic:** Uses an AI model to analyze the email body to determine if a response is required.
+3.  **Wait:** If a response is required, it initiates a 3-day (4320 minutes) delay.
+4.  **Check:** After the delay, it checks if a reply has been received.
+5.  **Action:** If no reply is detected, it generates a draft follow-up email in Gmail for the user to review.
+
+### 2. SOC 2 Applicability
+**Yes, SOC 2 is applicable.**
+This agent processes, transmits, and analyzes sensitive customer and business data (email contents). Under SOC 2, this falls under the **Confidentiality** and **Security** Trust Services Criteria (TSC).
+*   **Confidentiality:** The agent reads the full body of outbound emails to perform inference.
+*   **Security:** The agent utilizes OAuth tokens with write access to the user's workspace.
+
+### 3. Specific SOC 2 Violations
+The following are definitive, non-speculative violations based on the JSON configuration provided.
+
+**A. Violation of Least Privilege (CC6.1, CC6.3)**
+*   **The Issue:** The agent is drastically over-provisioned. The workflow only interacts with **Gmail**. However, the authorized credential (`auth.scopes`) grants full access to almost the entire Google Workspace suite.
+*   **Evidence:** In the `auth` object (ID: `693b2e84e6a088955f32f886`), the granted scopes include:
+    *   `https://www.googleapis.com/auth/drive` (Full read/write access to Google Drive)
+    *   `https://www.googleapis.com/auth/spreadsheets` (Full access to Sheets)
+    *   `https://www.googleapis.com/auth/documents` (Full access to Docs)
+    *   `https://www.googleapis.com/auth/calendar.events` (Full access to Calendar)
+*   **Risk:** This violates the Principle of Least Privilege. If this agent (or the vendor storing this token) is compromised, the attacker gains full control over the user's files and calendar, not just the emails relevant to the agent's function.
+
+**B. Lack of Data Sanitization / Confidentiality Controls (CC6.7, C1.2)**
+*   **The Issue:** The `EntryPointTriggerNode` allows *all* sent emails to pass through to the LLM for analysis without filtering.
+*   **Evidence:** The `filter` field in the trigger configuration is `null`. The logic node receives `bodyAsText`.
+*   **Risk:** There is no mechanism to prevent Highly Confidential information (PII, PHI, passwords, legal strategy) from being sent to the AI inference provider. SOC 2 requires controls to prevent unauthorized data egress or processing of data classes not required for the business function.
+
+**C. Insecure "Write" Permissions (CC6.1)**
+*   **The Issue:** The agent is configured to draft emails, but the scopes grant permissions to `gmail.modify` and `gmail.send`.
+*   **Evidence:** The `scopes` list includes `https://www.googleapis.com/auth/gmail.send`.
+*   **Risk:** While the agent *instruction* says "Draft a response," the *permission* allows the agent to send emails immediately without user review. From a security posture, this allows an automated system to impersonate the user and transmit data externally without a "human-in-the-loop" control, creating a significant Data Loss Prevention (DLP) risk.
+
+### 4. Remediation Recommendations
+To bring this agent into compliance, the following changes are required:
+
+1.  **Scope Reduction (Critical):** Revoke the current OAuth token. Re-authenticate the agent requesting *only* the specific scopes required for the defined logic:
+    *   `gmail.readonly` (to see sent items and replies)
+    *   `gmail.compose` (to draft the follow-up)
+    *   **Remove:** Drive, Docs, Spreadsheets, and Calendar scopes entirely.
+2.  **Input Filtering:** Configure the `TriggerFieldComparableText` (Filter) to restrict which emails are processed. For example, exclude emails with specific "Confidential" headers or only include emails with specific labels/tags to ensure the user explicitly opts-in sensitive threads.
+3.  **Permission Downgrade:** If the business requirement is only to *draft* emails, ensure the scope is restricted to `gmail.compose` and remove `gmail.send` if the API supports the separation, ensuring a human must click send.
+
+### 5. Overall Compliance Rating
+**NON-COMPLIANT**
+
+This agent presents a **High Risk**. The violation of the Principle of Least Privilege (granting full Google Drive/Docs access to an email drafting bot) is a critical failure of access control standards required by SOC 2. It should be disabled until the OAuth scopes are restricted.

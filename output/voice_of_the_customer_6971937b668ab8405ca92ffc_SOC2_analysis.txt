@@ -1,0 +1,66 @@
+Agent: Voice of the Customer22 minutes ago
+ID: voice-of-the-customer-6971937b668ab8405ca92ffc
+Log file: None
+Regulation: SOC2
+============================================================
+
+Based on the review of the provided [AGENT_DEFINITION], here is the SOC 2 compliance assessment.
+
+### 1. Summary of Agent Function
+The agent, titled "Voice of the Customer," is designed to monitor a user's Google Calendar. When **any** meeting starts (regardless of attendee type), the agent:
+1.  Joins the meeting using the Lindy Meeting Recorder.
+2.  Records and transcribes the audio/video.
+3.  **After** the recording is complete, uses a Logic Node to determine if the meeting was a "Customer call."
+4.  If deemed a customer call, it uses an LLM (Claude 3.5 Sonnet) to extract quotes and sends an **Email** via Gmail to a distribution list.
+    *   *Note: The agent description inaccurately claims it sends messages to Slack, but the configuration definitively shows a `Gmail.send` action.*
+
+### 2. SOC 2 Applicability
+**Applicable: Yes**
+
+SOC 2 is highly applicable to this agent because it interacts with **Confidential** and **Private** information.
+1.  **Privacy (TSC):** The agent records human voice and video (Biometric/PII) and processes personal calendar data.
+2.  **Confidentiality (TSC):** The agent has full read/write access to the user's Gmail, Drive, and Calendar, and processes potentially sensitive internal business discussions.
+3.  **Processing Integrity (TSC):** The agent uses AI to manipulate and summarize data (quotes) that is relied upon for business decision-making.
+
+### 3. Specific SOC 2 Violations
+The following are definitive, non-speculative violations based strictly on the JSON configuration:
+
+**A. Violation of Privacy Principles (Collection & Consent)**
+*   **Issue:** The agent is configured to record **all** meetings first, and filter for "Customer" status later.
+*   **Evidence:** The EntryPoint trigger has `attendeeTypeFilter: "all"`. The `ActionNode` (Record meeting) occurs *before* the `LogicNode` (Customer call?).
+*   **Risk:** The agent will illegally or inappropriately record sensitive internal meetings (e.g., HR 1:1s, legal strategy, employee terminations) where no customer is present. This violates the "Collection" criteria of the Privacy TSC—collecting data not necessary for the specified purpose.
+
+**B. Violation of Processing Integrity (Data Accuracy)**
+*   **Issue:** The agent explicitly instructs the AI to alter the data.
+*   **Evidence:** The prompt in the Gmail Action Node (`id: ...008`) contains the instruction: *"feel free to slightly change it from what the person exactly said in order to make it more readable... removing repeated words..."*
+*   **Risk:** SOC 2 Processing Integrity requires system processing to be accurate. By instructing the AI to modify direct quotes, the agent corrupts the integrity of the "Voice of the Customer" data, rendering the output technically inaccurate and potentially misleading.
+
+**C. Violation of CC6.1 (Logical Access - Least Privilege)**
+*   **Issue:** The agent holds excessive authentication scopes that are unused by its function.
+*   **Evidence:** The `auth` object includes:
+    *   `https://www.googleapis.com/auth/drive` (Full Read/Write access to all files)
+    *   `https://www.googleapis.com/auth/spreadsheets` (Full Read/Write to Sheets)
+    *   `https://www.googleapis.com/auth/gmail.modify` (Ability to delete/modify emails)
+*   **Risk:** The agent *only* sends emails and reads calendars. It does not perform file operations or spreadsheet updates. Holding full Read/Write access to the user's entire Google Drive violates the Principle of Least Privilege. If this agent is compromised, the attacker has access to the entire corporate file repository.
+
+**D. Violation of Availability (Data Retention)**
+*   **Issue:** Failure to retain the audit trail/artifact.
+*   **Evidence:** The `LindyMeeting` tool description states: *"Video recording URLs are valid for 24 hours... Upload the video to Google Drive... for long-term storage."* The workflow has no step to save the video.
+*   **Risk:** The agent generates a transcript and email, but the source of truth (the recording) is automatically deleted after 24 hours. This prevents audit verification of the AI's summary, violating Availability and Auditability requirements.
+
+**E. Violation of Communication and Information (System Description)**
+*   **Issue:** Misleading description of data flow.
+*   **Evidence:** Agent `description` field says: "...sends the noteworthy quotes to your team on **Slack**." The `ActionNode` is configured to use **Gmail**.
+*   **Risk:** This discrepancy represents a failure in change management and documentation. A security review based on the description would approve Slack scopes, while the agent effectively exfiltrates data via Email.
+
+### 4. Remediation Recommendations
+1.  **Reorder Logic:** Move the Logic Node ("Customer call?") *before* the "Record meeting" Action. Use calendar metadata (e.g., invitee domains) to determine if a call should be recorded *before* the bot joins.
+2.  **Restrict Permissions:** Revoke the current OAuth token. Re-issue authentication requesting *only* `calendar.readonly`, `gmail.send`, and `meeting.join` scopes. Remove `drive` and `spreadsheets` scopes immediately.
+3.  **Fix Prompts:** Remove instructions in the AI prompt that allow modifying quotes. Change the prompt to: *"Extract exact quotes only. Do not alter the wording."*
+4.  **Implement Retention:** Add a `GoogleDrive.upload` action immediately after the recording finishes to save the video file for compliance retention.
+5.  **Correct Documentation:** Update the agent description to reflect that it sends Emails, not Slack messages.
+
+### 5. Overall Compliance Rating
+**NON-COMPLIANT**
+
+This agent introduces severe risk. It records internal meetings indiscriminately, holds excessive administrative privileges over corporate data (Drive/Docs), and deliberately alters data output. It should be disabled immediately until remediated.

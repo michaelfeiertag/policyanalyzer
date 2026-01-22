@@ -1,0 +1,35 @@
+Agent: Resume Screening Agent
+ID: resume-screening-agent-6971956bbddcdd1d54fd8975
+Log file: None
+Regulation: PSD2
+============================================================
+
+Based on the review of the [AGENT_DEFINITION] provided, here is the security and compliance assessment regarding PSD2 (Revised Payment Services Directive).
+
+### 1. Summary of Agent Function
+The **Resume Screening Agent** is an automated Human Resources tool designed to screen job candidates. Its workflow operates as follows:
+*   **Trigger:** It activates when a new email is received in Gmail or via manual file upload.
+*   **Process:** It retrieves a job description from a Google Doc, analyzes an attached resume against that description using an LLM (GPT-4 Turbo), and categorizes the candidate (Approved, Not Approved, or Partially Approved).
+*   **Output:** It sends a structured email response via Gmail to the hiring manager summarizing the candidate's fit.
+*   **Integrations:** It utilizes Google Workspace APIs (Gmail, Google Docs, Drive).
+
+### 2. PSD2 Applicability
+**Verdict: Not Applicable**
+
+**Reasoning:**
+PSD2 (Directive (EU) 2015/2366) applies to **Payment Service Providers (PSPs)**. It regulates services such as Account Information Services (AIS) and Payment Initiation Services (PIS).
+*   **No Financial Transactions:** This agent does not initiate payments, transfer funds, or handle billing.
+*   **No Banking Data Access:** The agent does not connect to bank APIs (Open Banking), nor does it access payment account balances or transaction histories.
+*   **Scope:** The agent's configured OAuth scopes are exclusively for productivity software (Google Calendar, Docs, Drive, Gmail, Spreadsheets). None of these scopes grant access to regulated financial data or payment infrastructure.
+
+### 3. Specific PSD2 Violations
+**None found.**
+As the agent does not perform any activities regulated under PSD2, it cannot violate the directive.
+
+### 4. Remediation Recommendations
+*   **No remediation required regarding PSD2.**
+*   *Note:* While PSD2 is not a risk, this agent handles Personally Identifiable Information (PII) via resumes (names, addresses, employment history). Ensure this agent allows for GDPR/CCPA compliance (e.g., Right to be Forgotten) regarding the storage and processing of candidate data in the logs or Google Drive.
+
+### 5. Overall Compliance Rating
+**Compliant**
+*(The agent is outside the scope of PSD2 regulation and therefore presents no risk regarding this specific framework.)*

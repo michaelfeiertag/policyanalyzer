@@ -1,0 +1,33 @@
+Agent: Lindy Agent ListerAbout 8 hours ago+2
+ID: lindy-agent-lister-693c78bb39099082df392692
+Log file: None
+Regulation: SOX
+============================================================
+
+Here is the assessment for the agent **Lindy Agent Lister**.
+
+### 1. Summary of Agent Function
+The agent is an automated scheduled task that runs hourly. Its purpose is to retrieve a list of all Lindy agents within the workspace (specifically capturing Agent ID, Agent Name, and Last Task Date) and update this inventory into a specific Google Sheet titled "Lindy Agents." It utilizes a loop to process the agents and performs an "upsert" (update or insert) operation on the spreadsheet rows.
+
+### 2. Is SOX Applicable?
+**No.**
+
+**Reasoning:**
+Sarbanes-Oxley (SOX) compliance applies to systems that process, store, or transmit **financial data** or data that materially impacts **financial reporting** (e.g., revenue, payroll, assets, liabilities).
+*   **Data Classification:** The data processed by this agent is **IT Operational Metadata** (Agent IDs, Names, execution timestamps). It is not financial data.
+*   **Process Classification:** The agent functions as an IT asset inventory tool. Unless this specific list of agents is used as the *sole* evidence for a billed financial charge (e.g., inter-departmental cross-charging based strictly on this specific Google Sheet), it does not fall under the scope of Internal Controls over Financial Reporting (ICFR).
+
+### 3. Specific Violations of SOX
+**None.**
+
+Since the agent does not process in-scope financial data, there are no definitive SOX violations.
+
+*Note on General Security (Non-SOX):* While not a SOX violation, the agent utilizes a Google OAuth connection (`m@mftestco.com`) with **excessively broad scopes** that violate the security Principle of Least Privilege. The agent has been granted permission to read/send Gmail, modify all Drive files, and access the Calendar, despite only needing to update a single Spreadsheet. In a strict IT General Controls (ITGC) audit, this over-provisioning would be marked as a security deficiency, even if not a direct SOX failure.
+
+### 4. Recommendations for Remediation
+Although the agent is SOX-compliant, the following changes are recommended to reduce organizational risk:
+*   **Scope Reduction:** Re-authenticate the Google connection to restrict scopes specifically to `https://www.googleapis.com/auth/spreadsheets`. Remove access to `gmail.*`, `drive`, and `calendar` scopes to prevent potential misuse of the connected user's account.
+*   **Service Account Usage:** Ensure the connected account (`m@mftestco.com`) is a dedicated service account rather than a personal employee account, to prevent continuity issues if the employee leaves the organization.
+
+### 5. Overall Compliance Rating
+**COMPLIANT** (Out of Scope)

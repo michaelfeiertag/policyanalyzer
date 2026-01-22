@@ -1,0 +1,65 @@
+Agent: Resume Screening Agent
+ID: resume-screening-agent-6971956bbddcdd1d54fd8975
+Log file: None
+Regulation: NIST-AI-RMF
+============================================================
+
+Based on the provided agent definition, here is the assessment regarding NIST AI Risk Management Framework (AI RMF) compliance.
+
+### 1. Summary of Agent Function
+The **Resume Screening Agent** (`resume-screening-agent-6971956bbddcdd1d54fd8975`) is an automated recruitment tool designed to filter job applications.
+*   **Trigger:** It monitors a Gmail inbox for **all** incoming messages (`participantsTypeFilter: "all"`, `attachmentFilter: "all"`).
+*   **Process:** When a message with an attachment is received, it retrieves a specific Job Description from a Google Doc. It uses `gpt4_turbo` to compare the resume attachment against the job description.
+*   **Decision Logic:** It classifies the candidate into one of three categories: "Approved," "Not Approved," or "Partially Approved."
+*   **Action:** It automatically composes and sends an email containing a summary of qualifications, strengths, or weaknesses. The email body is addressed to a "Hiring Manager," but the `to` field is determined by the AI (`prompt: "Send it to the user"`).
+
+### 2. NIST AI RMF Applicability
+**Status: Applicable (High Impact)**
+
+The NIST AI RMF applies specifically to this agent because it falls under **Rights-Impacting AI**.
+1.  **Socio-Technical Dimension:** The agent creates a determination related to economic opportunity and employment eligibility.
+2.  **High-Risk Use Case:** Employment selection is widely categorized (e.g., by the EEOC in the US and the AI Act in the EU) as a high-risk activity due to the potential for automated discrimination and adverse impact on protected classes.
+3.  **Trustworthiness:** NIST AI RMF mandates that systems affecting civil rights or economic opportunities must be Valid, Reliable, Fair, and Accountable.
+
+### 3. Specific Violations of NIST AI RMF
+
+The following are definitive, significant violations based on the provided JSON configuration:
+
+**A. Violation of Privacy (NIST Map 1.5 & Manage 2.4)**
+*   **Issue:** **Excessive Data Access / Violation of Least Privilege.**
+*   **Evidence:** The trigger (`EntryPointTriggerNode`) is configured to listen to `onGmailMessageReceived` with `participantsTypeFilter: "all"`.
+*   **Risk:** The agent ingests *every* email received by the connected account to determine if it is a resume. This exposes personal communications, sensitive business data, and non-applicant PII to the AI model. This violates the NIST requirement to minimize data exposure and restrict system access to only necessary information.
+
+**B. Violation of Fairness & Bias Management (NIST Map 1.2 & Manage 2.3)**
+*   **Issue:** **Lack of Bias Mitigation in High-Stakes Decision Making.**
+*   **Evidence:** The Logic Node (`Resume screening`) uses `gpt4_turbo` with a generic instruction to "assign a matching score." There are no "System Instructions" or "Prompt Engineering" safeguards visible in the config that instruct the model to ignore protected characteristics (Name, Gender, Ethnicity markers, Age) or to enforce standardized scoring criteria.
+*   **Risk:** Without explicit bias mitigation instructions, LLMs are known to exhibit bias based on names or demographic markers found in resumes. Deploying this for hiring without these controls is a direct violation of the Fairness principle.
+
+**C. Violation of Safety & Reliability (NIST Measure 2.2 & Manage 2.5)**
+*   **Issue:** **Uncontrolled Automated Action (No Human-in-the-Loop).**
+*   **Evidence:** The Action Nodes (ID `...983`, `...984`, `...985`) are configured with `requireConfirmation: "Never"` and `saveAsDraft: false`. The AI prompts define the recipient as "Send it to the user."
+*   **Risk:** The agent automatically sends rejection or approval emails without human review.
+    *   *Configuration Error Risk:* The email body text is written to the "Hiring Manager," but the AI instruction says "Send it to the user" (often interpreted as the person chatting/emailing, i.e., the Candidate). There is a high probability this agent will email the internal assessment (intended for HR) directly to the candidate. This is a critical data leak and reliability failure.
+
+**D. Violation of Transparency (NIST Gov 1.3)**
+*   **Issue:** **Lack of Explainability/Audit Trail.**
+*   **Evidence:** The agent generates a score and a summary email, but the JSON configuration shows no step where the *reasoning* (the raw chain of thought or specific scoring matrix) is logged to a durable record (like a spreadsheet or database).
+*   **Risk:** If the organization is challenged on a hiring decision, there is no retrievable audit trail explaining *why* the AI rejected a specific candidate, only the final email summary.
+
+### 4. Specific Recommendations for Remediation
+
+1.  **Restrict Ingest Scope (Privacy):**
+    *   Change the Gmail Trigger to filter by a specific Label (e.g., `Label: Applications`) or Subject Line content. Do not allow the agent to read the entire inbox.
+2.  **Implement Human-in-the-Loop (Safety):**
+    *   Change all Email Action configurations from `saveAsDraft: false` to `saveAsDraft: true`.
+    *   Alternatively, change `requireConfirmation` to `Always`. A human must review the AI's classification and the email recipient before it is sent.
+3.  **Hardcode Recipients (Reliability):**
+    *   Remove the AI determination for the `to` field. Hardcode the HR/Hiring Manager's email address in the configuration to prevent internal assessments from being sent to candidates.
+4.  **Add Fairness Instructions (Bias):**
+    *   Update the `instructions` in the `LogicNode` to explicitly state: "Evaluate the candidate solely based on skills and experience. Do not consider name, gender, age, or university reputation. Output a standardized score from 1-10 based on [Specific Criteria]."
+
+### 5. Overall Compliance Rating
+
+**Rating: NON-COMPLIANT**
+
+**Reasoning:** This agent applies fully automated, rights-impacting decision-making (hiring) with excessive permissions (full inbox access) and zero bias controls or human oversight mechanisms. It introduces immediate legal, reputational, and privacy risks to the enterprise. It should **not** be deployed in its current state.

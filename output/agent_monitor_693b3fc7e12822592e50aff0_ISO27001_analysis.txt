@@ -1,0 +1,54 @@
+Agent: Agent MonitorAbout 10 hours ago
+ID: agent-monitor-693b3fc7e12822592e50aff0
+Log file: None
+Regulation: ISO27001
+============================================================
+
+Based on the provided Agent Definition `agent-monitor-693b3fc7e12822592e50aff0`, here is the security and compliance assessment regarding ISO 27001.
+
+### 1. Summary of Agent Function
+The "Agent Monitor" acts as a centralized logging utility. It is triggered automatically whenever tasks are successfully resolved by three specific agents:
+1.  **Brand Monitor Monitor**
+2.  **Recruiting**
+3.  **Board Meeting Monitor**
+
+Upon triggering, the agent executes a `getTaskDetails` action to retrieve the full execution history (including inputs, outputs, and internal "blocks" of data) of the triggering task. It then writes this raw data into a specific Google Sheet ("Lindy Monitoring Events").
+
+### 2. ISO 27001 Applicability
+**Status: Applicable**
+
+ISO 27001 is highly applicable to this agent because it automates the transfer of information assets between different security contexts. Specifically:
+*   **Information Classification (A.8.2):** The agent handles data from "Recruiting" (PII/HR data) and "Board Meeting Monitor" (Highly Confidential/Strategic data).
+*   **Information Transfer (A.13.2):** The agent moves data from the Lindy environment into an external Google Sheet.
+*   **Access Control (A.9):** The agent utilizes OAuth credentials to access external resources.
+
+### 3. Specific ISO 27001 Violations
+The following are definitive, non-speculative violations found in the agent's configuration:
+
+**Violation 1: Violation of Least Privilege (Control A.9.1.2)**
+*   **Evidence:** The Google Auth provider configured for this agent (`m@mftestco.com`) grants the following scopes:
+    *   `https://www.googleapis.com/auth/gmail.readonly`
+    *   `https://www.googleapis.com/auth/gmail.send`
+    *   `https://www.googleapis.com/auth/calendar.events`
+    *   `https://www.googleapis.com/auth/drive` (Full access)
+*   **The Risk:** The agent's function is *only* to write to a Google Sheet. However, it has been granted full permissions to read and send emails, modify calendars, and delete files in Google Drive. If this agent is compromised, the attacker gains full control over the connected email account and drive, far exceeding the necessary permissions.
+
+**Violation 2: Inappropriate Handling of Classified Information (Control A.8.2.3 & A.13.2.1)**
+*   **Evidence:** The agent is configured to monitor "Board Meeting Monitor" and "Recruiting". It extracts `inputs`, `outputs`, and `blocks` (full content) and appends them to a Google Sheet.
+*   **The Risk:** Board meeting data is typically classified as "Restricted" or "Confidential," and Recruiting data contains PII (Resumes, Salaries). Writing full payloads of this data into a standard Google Sheet creates a high risk of data leakage. Google Sheets often lack the granular audit logging, encryption-at-rest verification, and access controls required for Board-level or PII data compared to a secure database or system of record.
+
+**Violation 3: Unsecured Logging of Sensitive Data (Control A.12.4.1)**
+*   **Evidence:** The `appendRow2` action maps the `inputs` and `outputs` fields directly to the spreadsheet columns.
+*   **The Risk:** While logging *metadata* (Task ID, Status, Timestamp) is standard, logging the *content* (payloads) of Board Meetings and HR interactions into a flat log file violates secure logging principles. This creates a "shadow" copy of sensitive data that is likely not subject to the same retention policy or deletion requests (e.g., GDPR Right to be Forgotten) as the source system.
+
+### 4. Remediation Recommendations
+To mitigate these risks immediately:
+
+1.  **Scope Reduction:** Re-authenticate the Google connection using *only* the `https://www.googleapis.com/auth/spreadsheets` scope. Revoke Gmail, Calendar, and full Drive access immediately.
+2.  **Data Minimization:** Modify the `appendRow2` mapping. Remove `inputs`, `outputs`, and `blocks` from the data sent to the Google Sheet. Only log `timestamp`, `agentName`, `taskId`, and `status`.
+3.  **Segregation of Data:** If content logging is required for the "Brand Monitor," create a separate logging agent for that specific stream. Do not mix "Board Meeting" and "Recruiting" logs in the same destination as lower-sensitivity data.
+
+### 5. Overall Compliance Rating
+**Rating: Non-Compliant**
+
+This agent presents a critical risk due to the combination of excessive permissions (Full Gmail/Drive access) and the automated exfiltration of highly sensitive data (Board/HR) to a spreadsheet. It should be disabled until remediated.

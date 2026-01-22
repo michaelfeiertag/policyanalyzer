@@ -1,0 +1,39 @@
+Agent: Resume Screening Agent
+ID: resume-screening-agent-6971956bbddcdd1d54fd8975
+Log file: None
+Regulation: HIPAA
+============================================================
+
+Based on the provided agent definition, here is the security and compliance assessment regarding HIPAA.
+
+### 1. Summary of Agent Function
+The **Resume Screening Agent** is an automated Human Resources (HR) recruitment tool. Its workflow is as follows:
+*   **Ingestion:** It monitors a specific Gmail account for incoming emails containing attachments.
+*   **Filtering:** It identifies if the email is a job application containing a resume.
+*   **Processing:** It retrieves a Job Description from a connected Google Doc and uses an AI model (GPT-4 Turbo) to compare the resume against the job requirements.
+*   **Output:** It generates a score and a summary (pros/cons) and sends an email back to the "Hiring Manager" (the user) classifying the candidate as Approved, Not Approved, or Partially Approved.
+
+### 2. HIPAA Applicability
+**HIPAA is NOT Applicable.**
+
+**Reasoning:**
+The Health Insurance Portability and Accountability Act (HIPAA) governs the privacy and security of **Protected Health Information (PHI)**.
+*   **Nature of Data:** This agent processes **Employment Records** (Resumes, CVs, Cover Letters, Job Descriptions). It handles Personally Identifiable Information (PII) such as names, addresses, and work history, but it does not process health data, medical records, treatment history, or insurance claims.
+*   **Regulatory Exception:** Under the HIPAA Privacy Rule (45 CFR § 160.103), "Protected Health Information" specifically **excludes** "employment records held by a covered entity in its role as employer."
+*   **Context:** Even if your enterprise is a "Covered Entity" (e.g., a hospital or insurer), the records collected by this agent for the purpose of hiring and recruiting fall under the employment records exception and are not subject to HIPAA regulations.
+
+### 3. Specific Violations
+**No HIPAA violations found.**
+
+Because the data processed (Resumes/HR data) does not constitute PHI, the specific security and privacy controls mandated by HIPAA (such as the Security Rule or Privacy Rule regarding patient data) are not triggered by this specific agent configuration.
+
+### 4. Remediation Recommendations
+While there are no *HIPAA* violations to remediate, the following general security recommendations apply to the handling of PII in this agent:
+
+*   **Confirm Data Classification:** Ensure your organization's internal data classification policy lists "Resumes/Applicants" as "Confidential/Internal" rather than "Restricted/PHI."
+*   **Access Control (Gmail/Drive):** The agent requests broad OAuth scopes (Read/Write for Drive and Gmail). Ensure the account connecting to this agent (`m@mftestco.com`) is a dedicated service account or limited user account, not a personal account containing other sensitive enterprise data, as the agent has access to read *all* emails and *all* documents on that account.
+
+### 5. Overall Compliance Rating
+**COMPLIANT**
+
+*Note: This rating is specific to HIPAA compliance only. The agent is processing PII (Personally Identifiable Information), so it should be reviewed against GDPR or local labor/privacy laws if applicable, but it presents no risk regarding Health Information regulations.*

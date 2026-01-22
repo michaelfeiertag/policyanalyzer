@@ -1,0 +1,56 @@
+Agent: Resume Screening Agent
+ID: resume-screening-agent-6971956bbddcdd1d54fd8975
+Log file: None
+Regulation: SOC2
+============================================================
+
+Based on the provided agent definition `[AGENT_DEFINITION]`, here is the security and compliance assessment.
+
+### 1. Summary of Agent Function
+The **Resume Screening Agent** acts as an automated recruitment assistant. It monitors a specific user's Gmail inbox (`m@mftestco.com`) for *all* incoming messages. When an email is received, the agent:
+1.  Checks if the email is a job application containing a resume.
+2.  Retrieves a specific Job Description from a hardcoded Google Doc.
+3.  Uses an LLM (`gpt4_turbo`) to compare the resume against the job description.
+4.  Classifies the candidate (Approved, Unqualified, or Borderline).
+5.  Sends an email with a summary of the assessment (pros/cons) back to "the user" (presumably the Hiring Manager/Agent Owner).
+
+### 2. Is SOC 2 Applicable?
+**YES.** SOC 2 is highly applicable to this agent for the following reasons:
+*   **Confidentiality & Privacy:** The agent processes **Personally Identifiable Information (PII)** contained in resumes (names, addresses, phone numbers, employment history) and potentially sensitive internal HR data (hiring criteria, internal assessments).
+*   **Processing Integrity:** The agent makes automated judgments on data that impact business operations (hiring) and triggers automated communications.
+*   **Security:** The agent utilizes OAuth tokens with high-privilege access to corporate Google Workspaces.
+
+### 3. Specific SOC 2 Violations
+The following are definitive, significant violations found in the configuration that present practical risk:
+
+**A. Violation of Least Privilege (CC6.1 - Logical Access Security)**
+*   **Finding:** The OAuth scopes granted to this agent are excessively broad and violate the principle of Least Privilege.
+*   **Evidence:** The `auth` configuration grants full read/write access to **Google Drive** (`https://www.googleapis.com/auth/drive`), **Spreadsheets** (`.../spreadsheets`), and **Calendar** (`.../calendar`).
+*   **Risk:** The agent only requires *Read* access to a specific document and *Send* access for Gmail. Granting full Drive and Sheets access means a compromise of this agent (or the underlying LLM via prompt injection) allows attackers to delete or exfiltrate *all* files and financial sheets in the connected user's Google Workspace.
+
+**B. Violation of Processing Integrity (PI1.1 - System Inputs)**
+*   **Finding:** The agent creates a dependency on a hardcoded, unverified external resource.
+*   **Evidence:** In the `Get job description` action, the prompt contains a hardcoded URL: `https://docs.google.com/document/d/1h1pD3gt6XZF9-cBiTpmv2kheHOjdr0dIKNG74V4B3kc/edit...`.
+*   **Risk:** If this document is moved, deleted, or permissions change, the agent will silently fail or hallucinate criteria, breaking the integrity of the screening process. Furthermore, relying on a hardcoded link prevents the agent from dynamically screening for different roles, leading to incorrect assessments if a candidate applies for a different position.
+
+**C. Violation of Input Validation (CC5.3 - Risk Mitigation)**
+*   **Finding:** The entry trigger is configured to ingest unrelated data, increasing the attack surface.
+*   **Evidence:** The `EntryPointTriggerNode` is configured with `attachmentFilter: "all"` and `participantsTypeFilter: "all"`.
+*   **Risk:** The agent processes *every* email received by `m@mftestco.com`, including spam, phishing, or internal confidential threads unrelated to hiring. Sending internal confidential email content to an external LLM for "Resume Screening" simply because it landed in the inbox is a data leak.
+
+**D. Privacy & Data Handling (P3.1 - Personal Information Protection)**
+*   **Finding:** Unmasked PII transmission to third-party sub-processors.
+*   **Evidence:** The Logic Node `Resume screening` passes the full raw text of the resume (candidate PII) to `gpt4_turbo` without any anonymization step defined in the workflow.
+*   **Risk:** Unless your enterprise has a specific Zero-Retention agreement with the model provider, sending raw candidate PII to an external LLM constitutes a privacy risk and potentially violates GDPR/CCPA requirements regarding data processing.
+
+### 4. Recommendations for Remediation
+1.  **Restrict Scopes:** Immediately re-authenticate the agent with restricted scopes. Remove `drive` (full), `spreadsheets`, and `calendar`. Replace with `drive.readonly` or specific file-access scopes only.
+2.  **Implement Input Filtering:** Change the Trigger to listen *only* to emails with a specific Label (e.g., "Applications") or Subject Line pattern. Do not run LLM inference on the entire inbox.
+3.  **Dynamic Context:** Remove the hardcoded Google Doc URL. Configure the agent to extract the Job Description from the email body or look it up based on the email subject line to ensure the candidate is screened against the correct role.
+4.  **PII Anonymization:** Pre-process the resume text to strip names, emails, and phone numbers before sending the payload to the `gpt4_turbo` model for evaluation.
+5.  **Output Validation:** Verify the recipient of the generated emails. The current configuration sends to "the user." Ensure this resolves strictly to the internal Hiring Manager and never replies to the Candidate with internal notes.
+
+### 5. Overall Compliance Rating
+**NON-COMPLIANT**
+
+*The agent creates immediate High Severity risks regarding Data Access (Broad Scopes) and Privacy (Unrestricted PII processing).*

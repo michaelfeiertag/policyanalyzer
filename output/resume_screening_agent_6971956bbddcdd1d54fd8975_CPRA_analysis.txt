@@ -1,0 +1,59 @@
+Agent: Resume Screening Agent
+ID: resume-screening-agent-6971956bbddcdd1d54fd8975
+Log file: None
+Regulation: CPRA
+============================================================
+
+Based on the review of the [AGENT_DEFINITION] provided, here is the security and compliance assessment regarding the California Privacy Rights Act (CPRA).
+
+### 1. Summary of Agent Function
+The **Resume Screening Agent** is an automated recruitment workflow. Its function is to:
+1.  **Monitor** a corporate Gmail account for incoming emails containing attachments.
+2.  **Filter** for emails that appear to be job applications.
+3.  **Retrieve** a specific Job Description from Google Docs.
+4.  **Process** the attached resume using an LLM (GPT-4 Turbo) to compare the candidate's data against the job description.
+5.  **Classify** the candidate into one of three categories: "Approved," "Not Approved," or "Borderline."
+6.  **Email** a summary and recommendation to the internal Hiring Manager (HR).
+
+### 2. CPRA Applicability
+**Status:** **APPLICABLE**
+
+CPRA applies to this agent for the following reasons:
+*   **HR/Applicant Data:** As of January 1, 2023, the CPRA fully applies to Human Resources data, including job applicants (B2E data). The distinction between "consumer" and "employee/applicant" has been removed for data privacy rights.
+*   **Processing of Personal Information (PI):** The agent processes names, email addresses, employment history, and education data.
+*   **Processing of Sensitive Personal Information (SPI):** Resumes often contain or imply SPI (as defined by CPRA), such as racial or ethnic origin (inferred from associations), union membership, sexual orientation, or disability status.
+*   **Automated Decision-Making (Profiling):** The agent uses automated processing to evaluate personal aspects relating to a natural person’s performance at work and reliability, which constitutes "Profiling" under CPRA regulations.
+
+### 3. Specific Violations of CPRA
+Based on the logic flow and configuration, the following definitive violations and high-risk compliance gaps were identified:
+
+**A. Violation of "Notice at Collection" (CPRA § 1798.100)**
+*   **The Issue:** The agent triggers on `onGmailMessageReceived`. When an applicant emails their resume, the agent immediately ingests and processes the data using third-party AI (`gpt4_turbo`).
+*   **Violation:** There is no mechanism in the agent's workflow to provide the applicant with a "Notice at Collection" *at or before* the point of collection. The applicant sends an email and is profiled immediately without being informed that:
+    1. Their data is being collected.
+    2. An AI agent is processing their resume.
+    3. They have specific rights regarding this data.
+
+**B. Unrestricted Processing of Sensitive Personal Information (CPRA § 1798.121)**
+*   **The Issue:** The `Resume screening` Logic Node feeds the entire content of the resume into the model.
+*   **Violation:** CPRA grants consumers the right to limit the use of Sensitive Personal Information (SPI). Because resumes are unstructured data, they may contain SPI (e.g., "Member of Black Engineers Association" or "leader of LGBTQ+ alliance").
+*   **Risk:** Configuring the agent to ingest un-redacted resumes into a general-purpose LLM constitutes processing SPI for purposes purely of inference/profiling without offering the applicant the right to limit this use.
+
+**C. Automated Decision-Making (ADM) & Profiling Transparency (CPRA Regulations)**
+*   **The Issue:** The agent classifies candidates as "Unqualified" or "Approved" based strictly on the AI's scoring logic, initiating a workflow that biases the human decision-maker.
+*   **Violation:** Under CPRA draft regulations regarding ADM, businesses must provide meaningful information about the logic involved in automated decision-making processes that result in significant effects (like hiring). This agent operates as a "black box" profiler without an accessible logic explanation or opt-out mechanism for the applicant.
+
+### 4. Recommendations for Remediation
+To mitigate legal risk while retaining utility, the following changes are required:
+
+1.  **Implement Auto-Reply with Notice:** Add an automated reply step immediately after the email is received. This reply must link to your Applicant Privacy Notice, explicitly stating that AI is used to assist in screening and providing a method to opt-out (e.g., "Reply STOP to withdraw").
+2.  **PII/SPI Redaction (Blind Screening):** Modify the prompt in the `Resume screening` node to instruct the AI to ignore or redact names, addresses, and potential protected class indicators (SPI) *before* making the qualification assessment.
+3.  **Human-in-the-Loop (HITL) Enforcement:**
+    *   Change the Gmail `send` action for "Not Approved" candidates. Do not frame the email to HR as a definitive rejection.
+    *   Ensure the `saveAsDraft` field in the Gmail action is set to `true` (currently set to `false`). This ensures the AI prepares the email for human review, proving that a human made the final decision, not the machine.
+4.  **Data Minimization:** Ensure the agent is not storing the resume files indefinitely. Configure a retention policy to delete the temporary copies of resumes after the email summary is generated.
+
+### 5. Overall Compliance Rating
+**RATING:** **NON-COMPLIANT**
+
+**Justification:** This agent ingests protected applicant data and subjects it to automated profiling without providing the legally required Notice at Collection or Opt-Out mechanisms. In a large enterprise context, this creates immediate regulatory exposure under CPRA regarding Applicant Data privacy rights.

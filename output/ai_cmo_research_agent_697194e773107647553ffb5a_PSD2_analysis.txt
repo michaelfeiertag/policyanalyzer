@@ -1,0 +1,42 @@
+Agent: AI CMO | Research Agent
+ID: ai-cmo-research-agent-697194e773107647553ffb5a
+Log file: None
+Regulation: PSD2
+============================================================
+
+Here is the security and compliance assessment for the agent **AI CMO | Research Agent** regarding **PSD2** (Payment Services Directive 2).
+
+### 1. Summary of Agent Function
+The **AI CMO | Research Agent** (ID: `ai-cmo-research-agent-697194e773107647553ffb5a`) is a marketing intelligence tool designed to generate competitive analysis and brand strategy.
+*   **Input:** The agent accepts a target company website URL from the user.
+*   **Processing:** It utilizes web scraping tools (`Browser`) and AI search engines (`Perplexity`) to extract public information regarding the company's value proposition, target audience, competitors, and estimated revenue. It uses an LLM (GPT-5/Sonar) to generate buyer personas, SWOT analyses, and brand guidelines.
+*   **Output:** The agent compiles this information and creates multiple documents (competitor analysis, research reports, brand guidelines) directly in the user's **Google Drive** via an OAuth connection.
+
+### 2. PSD2 Applicability
+**PSD2 is NOT applicable to this agent.**
+
+**Reasoning:**
+The Second Payment Services Directive (PSD2) regulates Payment Service Providers (PSPs), Third-Party Providers (TPPs), and the security of electronic payments and account access (Open Banking) within the European Economic Area.
+
+To fall under the scope of PSD2, an agent must generally perform one of the following functions:
+1.  **Account Information Services (AISP):** Accessing and aggregating consolidated information from payment accounts (e.g., bank accounts) via APIs.
+2.  **Payment Initiation Services (PISP):** Initiating a payment order at the request of the user from a payment account held at another provider.
+3.  **Issuing card-based payment instruments.**
+
+**Evidence from [AGENT_DEFINITION]:**
+*   **Data Source:** The agent gathers financial data (e.g., "Revenue (est.)") exclusively through **public web searches** and **inference** using Perplexity and public website scraping. It does **not** connect to banking APIs or require access to the user's or the target company's actual bank accounts.
+*   **Authentication:** The agent uses OAuth for **Google Services** (Drive, Docs, Gmail, Calendar), not for banking institutions or payment gateways.
+*   **Action:** The agent creates text documents. It does not initiate, process, or view financial transactions.
+
+### 3. Specific Violations of PSD2
+**No violations found.**
+
+As the regulation is not applicable to the functions defined in the provided JSON configuration, there are no violations of Strong Customer Authentication (SCA), Common and Secure Communication (CSC), or XS2A (Access to Account) interface requirements.
+
+### 4. Recommendations for Remediation
+*   **No remediation is required regarding PSD2.**
+*   *Note on General Data Privacy (GDPR/CCPA):* While not a PSD2 violation, the agent scrapes "Employees (est.)" and creates "Buyer Personas." Ensure the "Customer Profile" generation relies on aggregated abstractions rather than scraping Personally Identifiable Information (PII) of specific individuals from LinkedIn or company team pages, which is a separate privacy concern.
+
+### 5. Overall Compliance Rating
+**COMPLIANT**
+*(The agent operates entirely outside the scope of the Payment Services Directive 2).*

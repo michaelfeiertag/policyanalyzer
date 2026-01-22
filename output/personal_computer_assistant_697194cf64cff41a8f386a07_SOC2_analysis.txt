@@ -1,0 +1,54 @@
+Agent: Personal Computer Assistant
+ID: personal-computer-assistant-697194cf64cff41a8f386a07
+Log file: None
+Regulation: SOC2
+============================================================
+
+Based on the provided Agent Definition (`[AGENT_DEFINITION]`), here is the security and compliance assessment.
+
+**Note:** The `[SAMPLE_LOG]` was not provided in your prompt. This assessment relies strictly on the configuration logic, declared intent, and capabilities defined in the JSON.
+
+### 1. Summary of Agent Function
+The **Personal Computer Assistant** is a "Computer Use" agent. It is designed to instantiate a sandboxed virtual computer (`LindyComputer`) and autonomously interact with it via browser automation.
+*   **Capabilities:** It uses a general-purpose "Use browser" tool to perform actions on behalf of the user.
+*   **Intended Use Cases:** The configuration explicitly suggests high-risk personal tasks including financial monitoring ("Check my credit card statement"), healthcare capability ("Find a doctor"), and financial transactions ("Buy groceries," "Order food").
+*   **Workflow:** The agent accepts a command -> Starts a computer session -> Executes actions via the browser without requiring human confirmation.
+
+### 2. SOC2 Applicability
+**Applicability: YES**
+
+SOC2 is highly applicable to this agent for the following reasons:
+*   **Confidentiality (TSC):** The agent explicitly solicits highly sensitive data, including **PCI** (Payment Card Information via "credit card statement" and purchasing) and **PHI** (Protected Health Information via "Find a doctor").
+*   **Security (TSC):** The agent acts as an interface to external systems (Instacart, Banking Portals, Instagram). It effectively acts as a credential holder or session manager for these third-party services.
+*   **Privacy (TSC):** The agent processes personal user data (location for delivery, health preferences, financial history).
+
+### 3. Specific SOC2 Violations
+Based on the JSON definition, the following are definitive, non-speculative violations regarding standard SOC2 controls (specifically CC Series - Common Criteria):
+
+**A. Violation of Logical Access / Least Privilege (CC6.1)**
+*   **Observation:** The agent uses the `LindyComputer` tool which provides unrestricted access to a browser environment.
+*   **Risk:** There is no allow-listing of domains. While the conversation starters suggest "Instacart," the tool definition allows the agent to navigate to *any* URL. This violates the principle of Least Privilege. In an enterprise environment, this agent could theoretically access corporate Intranets or exfiltrate data to malicious URLs if prompted (prompt injection).
+*   **Compliance Failure:** Unrestricted internet access capability without domain constraints.
+
+**B. Violation of Change Management / Authorization (CC2.2, CC5.2)**
+*   **Observation:** In the `ActionNode` (Start Computer Session) and `AgentStateNode`, the parameter `requireConfirmation` is explicitly set to `"Never"`.
+*   **Risk:** The agent is authorized to perform financial transactions ("Buy groceries") and access banking data ("Check credit card") *without* a human-in-the-loop confirmation step defined in the workflow.
+*   **Compliance Failure:** Automated execution of sensitive/financial actions without user authorization at the time of execution.
+
+**C. Violation of Confidentiality / Data Handling (CC6.7)**
+*   **Observation:** The `conversationStarters` explicitly invite the user to "Check my credit card statement."
+*   **Risk:** Displaying a credit card statement involves processing PCI data. The `outputSchema` for the computer tool (`lindyComputerSession`) is generic. There is no evidence of data masking, redaction, or specific encryption handling for the text/images returned from the virtual computer to the chat interface.
+*   **Compliance Failure:** Ingesting and displaying PCI (financial data) into a generic chat log without specific data protection controls or audit trails constitutes a failure to protect confidential information.
+
+### 4. Remediation Recommendations
+To bring this agent into compliance or reduce risk to an acceptable level:
+
+1.  **Enforce Human-in-the-Loop:** Change `requireConfirmation` from `"Never"` to `"Always"` for the `ActionNode`. The user must explicitly approve the agent entering a computer session, especially given the financial context.
+2.  **Restrict Scope (Allow-listing):** Configure the `LindyComputer` tool to strictly allow access only to the domains required for the specific task (e.g., `*.instacart.com`, `*.doordash.com`). Block access to all other URLs.
+3.  **Remove High-Risk Intents:** Remove "Check my credit card statement" and "Find a doctor" from `conversationStarters`. An improperly configured LLM agent should not be handling raw PCI or PHI.
+4.  **Implement Auth Configuration:** The current `auth` is `null`. If this agent is to interact with user accounts (Instagram, Banking), it requires a secure OAuth implementation (`authConfig`) rather than relying on the user potentially typing credentials into the chat or browser window, which exposes secrets to the logs.
+
+### 5. Overall Compliance Rating
+**Rating: NON-COMPLIANT**
+
+**Justification:** The combination of soliciting PCI/PHI data + Unrestricted Browser Access + `requireConfirmation: "Never"` creates an unacceptable risk profile. This agent effectively bypasses enterprise security controls to perform unverified financial and personal actions. It should not be deployed in its current state.

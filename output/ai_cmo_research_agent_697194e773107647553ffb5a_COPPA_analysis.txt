@@ -1,0 +1,35 @@
+Agent: AI CMO | Research Agent
+ID: ai-cmo-research-agent-697194e773107647553ffb5a
+Log file: None
+Regulation: COPPA
+============================================================
+
+Based on the review of the [AGENT_DEFINITION] and logic flow, here is the assessment regarding COPPA (Children's Online Privacy Protection Act) compliance.
+
+### 1. Summary of Agent Function
+The **AI CMO | Research Agent** is a B2B (Business-to-Business) marketing automation tool. Its primary workflow involves:
+*   Requesting a company website URL from the user.
+*   Scraping the provided website for text content.
+*   Using Perplexity and Google Search to perform deep research on the company, its competitors, keywords, and industry position.
+*   Using LLMs (GPT-5) to generate marketing assets (Buyer Personas, Customer Journey Maps, USPs).
+*   Creating and saving these reports as documents in the user's connected Google Drive.
+
+### 2. COPPA Applicability
+**COPPA is NOT applicable to this agent.**
+
+**Reasoning:**
+*   **Target Audience:** The agent is explicitly designed for business professionals, marketers, and executives ("AI CMO," "dive deep into your business," "competitors," "ICP"). It is not directed to children under the age of 13.
+*   **Nature of Data Collection:** The agent collects public business intelligence (company URLs, market data, competitor info). It does not request, prompt for, or collect personal information (PII) regarding children, such as home addresses, geolocation, or contact information of minors.
+*   **Authentication:** The agent relies on Google OAuth for document creation, which generally implies the user holds a valid Google account (typically age-gated to 13+ or enterprise-managed).
+
+### 3. Specific Violations
+**No COPPA violations found.**
+
+The agent's logic contains no mechanisms that solicit information from children or track child behavior. The inputs are strictly business URLs, and outputs are professional marketing documents.
+
+### 4. Remediation Recommendations
+*   **No remediation required for COPPA.**
+*   *General Security Note:* While not a COPPA issue, ensure the Google Drive `sharingPreference` in the Action Nodes (currently set to "Anyone with the link can edit" in some nodes like `Create Competitor Document` and "Private" in others) aligns with your enterprise data leakage policies.
+
+### 5. Overall Compliance Rating
+**COMPLIANT**

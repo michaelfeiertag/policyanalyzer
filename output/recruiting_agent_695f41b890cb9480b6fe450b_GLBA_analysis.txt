@@ -1,0 +1,39 @@
+Agent: Recruiting Agent13 days ago+2
+ID: recruiting-agent-695f41b890cb9480b6fe450b
+Log file: None
+Regulation: GLBA
+============================================================
+
+Based on the Agent Definition and configuration provided, here is the assessment regarding GLBA (Gramm-Leach-Bliley Act) compliance.
+
+### 1. Summary of Agent Function
+The **Recruiting Agent** is an automated Sales Development Representative (SDR) and recruiting assistant. Its primary workflow is:
+1.  **Data Collection:** Uses the **People Data Labs (PDL)** API to search for potential candidates or leads based on criteria like job title, location, industry, and skills.
+2.  **Data Processing:** Extracts personally identifiable information (PII) such as full names, personal emails, mobile phones, LinkedIn URLs, and employment history.
+3.  **Storage:** Creates and exports this data into **Google Sheets**.
+4.  **Outreach:** Has the capability to loop through these leads and send cold outreach emails via **Gmail**.
+
+### 2. GLBA Applicability
+**Verdict: NOT APPLICABLE**
+
+GLBA is likely **not applicable** to this specific agent for the following reasons:
+
+*   **Definition of Consumer:** GLBA applies to Financial Institutions regarding the protection of data belonging to their *consumers* (individuals obtaining financial products or services). This agent is designed for **Recruiting** and **B2B Lead Generation**. The individuals being processed are prospective employees or business leads, not consumers establishing a financial relationship with your institution via this agent.
+*   **Definition of Nonpublic Personal Information (NPI):** GLBA regulates "Nonpublic Personal Information." NPI is defined as information provided by a consumer to a financial institution, resulting from a transaction, or obtained in connection with providing a financial product.
+    *   This agent sources data from **People Data Labs**, a third-party data aggregator.
+    *   The data (Job Titles, LinkedIn URLs, Emails) is sourced from public records or commercial data aggregation, not from your internal banking/financial customer records.
+    *   Under GLBA, "Publicly Available Information" is generally exempt from the definition of NPI.
+
+### 3. Specific Violations
+**None found.**
+
+Since the data being processed does not meet the statutory definition of Nonpublic Personal Information (NPI) under GLBA, and the context is human resources/recruitment rather than financial service provision, there are no definitive GLBA violations.
+
+### 4. Recommendations for Remediation
+While GLBA does not apply, the agent introduces other regulatory risks you should be aware of. No remediation is required for GLBA specifically, but standard security hygiene suggests:
+
+*   **Check CASL/CAN-SPAM/GDPR Status:** The agent sends automated emails (`Gmail.send` action) to personal email addresses retrieved from a data broker (`recommended_personal_email` field from PDL). While not a GLBA issue, this presents privacy and anti-spam compliance risks depending on the jurisdiction of the leads.
+*   **Google Workspace Permissions:** Ensure the `GoogleSheets.create` action does not default to creating "Public to the Web" spreadsheets, as this would expose the recruited candidates' PII.
+
+### 5. Overall Compliance Rating
+**COMPLIANT** (GLBA Not Applicable)

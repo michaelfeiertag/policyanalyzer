@@ -1,0 +1,38 @@
+Agent: Voice of the Customer22 minutes ago
+ID: voice-of-the-customer-6971937b668ab8405ca92ffc
+Log file: None
+Regulation: PSD2
+============================================================
+
+Based on the provided Agent Definition, here is the assessment regarding PSD2 compliance.
+
+### 1. Summary of Agent Function
+The agent, titled "Voice of the Customer," is an automated workflow designed to capture customer feedback. Its operational flow is:
+1.  **Trigger:** Detects the start of a calendar event (via Google Calendar) involving attendees.
+2.  **Action:** Joins the meeting (via Zoom, Google Meet, or Teams) using a bot to record and transcribe the conversation.
+3.  **Logic:** Filters to ensure the meeting was a "Customer call."
+4.  **Action:** Extracts noteworthy quotes from the transcript and sends them to a team via email (using Gmail integration), despite the description text mentioning Slack.
+
+### 2. PSD2 Applicability
+**PSD2 is NOT Applicable to this agent.**
+
+**Reasoning:**
+The Second Payment Services Directive (PSD2) regulates payment services and payment service providers within the EU. It applies specifically to:
+*   Accessing payment accounts (Account Information Services - AIS).
+*   Initiating payments (Payment Initiation Services - PIS).
+*   Issuing card-based payment instruments.
+
+This agent interacts exclusively with **productivity and communication data** (Calendars, Video/Audio recordings, and Email). It does not interface with banking APIs, process financial transactions, access payment account information, or act as a financial intermediary. The OAuth scopes requested (Calendar, Drive, Gmail, Spreadsheets) are unrelated to payment processing or banking infrastructure.
+
+### 3. Specific PSD2 Violations
+**No violations found.**
+
+As the agent operates entirely outside the regulatory perimeter of PSD2, it cannot violate the directive. It performs no actions that require Strong Customer Authentication (SCA) for payments or Third Party Provider (TPP) certification.
+
+### 4. Remediation Recommendations
+**None required for PSD2.**
+
+*Note: While not a PSD2 issue, the agent possesses broad read/write permissions for Google Drive and Gmail ("https://www.googleapis.com/auth/drive", "https://www.googleapis.com/auth/gmail.send"). Standard Data Loss Prevention (DLP) reviews—unrelated to PSD2—are recommended to ensure sensitive customer PII discussed in meetings is not improperly distributed via the email action.*
+
+### 5. Overall Compliance Rating
+**COMPLIANT** (Regulation Not Applicable)

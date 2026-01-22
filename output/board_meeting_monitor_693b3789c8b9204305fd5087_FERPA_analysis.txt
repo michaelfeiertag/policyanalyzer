@@ -1,0 +1,33 @@
+Agent: Board meeting monitorAbout 10 hours ago
+ID: board-meeting-monitor-693b3789c8b9204305fd5087
+Log file: None
+Regulation: FERPA
+============================================================
+
+Based on the review of the agent definition and configuration provided, here is the FERPA compliance assessment.
+
+### 1. Summary of Agent Function
+The agent ("Board meeting monitor") is an automated workflow that triggers twice daily (at 9:00 AM and 6:00 PM). Its function is to access a specific Google Calendar account (`m@mftestco.com`) and search for "board meetings" scheduled for the following day that begin before 9:00 AM.
+*   **Morning execution:** If criteria are met, it sends an email summary via Gmail to `m@testco.com`.
+*   **Evening execution:** If criteria are met, it sends an SMS notification via Twilio to a hardcoded phone number (`+14155312776`).
+
+### 2. FERPA Applicability
+**FERPA is NOT Applicable.**
+
+*   **Entity Type:** FERPA (Family Educational Rights and Privacy Act) applies to educational agencies and institutions that receive funding from the U.S. Department of Education. The account email domain associated with this agent (`mftestco.com`) and the recipient domain (`testco.com`) indicate a commercial entity or a test environment, not an educational institution.
+*   **Nature of Data:** FERPA protects "education records" (records directly related to a student and maintained by an educational agency). A Google Calendar search for "Board meetings" retrieves administrative scheduling data. Unless a calendar invite explicitly contains sensitive student PII in the title or description (e.g., "Disciplinary Hearing for Student [Name]"), the data accessed does not constitute an education record.
+
+### 3. Specific FERPA Violations
+**No violations found.**
+
+*   The agent does not access student transcripts, disciplinary records, or personally identifiable student information.
+*   The data flow is contained within administrative channels (calendar to personal email/SMS of the likely calendar owner).
+*   There is no unauthorized disclosure of protected student data to third parties.
+
+### 4. Remediation Recommendations
+No remediation is required for FERPA compliance.
+
+*   *General Security Note (Non-FERPA):* Ensure the hardcoded SMS recipient (`+14155312776`) is the intended authorized recipient, as hardcoded phone numbers in automation scripts can pose a data leakage risk if the employee leaves the organization or the number is reassigned.
+
+### 5. Overall Compliance Rating
+**COMPLIANT**

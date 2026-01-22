@@ -1,0 +1,43 @@
+Agent: Resume Screening Agent
+ID: resume-screening-agent-6971956bbddcdd1d54fd8975
+Log file: None
+Regulation: ECPA
+============================================================
+
+Based on the provided agent definition and configuration, here is the assessment regarding the Electronic Communications Privacy Act (ECPA).
+
+### 1. Summary of Agent Function
+The **Resume Screening Agent** acts as an automated email assistant for a hiring manager. Its workflow is:
+1.  **Monitors:** It listens to **all** incoming emails sent to the connected Gmail account (`m@mftestco.com`) via the `onGmailMessageReceived` trigger.
+2.  **Filters:** It analyzes emails to determine if they are job applications containing resume files.
+3.  **Processes:** If a resume is found, it retrieves a specific Job Description from a Google Doc, uses GPT-4 to compare the resume against the requirements, and generates a score/pros-cons list.
+4.  **Responds:** It sends an email result (Qualified, Unqualified, or Borderline) back to the agent owner (the hiring manager).
+
+### 2. ECPA Applicability
+**Yes, ECPA is applicable.**
+The Electronic Communications Privacy Act (18 U.S.C. §§ 2510-2523) applies because the agent is intercepting, accessing, and processing the contents of electronic communications (emails) while they are in transit (Title I - Wiretap Act) and in storage (Title II - Stored Communications Act).
+
+Any automated tool that reads the body or attachments of an email constitutes an "interception" or "access" under the statute. Therefore, the agent's behavior falls under the jurisdiction of this law.
+
+### 3. Violation Assessment
+**Does the agent violate ECPA? No.**
+
+While the agent technically "intercepts" communications, it does **not** constitute a violation of ECPA for the following reasons:
+
+*   **Authorization (The "One-Party Consent" Rule):** Under Federal ECPA (18 U.S.C. § 2511(2)(d)), it is not unlawful to intercept a communication where **one of the parties** to the communication has given prior consent. In this scenario, the recipient of the email (`m@mftestco.com`) has explicitly authorized the agent to access their inbox via OAuth (Google Authentication). By installing and configuring the agent, the recipient consents to the agent processing the incoming emails.
+*   **System Owner Authorization:** The agent is operating within a corporate workspace (`mftestco.com`) using credentials belonging to that domain. The Stored Communications Act (Title II) allows access to stored communications when authorized by the user or the entity providing the service (the employer).
+*   **Ordinary Course of Business:** The agent functions as an advanced email filter/sorter. Automating the review of business correspondence (resumes sent to a work email) falls under standard business processing of communications.
+
+**Note:** The agent reads *all* incoming emails to determine if they are job applications (Trigger: `onGmailMessageReceived` with no filter). While this creates a broad data privacy footprint, it is not an ECPA violation because the account owner authorized the access.
+
+### 4. Recommendations for Remediation
+While the agent is compliant with ECPA, the following operational recommendations are advised to maintain organizational security hygiene:
+
+1.  **Confirmation of Authorized Use:** Ensure that the account `m@mftestco.com` belongs to the employee who deployed the agent. If a manager deployed this on *another* employee's account without their knowledge, ECPA risks would increase significantly.
+2.  **Scope Limitation (Privacy Best Practice):** The agent currently triggers on *all* emails. To reduce the blast radius of data processing (though not strictly required by ECPA if authorized), recommend adding a `filter` to the `onGmailMessageReceived` trigger (e.g., only trigger on emails with subject line "Application" or "Resume").
+3.  **Transparency:** While not required by federal ECPA, ensure your external privacy policy discloses that automated systems/AI are used to process candidate applications.
+
+### 5. Overall Compliance Rating
+**COMPLIANT**
+
+The agent operates with the explicit authorization of the account holder (the recipient), satisfying the consent exceptions within ECPA. It functions as a user-authorized mail processing tool.

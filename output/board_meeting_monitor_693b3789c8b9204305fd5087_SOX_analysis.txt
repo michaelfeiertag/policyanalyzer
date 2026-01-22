@@ -1,0 +1,49 @@
+Agent: Board meeting monitorAbout 10 hours ago
+ID: board-meeting-monitor-693b3789c8b9204305fd5087
+Log file: None
+Regulation: SOX
+============================================================
+
+Here is the compliance assessment for the agent **"Board meeting monitor" (ID: 693b3789c8b9204305fd5087)**.
+
+### 1. Agent Function Summary
+The agent triggers twice daily (9:00 AM and 6:00 PM). It connects to a Google Workspace account to search the calendar specifically for "board meetings" scheduled for the following day that start before 9 AM PT.
+*   **If triggered in the morning:** It sends an email summary to `m@testco.com`.
+*   **If triggered in the evening:** It sends an SMS notification to `+14155312776` via Twilio.
+
+### 2. SOX Applicability: **YES**
+Sarbanes-Oxley (SOX) applies to this agent for the following reasons:
+*   **Material Non-Public Information (MNPI):** The agent explicitly targets "Board meetings." The existence, timing, and frequency of Board of Directors meetings are often correlated with material events (M&A, earnings releases, executive changes) which are strictly regulated.
+*   **IT General Controls (ITGC) / Access Controls:** SOX Section 404 requires strict controls over who has access to sensitive corporate data. This agent automates the extraction of Board-level scheduling data and transmits it externally (SMS) and internally (Email).
+*   **Insider Trading Risk:** While not a direct financial ledger entry, knowledge of emergency or unscheduled board meetings is a primary vector for insider trading. Systems processing this data must adhere to strict security standards.
+
+### 3. Definitive Violations Found
+
+**Violation 1: Data Leakage via Insecure Transmission (SMS)**
+*   **Evidence:** The agent is configured to send Board meeting details via Twilio SMS to `+14155312776`.
+*   **Risk:** SMS is an unencrypted protocol susceptible to interception (SS7 attacks, SIM swapping) and carrier logging. Transmitting sensitive governance data (Board schedules) over unencrypted public networks violates the control environment requirements for protecting sensitive corporate information.
+*   **Regulatory Impact:** Failure to secure MNPI.
+
+**Violation 2: Violation of "Least Privilege" (Excessive Permissions)**
+*   **Evidence:** The `auth` configuration for the Google connection grants the following scopes:
+    *   `https://www.googleapis.com/auth/drive` (Full Read/Write access to all files)
+    *   `https://www.googleapis.com/auth/spreadsheets` (Read/Write to all sheets)
+    *   `https://www.googleapis.com/auth/documents` (Read/Write to all docs)
+    *   `https://www.googleapis.com/auth/gmail.modify` (Read/Write/Delete emails)
+*   **Risk:** The agent *only* requires Calendar Read access and Gmail Send access to function. It currently holds the keys to the entire financial document repository (Drive/Sheets) of the connected user (`m@mftestco.com`). If this agent is compromised, an attacker has full access to the user's financial documents.
+*   **Regulatory Impact:** SOX Section 404 (Management Assessment of Internal Controls) failure regarding Access Management and Least Privilege.
+
+**Violation 3: Hardcoded Personal Identifiers lacking Auditability**
+*   **Evidence:** The recipient phone number (`+14155312776`) and email (`m@testco.com`) are hardcoded in the agent configuration values.
+*   **Risk:** If the employee `m@testco.com` is terminated, this agent will likely continue sending sensitive Board schedules to their personal device (if the number is personal) or fail silently without alerting the security team. It bypasses centralized Identity and Access Management (IAM) offboarding procedures.
+
+### 4. Recommendations for Remediation
+
+1.  **Restrict Auth Scopes (Immediate):** Revoke the current Google token. Re-authenticate the agent requesting **only** `calendar.readonly` and `gmail.send`. Explicitly deny access to Drive, Docs, and Spreadsheets.
+2.  **Disable SMS Output:** Remove the Twilio action entirely. Board-level communications should never occur via SMS. Route the evening notification through a secure, encrypted enterprise channel (e.g., MS Teams, Slack Enterprise, or PGP-encrypted email).
+3.  **Implement Dynamic Recipients:** Replace hardcoded email addresses and phone numbers with a lookup from the corporate directory or a managed distribution list. This ensures that if an employee is offboarded, the agent automatically stops sending them sensitive data.
+
+### 5. Overall Compliance Rating
+**NON-COMPLIANT**
+
+The agent represents a **High Risk**. It combines the handling of highly sensitive governance data (Board schedules) with insecure transmission methods (SMS) and grossly excessive access privileges (Full Drive Access). It must be disabled until remediated.

@@ -1,0 +1,44 @@
+Agent: Resume Screening Agent
+ID: resume-screening-agent-6971956bbddcdd1d54fd8975
+Log file: None
+Regulation: FCRA
+============================================================
+
+Based on the provided Agent Definition, here is the compliance assessment regarding the Fair Credit Reporting Act (FCRA).
+
+### 1. Summary of Agent Function
+The **Resume Screening Agent** acts as an automated recruitment assistant. Its workflow is as follows:
+1.  **Trigger:** Detects an incoming email containing a resume via Gmail.
+2.  **Context Retrieval:** Retrieves a specific Job Description from a Google Doc.
+3.  **Analysis:** Uses an LLM (`gpt4_turbo`) to compare the candidate's resume against the Job Description.
+4.  **Decision Logic:** Classifies the candidate into one of three categories: Approved, Partially Approved, or Not Approved.
+5.  **Output:** Sends an email to the Hiring Manager (HR) with a summary of qualifications, a score, and a recommendation.
+
+### 2. FCRA Applicability
+**Verdict: Not Applicable**
+
+The FCRA regulates "Consumer Reporting Agencies" (CRAs) that assemble or evaluate consumer credit, character, or reputation information to furnish "Consumer Reports" to third parties for employment purposes.
+
+This agent does **not** trigger FCRA applicability for the following reasons:
+*   **Source of Information:** The agent analyzes data provided directly by the consumer (the resume) and data provided by the employer (the job description). It does not access, aggregate, or purchase data from third-party databases (e.g., credit bureaus, criminal background repositories, or watchlist databases).
+*   **First-Party Processing:** Under the law, an employer evaluating a candidate using their own internal tools (even AI-driven ones) is not acting as a Consumer Reporting Agency. The agent is functioning as a processing tool for the employer, not an external entity selling background reports.
+*   **No "Consumer Report" Generated:** Since the output is a summary of the candidate's *self-reported* data (the resume) rather than independent background data, the email sent to HR does not constitute a "Consumer Report" under FCRA definitions.
+
+### 3. Specific Violations
+**None identified.**
+
+As the FCRA does not apply to this specific configuration, there are no violations of FCRA requirements (such as Pre-Adverse Action notices or Summary of Rights) inherent in the agent's logic.
+
+*Note: If this agent were configured to use tools that scrape external data (e.g., "Search LinkedIn" or "Check Court Records"), FCRA would immediately apply. The current definition is strictly limited to Gmail (Resume) and Google Docs (Job Description).*
+
+### 4. Recommendations
+While the agent is compliant with FCRA, the following recommendations will ensure it remains compliant and reduces other liability risks:
+
+1.  **Prohibit External Data Tools:** Ensure that no "Web Browsing," "Social Media Scraper," or "Background Check API" tools are added to this agent in the future. Adding such tools would instantly reclassify the agent's output as an "Investigative Consumer Report," triggering strict FCRA compliance (consent, disclosure, adverse action processes).
+2.  **Human-in-the-Loop for Rejections:** The agent currently sends "Unqualified" emails directly to HR. While not an FCRA violation, relying solely on AI for rejection can trigger **EEOC (Equal Employment Opportunity Commission)** scrutiny regarding algorithmic bias. It is recommended that the email to HR be framed as a "preliminary screening" requiring human verification before a final rejection is sent to the candidate.
+3.  **Hallucination Guardrails:** The prompt in the `LogicNode` uses `gpt4_turbo`. Ensure the system instructions explicitly forbid the model from inferring facts not present in the resume (e.g., inferring a criminal record from an employment gap), as acting on hallucinated "bad character" data could create legal exposure similar to FCRA liability.
+
+### 5. Overall Compliance Rating
+**COMPLIANT**
+
+*The agent is a first-party data processing tool acting on self-reported candidate information. It does not function as a Consumer Reporting Agency and is not subject to FCRA regulations in its current configuration.*

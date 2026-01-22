@@ -1,0 +1,47 @@
+Agent: AI CMO | Research Agent
+ID: ai-cmo-research-agent-697194e773107647553ffb5a
+Log file: None
+Regulation: CCPA
+============================================================
+
+Here is the assessment of the **AI CMO | Research Agent** based on the provided definition and logic.
+
+### 1. Summary of Agent Function
+The **AI CMO | Research Agent** is a B2B market research automation tool. Its primary workflow is:
+1.  **Input:** Accepts a company website URL from the user.
+2.  **Research:** Uses Perplexity (AI search) and a web scraper to extract company details (Mission, Vision, Products, Pricing, Brand Tone).
+3.  **Analysis:** Uses LLMs (GPT-5, Sonar) to generate synthetic strategic assets, including Ideal Customer Profiles (ICPs), Buyer Personas, Customer Journey Maps, and Unique Selling Propositions (USPs).
+4.  **Competitive Intelligence:** Identifies and researches top competitors.
+5.  **Output:** Generates multiple Google Docs containing this research and analysis, saved to a specific Google Drive folder.
+
+### 2. CCPA Applicability
+**Status: Low Applicability / Not Applicable to Agent Logic**
+
+While the California Consumer Privacy Act (CCPA) applies to the enterprise deploying the agent, it is likely **not applicable** to the specific operations of this agent.
+*   **Business Data vs. Personal Data:** The agent is designed to ingest and process **Business Information** (Company Name, URL, Industry, Product Offerings), not **Consumer Personal Information** (PI).
+*   **Publicly Available Information:** The agent scrapes data from public company websites (Home pages, About Us). Under CCPA, "publicly available" information from government records is exempt, and generally, business contact information implies a B2B context which carries different exemptions.
+*   **Synthetic Profiling:** The "Customer Profiles" and "Personas" generated (Nodes `697194e773107647553ffb7a`, `697194e773107647553ffb7b`) are synthetic aggregates (e.g., "Marketing Mary, Age 30-40") derived from general market logic, not profiles of specific, identifiable natural persons.
+
+### 3. Specific Violations of CCPA
+**Assessment: No Definitive Violations Found**
+
+Based on the provided definition, the agent does not perform actions that constitute a significant violation of CCPA.
+*   **No Unauthorized Collection of PI:** The prompt instructions explicitly ask for "Company Name," "Description," "Tone," and "Industry." There are no instructions to scrape email lists, employee home addresses, or consumer browsing habits.
+*   **No "Sale" of Data:** The data flow is internal. Information is retrieved from the web and saved to the organization's Google Drive. It is not being transferred to a third party for monetary or valuable consideration in a way that constitutes a "sale" under CCPA.
+*   **No Automated Decision Making on Consumers:** The analysis is strategic marketing advice for the business, not legal or financial decisions affecting a consumer's rights.
+
+### 4. Specific Recommendations for Remediation
+While the agent is compliant with CCPA, the following configuration poses a **General Data Security & Confidentiality Risk** (though not a privacy violation of consumer data) and should be remediated:
+
+*   **Restrict Google Doc Sharing Permissions:**
+    *   *Issue:* In several "Create Document" nodes (e.g., `697194e773107647553ffb78`, `697194e773107647553ffb7c`, `697194e773107647553ffb86`), the `sharingPreference` is set to **"Anyone with the link can edit"**.
+    *   *Risk:* This makes proprietary competitive intelligence publicly accessible if the URL is guessed or leaked.
+    *   *Remediation:* Change the `sharingPreference` in all Google Docs nodes to **"Private (only me)"** or **"Anyone in my organization can view/edit"**.
+
+*   **Review "Team" Page Scraping (Precautionary):**
+    *   *Recommendation:* Ensure the `Deep Competitor Research` node (`697194e773107647553ffb73`) does not scrape specific employee names or personal contact info from competitor websites, as this crosses the line from business intel to processing potential PI. However, given the current prompts focus on "Business Model" and "Product Intelligence," this risk is minimal.
+
+### 5. Overall Compliance Rating
+**RATING: COMPLIANT**
+
+The agent operates on business intelligence data and synthetic profiles. It does not ingest, process, or sell identifiable Consumer Personal Information in a manner that triggers CCPA compliance risks.

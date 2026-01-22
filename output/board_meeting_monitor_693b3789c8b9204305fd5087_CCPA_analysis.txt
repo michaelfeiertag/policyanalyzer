@@ -1,0 +1,54 @@
+Agent: Board meeting monitorAbout 10 hours ago
+ID: board-meeting-monitor-693b3789c8b9204305fd5087
+Log file: None
+Regulation: CCPA
+============================================================
+
+Based on the provided Agent Definition, here is the assessment regarding CCPA compliance.
+
+### 1. Summary of Agent Function
+The agent ("Board meeting monitor") is an automated workflow that runs on a recurring schedule twice daily (9:00 AM and 6:00 PM).
+*   **Input:** It accesses a Google Calendar belonging to `m@mftestco.com` to search for events matching the query "Board meeting" scheduled for the following day.
+*   **Logic:** It differentiates between the morning and afternoon runs.
+*   **Output:**
+    *   **Morning:** Sends an email via Gmail to `m@testco.com` (likely containing the event details).
+    *   **Afternoon:** Sends an SMS via Twilio to `+14155312776` (likely containing the event details).
+
+### 2. CCPA Applicability
+**Status: Applicable**
+
+*   **Personal Information (PI) Processing:** The agent accesses Google Calendar events. Calendar invites inherently contain PI as defined by CCPA (names, email addresses of attendees/employees/board members, and potentially physical locations).
+*   **Business Context:** The agent is deployed within an enterprise ("mftestco.com"), which typically meets the threshold for CCPA compliance (gross revenue or data processing volume).
+*   **Employee/B2B Data:** Following the expiration of CPRA exemptions, data regarding employees and business contacts (e.g., board members) is fully protected under CCPA.
+
+### 3. Specific Violations of CCPA
+**Finding: Definitive Violations Found**
+
+The agent demonstrates a significant violation of **Cal. Civ. Code § 1798.100(c)**, which mandates that a business's collection and use of personal information shall be "reasonably necessary and proportionate to achieve the purposes for which the personal information was collected or processed."
+
+*   **Violation: Failure to Minimize Data Access (Excessive Permissions)**
+    The agent's Google Authentication configuration grants **Full Access** scopes that are wholly unnecessary for the agent's function. The agent only reads a calendar and sends an email, yet it retains active tokens for:
+    *   `https://www.googleapis.com/auth/drive` (Full read/write access to all files in Google Drive)
+    *   `https://www.googleapis.com/auth/spreadsheets` (Full access to Sheets)
+    *   `https://www.googleapis.com/auth/documents` (Full access to Docs)
+    *   `https://www.googleapis.com/auth/gmail.readonly` (Full read access to all emails)
+
+    By maintaining these permissions, the agent exposes vast amounts of Consumer PI (contained in Drive, Sheets, and User Mailboxes) to potential breach or misuse without a legitimate business purpose for that specific access. This violates the principle of Data Minimization.
+
+*   **Risk Finding: Reasonable Security Procedures (Cal. Civ. Code § 1798.150)**
+    The agent transmits Board Meeting details via SMS (Twilio) to `+14155312776`. SMS is a non-encrypted transmission protocol. Transmitting sensitive meeting data (which links specific individuals to specific sensitive locations/times) via cleartext SMS may fail the "reasonable security procedures" test required to protect PI from unauthorized access.
+
+### 4. Specific Recommendations for Remediation
+To bring this agent into compliance, the following actions are required:
+
+1.  **Scope Minimization (Critical):** Revoke the current Google Auth credentials and issue new credentials strictly limited to the operational needs:
+    *   `https://www.googleapis.com/auth/calendar.events.readonly`
+    *   `https://www.googleapis.com/auth/gmail.send`
+    *   **Remove** all Drive, Docs, Spreadsheets, and Gmail Read/Modify scopes immediately.
+2.  **Hardcoded PII Removal:** The agent definition contains hardcoded phone numbers (`+14155312776`, `+15103453222`) and email addresses (`m@testco.com`) in the configuration JSON. These should be moved to secure environment variables or a secrets manager to prevent exposure of employee contact information in the codebase.
+3.  **Transmission Review:** Review whether Board Meeting details contain sensitive PI. If so, disable the SMS notification channel and rely solely on TLS-encrypted Email, or direct the SMS to send a generic "Check your secure calendar" notification rather than the event details themselves.
+
+### 5. Overall Compliance Rating
+**Rating: Non-Compliant**
+
+The agent is **Non-Compliant** due to the violation of Data Minimization principles (§ 1798.100(c)). The agent holds the keys to the entire unauthorized Google Drive and Email history of the user while performing a simple calendar check, creating an unacceptable and disproportionate compliance risk.

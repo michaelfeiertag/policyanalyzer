@@ -1,0 +1,41 @@
+Agent: Resume Screening Agent
+ID: resume-screening-agent-6971956bbddcdd1d54fd8975
+Log file: None
+Regulation: GLBA
+============================================================
+
+Based on the provided agent definition and the regulatory scope of the Gramm-Leach-Bliley Act (GLBA), here is the compliance assessment.
+
+### 1. Summary of Agent Function
+The **Resume Screening Agent** automates the initial review of job applications. Its workflow is as follows:
+*   **Trigger:** Detects incoming emails in a Gmail account that contain resume file attachments.
+*   **Context:** Retrieves a job description from a specific Google Doc.
+*   **Processing:** Uses an LLM (GPT-4 Turbo) to compare the resume against the job description.
+*   **Output:** Classifies the candidate (Approved, Not Approved, Partially Approved) and sends an email summary back to the user (Hiring Manager) detailing the candidate's qualifications and fit score.
+
+### 2. GLBA Applicability
+**Verdict: GLBA is NOT Applicable.**
+
+**Reasoning:**
+The Gramm-Leach-Bliley Act applies to "Financial Institutions" and regulates the protection of **Nonpublic Personal Information (NPI)** belonging to **"consumers"** or **"customers"**.
+*   **Definition of Consumer:** Under GLBA, a "consumer" is an individual who obtains or has obtained a financial product or service from a financial institution that is to be used primarily for personal, family, or household purposes.
+*   **Employment Context:** Individuals submitting resumes for employment are **job applicants**, not consumers obtaining financial products. Data collected solely for the purpose of potential employment (resumes, work history, contact info) does not constitute "customer information" under the GLBA Safeguards Rule or Privacy Rule.
+
+While resumes contain Personally Identifiable Information (PII), they do not trigger GLBA obligations unless the individual is also a customer and the data is used in that financial context.
+
+### 3. Specific Violations
+**None Identified.**
+
+Because the data processed by this agent (employment applications) falls outside the definition of "customer information" protected by GLBA, there are no definitive GLBA violations.
+
+*Note: If your organization internal policy classifies ALL Personally Identifiable Information (PII) regardless of source as "GLBA data" for simplicity, you might consider the transmission of PII to a third-party LLM (OpenAI via Lindy) a "Third-Party Service Provider" risk. However, strictly as a matter of federal law, this is not a GLBA violation.*
+
+### 4. Recommendations
+No remediation is required specifically for GLBA compliance.
+
+**General Security Best Practices (Non-Regulatory):**
+*   Although not a GLBA requirement, ensure your enterprise agreement with the AI provider (Lindy/OpenAI) includes confidentiality clauses regarding the processing of applicant PII to adhere to general privacy standards.
+
+### 5. Compliance Rating
+**COMPLIANT**
+*(The agent is compliant because the specific regulation in question [GLBA] does not apply to the data handling practices of this specific HR/Hiring workflow.)*

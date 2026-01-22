@@ -1,0 +1,50 @@
+Agent: Recruiting Agent13 days ago+2
+ID: recruiting-agent-695f41b890cb9480b6fe450b
+Log file: None
+Regulation: GDPR
+============================================================
+
+Based on the provided Agent Definition and configuration, here is the security and compliance assessment regarding GDPR.
+
+### 1. Summary of the Agent's Function
+The **Recruiting Agent** is an automated prospecting tool designed to:
+1.  **Search for individuals** using criteria (Role, Location, Industry, etc.) via the **People Data Labs (PDL)** API.
+2.  **Retrieve detailed PII** (Personally Identifiable Information) including full names, personal and work emails, mobile phones, employment history, education, social media URLs (LinkedIn, Facebook), and demographic data (birth date, gender).
+3.  **Compile this data** into a Google Sheet.
+4.  **Facilitate automated email outreach** (via Gmail) to the retrieved individuals using a loop function.
+
+### 2. Is GDPR Applicable?
+**YES.**
+
+*   **Processing of Personal Data:** The agent explicitly processes extensive "personal data" as defined in Article 4(1) of the GDPR (Name, Email, Location, Online Identifiers, Employment History).
+*   **Territorial Scope (Article 3):** While the sample logs refer to US locations (SF, California), the tool's search parameters (`location_name`, `location_country`) are not restricted. If an employee of your enterprise uses this agent to search for candidates located in the EU/EEA, or if the agent processes data of EU citizens, the organization is acting as a Data Controller and GDPR applies immediately.
+*   **Commercial Use:** This is used for enterprise recruiting/sales, meaning the "household exemption" does not apply.
+
+### 3. Specific GDPR Violations Found
+The following are definitive, significant risks based on the agent's logic and configuration:
+
+**A. Violation of Data Minimization (Article 5(1)(c))**
+*   **The Issue:** The `searchForPeople` tool output schema explicitly returns **`birth_date`**, **`gender`**, and **`facebook_url`**. The Agent's instructions tell it to "Export the leads and their relevant data into this sheet."
+*   **The Violation:** Collecting the **exact birth dates** and **gender** of potential candidates for initial cold outreach is excessive and irrelevant to the business purpose (finding professional candidates). There is no lawful basis for processing the exact age or gender of a cold lead. This violates the principle that data must be "limited to what is necessary."
+
+**B. Violation of Lawful Basis for Direct Marketing (Article 6 & ePrivacy Directive)**
+*   **The Issue:** The agent is configured to retrieve `recommended_personal_email` and `mobile_phone`. The agent includes a logic flow to loop through these leads and send emails via Gmail.
+*   **The Violation:** Sending "cold" recruiting or sales emails to **personal email addresses** of EU individuals without prior consent (opt-in) is a violation of the ePrivacy Directive (which sits alongside GDPR). Legitimate Interest is generally not accepted for B2C cold outreach to personal addresses scraped from data brokers.
+
+**C. Failure to Notify Data Subjects (Article 14)**
+*   **The Issue:** The agent collects data from a third party (People Data Labs), not directly from the individual.
+*   **The Violation:** Article 14 requires that when data is obtained indirectly, the controller must provide a privacy notice to the individual within a reasonable period (max 30 days) or *at the time of first communication*.
+*   *Risk:* If the user generates the Google Sheet but *does not* send an email immediately (or sends an email without a compliant privacy link), the organization is illegally holding profiled data on individuals who are unaware they are being processed.
+
+### 4. Specific Recommendations for Remediation
+To mitigate these risks before deploying this agent broadly:
+
+1.  **Schema Restriction (Critical):** You must modify the `searchForPeople` output schema or the Agent's system prompt to strictly **exclude** `birth_date`, `gender`, `facebook_url`, and `mobile_phone`. Process only professional data (LinkedIn URL, Job Title, Company).
+2.  **Geographic Fencing:** Hard-code a constraint in the `searchForPeople` input arguments to block searches where `location_country` is within the EEA/UK, unless you have specific legal counsel approval for EU cold sourcing.
+3.  **Privacy Notice Injection:** If the agent sends emails, the prompt for the email body *must* be forced to include a link to your organization's Candidate Privacy Notice, explicitly stating where the data was sourced (People Data Labs).
+4.  **Vendor Assessment:** Verify your organization's Data Processing Agreement (DPA) with **People Data Labs**. As a data broker, they are a high-risk vendor under GDPR. If there is no DPA, usage of this tool on EU subjects is a violation of Article 28.
+
+### 5. Overall Compliance Rating
+**NON-COMPLIANT**
+
+This agent, in its current configuration, introduces high regulatory risk. It facilitates the collection of excessive sensitive data (birth dates/gender) and enables non-consensual cold outreach to personal channels, which are direct violations of GDPR principles for EU subjects.

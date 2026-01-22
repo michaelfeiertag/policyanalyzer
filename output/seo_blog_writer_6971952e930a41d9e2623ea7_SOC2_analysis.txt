@@ -1,0 +1,44 @@
+Agent: SEO Blog Writer
+ID: seo-blog-writer-6971952e930a41d9e2623ea7
+Log file: None
+Regulation: SOC2
+============================================================
+
+Based on the review of the provided [AGENT_DEFINITION], here is the compliance assessment regarding SOC 2 standards. Note that the [SAMPLE_LOG] was referenced in your text but not provided in the input; this assessment is based strictly on the definitive logic and configuration of the agent provided.
+
+### 1. Agent Function Summary
+The **SEO Blog Writer** agent is designed to automate the creation of marketing content. Its workflow accepts user inputs (topic, target audience, brand voice, and website links), performs external research using **Perplexity AI** (specifically the `sonar` model) to analyze the provided URL and research the topic, generates a 1500+ word blog post, and returns the content to the user via chat.
+
+### 2. SOC 2 Applicability
+**Applicable.**
+SOC 2 (Service Organization Control 2) applies to this agent primarily under the **Security**, **Confidentiality**, and **Processing Integrity** Trust Services Criteria (TSC).
+*   **Vendor Risk Management (CC9.2):** The agent utilizes an external third-party sub-processor (Perplexity) to process data.
+*   **Confidentiality (C1.1, C1.2):** The agent processes user-provided data which may contain proprietary brand strategy, internal links, or non-public marketing targets.
+*   **Change Management & Authorization (CC2.2):** The agent performs autonomous actions that generate data output.
+
+### 3. Specific SOC 2 Violations
+The following are definitive, non-speculative violations based on the provided JSON configuration:
+
+**Violation A: Uncontrolled Data Exfiltration to Third Party (Violation of CC9.2 & Confidentiality)**
+*   **Evidence:** In the nodes `Analyze Website & Brand` and `Research Topic & Keywords`, the agent is hardcoded to send user inputs (Queries and URLs) to the **Perplexity API** (`tool: "Perplexity"`).
+*   **Risk:** This creates an unmonitored "Shadow IT" data pipeline. Proprietary information entered by your employees (e.g., "Write a blog about our unreleased Product X") is immediately transmitted to an external vendor. Unless your organization has a specific Enterprise BAA with Perplexity that covers zero-retention, this violates confidentiality controls regarding data containment.
+
+**Violation B: Lack of Transaction Authorization/Human-in-the-Loop (Violation of CC5.2)**
+*   **Evidence:** In the JSON configuration for `Analyze Website & Brand` and `Research Topic & Keywords`, the property `requireConfirmation` is explicitly set to `"Never"`.
+*   **Risk:** The agent executes external API calls and generates output without any user verification step. SOC 2 requires that systems processing data have controls to ensure output is accurate and authorized. By setting confirmation to "Never," the agent bypasses the user's ability to sanitize input before it is sent to the third-party provider.
+
+**Violation C: Absence of Input Validation (Violation of PI1.2 - Processing Integrity)**
+*   **Evidence:** The `EntryPoint` node accepts raw text inputs, and the `ActionConfiguration` maps these inputs directly to the `model` prompt and Perplexity query without intermediate sanitization or PII filtering nodes.
+*   **Risk:** There are no guardrails to prevent an employee from accidentally pasting PII (Personally Identifiable Information) or sensitive internal credentials into the chat, which would then be processed by the LLM and sent to Perplexity.
+
+### 4. Remediation Recommendations
+To bring this agent into compliance, the following actions are required:
+
+1.  **Implement Data Sanitization:** Insert a logic node prior to the `Perplexity` action that scans inputs for PII or specific internal classifications (e.g., "Confidential") and blocks the request if found.
+2.  **Enable Human Confirmation:** Change `requireConfirmation` from `"Never"` to `"Always"` for the `Analyze Website & Brand` and `Research Topic & Keywords` nodes. This forces the agent to ask, "I am about to send this data to Perplexity for research. Proceed?" allowing the user to audit the data leaving the perimeter.
+3.  **Vendor Consolidation:** If possible, replace the `Perplexity` tool with an internal RAG (Retrieval-Augmented Generation) search connected to approved data sources, or ensure the API key used for Perplexity is an Enterprise key with a "Zero Data Retention" policy enforced.
+
+### 5. Overall Compliance Rating
+**NON-COMPLIANT**
+
+**Reasoning:** The agent is currently configured to automatically exfiltrate potential proprietary data to a third-party AI provider without user consent, confirmation, or data filtering. This presents an immediate confidentiality risk.

@@ -1,0 +1,51 @@
+Agent: Voice of the Customer22 minutes ago
+ID: voice-of-the-customer-6971937b668ab8405ca92ffc
+Log file: None
+Regulation: FERPA
+============================================================
+
+Based on the review of the [AGENT_DEFINITION] provided, here is the FERPA compliance assessment.
+
+### 1. Summary of Agent Function
+**Agent Name:** Voice of the Customer
+**ID:** `6971937b668ab8405ca92ffc`
+
+This agent automates the collection of product feedback from meetings. Its workflow is as follows:
+1.  **Trigger:** Detects the start of a calendar event (Google Calendar) for the user `m@mftestco.com`.
+2.  **Recording:** Joins the meeting using the "Lindy meeting recorder" to record audio and generate a transcript.
+3.  **Logic Filter:** Evaluates if the meeting was a "Customer call."
+4.  **Distribution:** If it was a customer call, it uses an LLM to extract "noteworthy quotes" about the product (good/bad feedback, competitor comparisons) and sends these quotes via **Gmail** to a specified list.
+    *   *Note:* The agent description claims it sends to Slack, but the actual configuration (`ActionNode` ID `...3008`) is configured to use the **Gmail** tool.
+
+### 2. FERPA Applicability
+**Verdict: NOT APPLICABLE**
+
+**Reasoning:**
+The Family Educational Rights and Privacy Act (FERPA) applies to **educational agencies and institutions** that receive funding from the U.S. Department of Education. It specifically protects the privacy of **student education records**.
+
+*   **Context:** The agent is deployed in a commercial "Large Enterprise" context (indicated by your role and the email domain `mftestco.com`).
+*   **Data Subject:** The agent targets "Customers" and "User calls," not "Students."
+*   **Data Content:** The agent extracts product feedback ("what they think of the product"), not "Education Records" (grades, transcripts, disciplinary records, class schedules).
+
+Unless your enterprise is an EdTech company acting as a "school official" with a legitimate educational interest *and* the specific "customers" being recorded are students discussing their academic records, FERPA regulations do not apply to this activity.
+
+### 3. Specific FERPA Violations
+**None Found.**
+
+As the regulation is not applicable to commercial product feedback collection, there are no violations of FERPA statutes.
+
+*Even if* the organization were an educational institution:
+1.  **Directory Information:** Recording a conversation is not inherently a FERPA violation.
+2.  **Legitimate Interest:** Sharing product feedback within the organization likely falls under operational legitimate interest, provided specific PII regarding a student's academic standing is not disclosed to unauthorized parties.
+
+### 4. Recommendations for Remediation
+While there are no FERPA violations, the following security and governance recommendations are relevant to the risk profile:
+
+1.  **Privacy/Consent (General Risk):** Ensure that the recording of "customers" complies with state-level wiretapping laws (One-party vs. Two-party consent). The agent enters the meeting as a bot ("Voice of the Customer"), which usually serves as notice, but this should be verified against your legal team's recording policy.
+2.  **Description Mismatch:** The agent description states it sends data to **Slack**, but the configuration explicitly sends data via **Gmail**. This creates a transparency risk. The description should be updated to match the actual behavior.
+3.  **Data Leakage Prevention:** Review the recipient list for the Gmail action. Ensure the "team" receiving these quotes is internal only. The configuration leaves the `to`, `cc`, and `bcc` fields as manual inputs or defaults that should be verified to prevent external leakage of customer data.
+
+### 5. Overall Compliance Rating
+**RATING: COMPLIANT**
+
+The agent does not process Education Records as defined by law and therefore does not violate FERPA.

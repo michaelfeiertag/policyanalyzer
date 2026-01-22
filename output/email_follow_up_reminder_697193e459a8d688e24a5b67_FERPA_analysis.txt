@@ -1,0 +1,50 @@
+Agent: Email Follow-up Reminder20 minutes ago
+ID: email-follow-up-reminder-697193e459a8d688e24a5b67
+Log file: None
+Regulation: FERPA
+============================================================
+
+Based on the provided agent definition, here is the compliance assessment regarding FERPA (Family Educational Rights and Privacy Act).
+
+**Note:** You referenced an attached `[SAMPLE_LOG]`, but only the `[AGENT_DEFINITION]` was provided. This assessment relies strictly on the configuration and logic defined in the JSON.
+
+### 1. Summary of Agent Function
+The agent, **"Email Follow-up Reminder"**, creates an automated workflow attached to the user's Gmail account (`m@mftestco.com`). Its specific behavior is:
+*   **Trigger:** It monitors **every** email sent by the user (`onGmailMessageSent`) without any content filtering.
+*   **Logic:** It utilizes an AI model to analyze the content of sent emails to determine if a response is required.
+*   **Action:** If a response is required, it waits 3 days. It then checks the thread history to see if a reply occurred. If not, it uses an LLM (`claude3_5_sonnet`) to draft a follow-up email and saves it as a draft in the user's Gmail.
+*   **Permissions:** It has been granted full read/write access to Gmail, Google Drive, Google Docs, Google Sheets, and Google Calendar.
+
+### 2. Applicability of FERPA
+**FERPA is Applicable.**
+If the user of this agent (`m@mftestco.com`) is an employee of an educational agency (school, district, university) or a third-party acting as a "School Official," FERPA applies because:
+*   **Education Records:** Email communications from school staff inevitably contain "Education Records" (PII regarding student grades, discipline, scheduling, health, or identity).
+*   **Third-Party Disclosure:** The agent functions by transmitting email content to a third-party processor (Lindy.ai) and a sub-processor (Anthropic, via the `claude3_5_sonnet` model).
+
+### 3. Definitive FERPA Violations
+Based on the JSON definition, the following are definitive compliance failures that introduce significant risk:
+
+**A. Violation of the "Legitimate Educational Interest" / Data Minimization Principle**
+The agent is configured to ingest **all** sent emails (`"filter": null` in the `onGmailMessageSent` trigger). It does not distinguish between administrative correspondence and sensitive student data. By feeding every outgoing email into an external AI model, the agent creates a massive, indiscriminate export of potential education records to a third-party vendor. This fails the requirement to limit access to PII only to those with a specific legitimate educational interest in that specific data.
+
+**B. Excessive Permissions (Security & Control Risk)**
+Under FERPA, educational institutions must maintain "direct control" over the maintenance of records. This agent violates the principle of Least Privilege:
+*   **The Violation:** The agent requests and possesses OAuth scopes for **Full Drive Access** (`auth/drive`), **Documents** (`auth/documents`), and **Spreadsheets** (`auth/spreadsheets`).
+*   **The Evidence:** The `stateGraph` and `nodes` show the agent **only** performs Gmail operations (reading/drafting emails). It performs *zero* operations on Drive or Sheets.
+*   **The Risk:** Granting an AI agent read/write access to the entire repository of student records (stored in Drive/Sheets) when its function is solely email drafting creates an unjustifiable security vulnerability. If the agent is compromised or hallucinates, it has the technical authority to delete or modify student records in Drive.
+
+**C. Unauthorized Redisclosure (34 CFR § 99.33)**
+The agent explicitly uses `model: "claude3_5_sonnet"`. This indicates data is passed from the user > Lindy > Anthropic. Unless your organization has a specific Enterprise Agreement with Lindy.ai that includes a Data Processing Agreement (DPA) explicitly prohibiting the use of this data for **model training**, this constitutes unauthorized redisclosure. Standard AI terms of service often allow for data retention or training, which is a definitive FERPA violation for education records.
+
+### 4. Recommendations for Remediation
+To mitigate these risks before deployment:
+
+1.  **Restrict Permissions (Immediate):** Revoke the current OAuth token. Re-authenticate the agent *only* with `gmail` scopes. Remove `drive`, `documents`, `spreadsheets`, and `calendar` scopes immediately, as they are unused by the workflow but present massive liability.
+2.  **Implement Trigger Filters:** The `onGmailMessageSent` node must be updated. Configure the `filter` field to **exclude** emails containing specific keywords (e.g., "Student ID", "Grade", "Confidential") or only trigger on emails with a specific label (e.g., "External-Partner"). Do not allow "catch-all" monitoring.
+3.  **DPA Verification:** Confirm that a contract is in place with Lindy.ai designating them as a "School Official" and explicitly prohibiting the use of ingested email data for training their AI models (or the models of their sub-processors).
+
+### 5. Overall Compliance Rating
+
+**NON-COMPLIANT**
+
+The agent introduces severe risk due to indiscriminate ingestion of potential student data and grossly excessive permission scopes (Full Drive/Docs access) that are not required for its stated function. It should be disabled immediately until permissions are scoped down.

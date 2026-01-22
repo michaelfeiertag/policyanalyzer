@@ -1,0 +1,56 @@
+Agent: Recruiting Agent13 days ago+2
+ID: recruiting-agent-695f41b890cb9480b6fe450b
+Log file: None
+Regulation: SOC2
+============================================================
+
+Based on the review of the provided [AGENT_DEFINITION], here is the security and compliance assessment. Note that the [SAMPLE_LOG] was referenced but not provided in the text block; this assessment is based strictly on the agent's logic and configuration definition.
+
+### 1. Summary of Agent Function
+The **"Recruiting Agent"** is an automated prospecting tool designed to:
+1.  **Ingest PII:** Query a third-party data broker (People Data Labs) to find candidates based on criteria (role, location, etc.).
+2.  **Process & Store Data:** Extract sensitive PII (Personal Email, Mobile Phone, Employment History) and export it to a Google Sheet.
+3.  **Automate Outreach:** Iterate through the generated lead list and draft/send emails via Gmail to the candidates.
+
+### 2. Is SOC2 Applicable?
+**YES.**
+SOC2 is highly applicable to this agent for the following reasons:
+*   **Trust Service Criteria - Privacy:** The agent explicitly fetches, processes, and stores Personally Identifiable Information (PII) including personal emails and mobile phone numbers (Node `695f41b990cb9480b6fe4513`).
+*   **Trust Service Criteria - Confidentiality:** The agent handles potentially proprietary hiring strategies and creates persistent files (Google Sheets) containing sensitive data.
+*   **Trust Service Criteria - Security (Common Criteria):** The agent performs actions across integrated services (Google Drive, Gmail) that require authenticated access and segregation of duties.
+
+### 3. Specific SOC2 Violations
+The following are definitive, significant violations found in the agent definition that present practical risk:
+
+**VIOLATION 1: Hardcoded Identity / Improper Access Control (CC6.1)**
+*   **Location:** Nodes `695f41b990cb9480b6fe4512` (Create Sheet), `695f41b990cb9480b6fe451e` (Gmail), and others.
+*   **Finding:** The `auth` configuration is hardcoded to a specific individual's identity: `m@mftestco.com` (Auth ID: `693b2e84e6a088955f32f886`).
+*   **Risk:** This violates the principle of **Non-Repudiation** and **Segregation of Duties**. Any user in your enterprise who invokes this agent will perform actions *as* `m@mftestco.com`. This means User A can send emails that appear to come from User B, and User A gains write access to User B's Google Drive. This is a critical security failure.
+
+**VIOLATION 2: Excessive PII Collection / Privacy Principle (P3.1)**
+*   **Location:** Node `695f41b990cb9480b6fe4513` (Search for leads).
+*   **Finding:** The prompt explicitly instructs the AI to return `recommended_personal_email` and `mobile_phone` and defaults to utilizing `People Data Labs` which aggregates personal data.
+*   **Risk:** Under SOC2 Privacy criteria, personal information must be collected only for specific, limited business objectives. Collecting *personal* mobile numbers and *personal* emails for cold outbound recruiting (unsolicited contact) often violates privacy commitments and data minimization principles.
+
+**VIOLATION 3: Processing Integrity / Logic Inconsistency (PI1.2)**
+*   **Location:** Node `695f41b990cb9480b6fe4513` vs Agent Instructions.
+*   **Finding:** The Global Instructions state: "Default to **10** leads". However, the Search Action configuration (Node `695f41b990cb9480b6fe4513`) has a system prompt: "Use **3** by default".
+*   **Risk:** System inputs and processing are contradictory. This represents a failure in System Operations management, leading to unpredictable outputs that do not match the documented procedure.
+
+**VIOLATION 4: Uncontrolled Data Sprawl (CC6.1)**
+*   **Location:** Node `695f41b990cb9480b6fe4512` (Create lead list).
+*   **Finding:** The agent creates new Google Sheets with `requireConfirmation` set to `"Never"`.
+*   **Risk:** The agent can autonomously generate an unlimited number of files containing PII in the target Google Drive without human authorization for the *creation* event. This complicates data retention policies and data discovery/classification efforts.
+
+### 4. Remediation Recommendations
+
+1.  **Immediate - Revoke Hardcoded Auth:** Remove the `auth` object binding to `m@mftestco.com` from all Action Nodes. Configure the agent to require **End-User Authentication** (the user running the agent must sign in with their own Google account) or a Service Account with limited scopes.
+2.  **Enforce Data Minimization:** Modify the prompt in Node `695f41b990cb9480b6fe4513` to explicitly exclude `mobile_phone` and prioritize `work_email` over `personal_email`.
+3.  **Fix Logic Limits:** Align the default limits. Update the Action Configuration prompt to match the Global Instructions (change 3 to 10, or vice versa).
+4.  **Audit Logging:** Ensure the output Google Sheet includes a metadata row indicating *Agent Execution ID* and *Time* to maintain an audit trail of data generation (Satisfies CC7.2).
+
+### 5. Overall Compliance Rating
+
+**NON-COMPLIANT**
+
+**Reasoning:** While the agent does have a positive control in place (the "Send Email" action requires "Always" confirmation, preventing automated spamming), the **Hardcoded Credential (Violation 1)** is a critical security failure. It allows identity spoofing and unauthorized access to `m@mftestco.com`'s resources by anyone authorized to use the agent. The agent cannot be deployed in a SOC2-compliant environment until the authentication logic is dynamic.

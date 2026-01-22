@@ -1,0 +1,53 @@
+Agent: Lead Outreacher19 minutes ago
+ID: lead-outreacher-6971943a0197c79d295d27cb
+Log file: None
+Regulation: CPRA
+============================================================
+
+Here is the compliance assessment for the agent "Lead Outreacher" based on the provided definition and the California Privacy Rights Act (CPRA).
+
+### 1. Summary of Agent Function
+The "Lead Outreacher" is an autonomous Sales Development Representative (SDR) agent. Its primary function is to execute a **multi-stage cold email campaign**.
+*   **Trigger:** It ingests Personal Information (PI) including names, email addresses, and company details from a connected Google Sheet (`onRowAdded2`) or direct chat input.
+*   **Process:** It sends a sequence of three personalized emails (Initial outreach $\rightarrow$ 3-day wait $\rightarrow$ Follow-up $\rightarrow$ 3-day wait $\rightarrow$ Final bump).
+*   **Logic:** It utilizes a "Timer" function to manage delays and utilizes an "Observe" capability to detect replies. If a reply is detected via the Gmail channel, it triggers a cancellation of the subsequent wait timers to stop the sequence.
+
+### 2. CPRA Applicability
+**Status: APPLICABLE**
+
+CPRA applies to this agent for the following reasons:
+*   **Processing of Personal Information (PI):** The agent ingests and processes "Personal Information" as defined in CPRA § 1798.140(v)(1), specifically real names, email addresses, and professional/employment-related information found in the Google Sheet.
+*   **Profiling and Automated Decision Making:** The agent analyzes the lead's data (Company, Role, Pain Points) to generate personalized content. This constitutes "profiling" under CPRA, which evaluates personal aspects of a natural person.
+*   **Enterprise Context:** As you are a large enterprise, you almost certainly meet the threshold criteria (gross annual revenue >$25M or processing data of >100,000 consumers).
+
+### 3. Specific Violations
+The following are definitive, non-speculative violations present in the agent's logic and configuration:
+
+**A. Failure to Operationalize Opt-Out Requests (CPRA § 1798.135)**
+*   **The Violation:** The agent is configured to handle replies via an `ObserveEdge` that connects to a `Cancel timer` action. While this stops the *current* email sequence, the agent **fails to record the Opt-Out request permanently**.
+*   **Risk:** If a consumer replies "Stop" or "Unsubscribe," the agent stops emailing them *today*. However, because the agent does not write this status back to the source of truth (the Google Sheet or a CRM) or a suppression list, this consumer is liable to be re-added to a future sheet and emailed again. CPRA requires that once an opt-out is received, it must be honored across the business. This agent isolates the opt-out to a single thread execution.
+
+**B. Lack of "Do Not Sell/Share" or Suppression Check (CPRA § 1798.121)**
+*   **The Violation:** The workflow moves directly from the `EntryPoint` (Google Sheet Row Added) to `ActionNode` (First outreach email).
+*   **Risk:** There is no logic step to cross-reference the incoming email address against an internal "Do Not Contact" or "Global Opt-Out" list before sending the first email. The agent blindly processes every row added. If the Google Sheet contains a consumer who previously exercised their Right to Limit Use of Sensitive Personal Information, this agent will violate that right immediately.
+
+**C. Missing Notice at Collection (CPRA § 1798.100)**
+*   **The Violation:** The prompts for the AI model (Nodes `...7d1`, `...7d5`, `...7d6`) instruct the AI to write "concise," "charming," and "snappy" emails. There is no instruction to include a Privacy Policy link or a Notice of Collection.
+*   **Risk:** For "cold" outreach (indirect collection), the consumer must be provided with notice of how their data is being used. While the lack of an "Unsubscribe" link is primarily a CAN-SPAM (federal) violation, CPRA mandates transparency regarding data processing. The agent creates a communication channel that processes PI without offering the required transparency.
+
+### 4. Remediation Recommendations
+
+To bring this agent into compliance, the following changes must be implemented in the agent configuration:
+
+1.  **Implement a Suppression Check Node:** Insert a logic node *between* the `EntryPoint` and the `First outreach email`. This node must query your central CRM or Suppression List. If the email exists on the list, the flow must terminate immediately.
+2.  **Implement Write-Back Logic:** Modify the "Reply Received" logic. Instead of simply cancelling the timer, the agent must analyze the *sentiment* of the reply.
+    *   *If Sentiment = Opt-out/Negative:* Trigger a new Action to update the Google Sheet or CRM to mark the user as "Unsubscribed."
+3.  **Mandate Opt-Out Mechanics in Prompt:** Update the `instructions` and `prompt` fields in the Email Action Nodes to explicitly require an opt-out mechanism.
+    *   *Current Prompt:* "No making up signatures..."
+    *   *Required Prompt:* "You must include a clear instruction at the bottom of the email stating: 'To opt out of future communications, please reply with STOP.' and a link to our Privacy Policy."
+
+### 5. Overall Compliance Rating
+
+**NON-COMPLIANT**
+
+This agent poses a high practical risk. It engages in automated outbound processing of Personal Information without any mechanism to check historical opt-outs or permanently record new opt-outs. Deployment in its current state will likely result in violations regarding the consumer's Right to Limit Use of their data.

@@ -1,0 +1,40 @@
+Agent: Resume Screening Agent
+ID: resume-screening-agent-6971956bbddcdd1d54fd8975
+Log file: None
+Regulation: COPPA
+============================================================
+
+Based on the review of the provided `[AGENT_DEFINITION]` for the "Resume Screening Agent," here is the compliance assessment regarding the Children's Online Privacy Protection Act (COPPA).
+
+### 1. Summary of Agent Function
+The **Resume Screening Agent** is an automated Human Resources (HR) workflow tool designed to assist hiring managers. Its specific workflow is:
+*   **Trigger:** It activates upon receiving an email via Gmail containing a resume or through a manual file upload.
+*   **Processing:** It retrieves a specific job description from a Google Doc, uses an AI model (GPT-4 Turbo) to extract data from the uploaded resume, and compares the candidate's qualifications against the job requirements.
+*   **Decision Logic:** It categorizes candidates into "Approved," "Not Approved," or "Partially Approved" based on the AI evaluation.
+*   **Output:** It generates and sends a structured email summary to the internal Hiring Manager (HR), detailing the candidate's strengths, weaknesses, and a match score.
+
+### 2. COPPA Applicability
+**Verdict: Not Applicable**
+
+COPPA applies to operators of commercial websites or online services directed to children under 13, or general audience sites that have "actual knowledge" that they are collecting personal information from children under 13.
+
+COPPA does not apply to this agent for the following definitive reasons:
+1.  **Target Audience:** The agent is an HR tool designed strictly for employment screening. The target audience for employment applications is adults or, at minimum, adolescents of legal working age (typically 14-16+ depending on jurisdiction). It is not directed at children under 13.
+2.  **Nature of Service:** The content (Job Descriptions, Resumes, Professional Skills) is clearly intended for professionals and business operations, not children.
+3.  **No Intentional Collection:** The agent parses resumes. The likelihood of a child under 13 submitting a professional resume for a corporate job opening is negligible. Even if such data were received incidentally, the service is not designed to target or solicit it.
+
+### 3. Specific Violations
+**No COPPA violations found.**
+
+*   **Data Collection:** While the agent collects PII (Personally Identifiable Information) such as names, email addresses, and employment history, this collection does not fall under COPPA jurisdiction because the data subjects are presumed to be adults in an employment context.
+*   **Parental Consent:** As the tool is not directed at children, no parental consent mechanism is required.
+
+### 4. Recommendations for Remediation
+Since COPPA is not applicable, no remediation is required for this specific regulation.
+
+*   **Documentation:** Log this agent as **Exempt** from COPPA reviews in your compliance registry due to its categorization as an HR/Recruitment tool.
+*   *Note on other risks:* While definitively compliant with COPPA, ensure this agent is reviewed for **GDPR/CCPA** (due to PII processing of candidates) and **EEOC/Bias** (due to AI decision-making in hiring), as these are the relevant risks for this agent type.
+
+### 5. Overall Compliance Rating
+**COMPLIANT**
+*(With respect to COPPA)*

@@ -1,0 +1,61 @@
+Agent: Voice of the Customer22 minutes ago
+ID: voice-of-the-customer-6971937b668ab8405ca92ffc
+Log file: None
+Regulation: ISO27001
+============================================================
+
+Based on the review of the provided JSON agent definition (`voice-of-the-customer`) and the associated trace logic, here is the compliance assessment regarding ISO/IEC 27001:2022 standards.
+
+### 1. Summary of Agent Function
+The agent, titled "Voice of the Customer," is designed to automatically monitor a specific user's Google Calendar (`m@mftestco.com`) for all meetings (internal and external). When a meeting starts, the agent:
+1.  **Joins the meeting** using a bot ("Team's Lindy Assistant").
+2.  **Records and transcribes** the audio/video.
+3.  **Analyzes the transcript** using an LLM (`claude3_5_sonnet`) to extract "noteworthy quotes."
+4.  **Sends an email** (via Gmail) to a team containing these quotes.
+
+**Note on Configuration Mismatch:** The agent's `description` field claims it sends updates to **Slack**, but the actual logic flow contains a **Gmail** action node. The agent will send emails, not Slack messages.
+
+### 2. ISO 27001 Applicability
+**Applicable.**
+ISO 27001 is directly applicable to this agent because:
+*   **Asset Management:** The agent has access to organizational assets (Calendar, Email, Meeting contents).
+*   **PII Processing:** It processes voice, video, and transcripts of identifiable individuals (internal staff and external customers).
+*   **Enterprise Integration:** It utilizes OAuth tokens with broad access to the corporate Google Workspace environment.
+
+### 3. Specific Violations of ISO 27001
+The following are definitive, non-speculative violations based strictly on the JSON configuration provided:
+
+**A. Violation of Least Privilege (Control A.5.15 - Access Control)**
+*   **Finding:** The Google Auth connection (`auth.scopes`) grants excessive permissions that are not utilized by the agent's logic.
+*   **Evidence:** The agent performs three tasks: Reading Calendar, Recording Meetings, and Sending Emails. However, the authorized scopes include:
+    *   `https://www.googleapis.com/auth/drive` (Full access to all files)
+    *   `https://www.googleapis.com/auth/spreadsheets` (Read/Write all sheets)
+    *   `https://www.googleapis.com/auth/gmail.modify` (Read/Delete/Modify all email)
+*   **Risk:** If this agent is compromised, the attacker gains full read/write access to the user's entire Google Drive and Email history, far exceeding the scope required for "Voice of the Customer."
+
+**B. Violation of Data Integrity (Control A.5.10 & A.8.10)**
+*   **Finding:** The agent is explicitly configured to falsify or alter records.
+*   **Evidence:** In the Gmail Action Node (`actionConfiguration`), the prompt instruction to the AI states: *"And feel free to slightly change it from what the person exactly said in order to make it more readable..."*
+*   **Risk:** For a compliance or "Customer Insights" record, instructing the system to alter direct quotes violates data integrity. It renders the output legally and operationally unreliable as a record of what the customer actually said.
+
+**C. Violation of Information Deletion / Retention (Control A.8.10)**
+*   **Finding:** Failure to preserve the audit trail (Raw Recording).
+*   **Evidence:** The `Record meeting` tool definition states: *"Video recording URLs are valid for 24 hours... Upload the video to Google Drive... for long-term storage."* The agent's logic flow **does not** include a step to upload this video. It only emails the extracted text quotes.
+*   **Risk:** The primary source of truth (the video/audio) is permanently lost after 24 hours. The organization retains only the AI-altered text quotes, destroying the audit trail required for dispute resolution.
+
+**D. Violation of Privacy & Consent (Control A.5.31 & A.8.2)**
+*   **Finding:** Inadequate consent mechanism for external data subjects.
+*   **Evidence:** The `EntryPointTriggerNode` filter is set to `attendeeTypeFilter: "all"`, meaning it records external clients. The `Record meeting` configuration sends a chat message: *"Hello, I'm here to record..."*
+*   **Risk:** A chat message is insufficient for legal consent in many jurisdictions (e.g., call-in users or users not looking at the chat). Recording starts immediately upon joining. This creates significant regulatory liability (GDPR, CCPA, Wiretapping laws) regarding the unauthorized capture of PII.
+
+### 4. Specific Recommendations for Remediation
+1.  **Restrict Scopes (Immediate):** Revoke the current authentication token. Re-authenticate using a connection strictly limited to `calendar.readonly`, `gmail.send`, and `meeting.read`. Remove Drive and Spreadsheet scopes.
+2.  **Fix Data Integrity:** Modify the AI prompt in the Gmail Action Node. Remove the instruction to "change it from what the person exactly said." Replace with: *"Extract quotes verbatim. Do not alter wording. If a quote is unclear, omit it."*
+3.  **Implement Data Retention:** Add a `Google Drive: Upload File` node immediately after the `Record meeting` node to save the video file before the 24-hour expiration link lapses.
+4.  **Enhance Consent:** Configure the bot to play an **audio announcement** upon joining ("This call is being recorded for quality assurance") rather than relying solely on a chat message, or change the Trigger filter to `internal_only` to avoid recording external clients without manual initiation.
+5.  **Correct Documentation:** Update the agent description to match the actual function (Change "sends to Slack" to "sends via Email") to ensure users understand where data is being transmitted.
+
+### 5. Overall Compliance Rating
+**NON-COMPLIANT**
+
+*Critical functionality explicitly violates Data Integrity and Least Privilege principles. The agent poses a practical risk of data alteration and creates a "ghost admin" vulnerability via excessive Google Workspace permissions.*

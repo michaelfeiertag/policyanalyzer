@@ -1,0 +1,46 @@
+Agent: Lindy Agent Compliance Analyser14 days ago+2
+ID: lindy-agent-compliance-analyser-695ed16699530f1e0295d5a0
+Log file: None
+Regulation: ECPA
+============================================================
+
+Based on the review of the provided agent definition `lindy-agent-compliance-analyser-695ed16699530f1e0295d5a0`, here is the security and compliance assessment.
+
+### 1. Summary of the Agent's Function
+The agent is designed to list all other agents within a user's Lindy workspace. Its workflow is as follows:
+1.  **Retrieval:** It uses the `Lindy.getAgentTasks` tool to fetch a list of agents.
+2.  **Looping:** It enters a loop to process these agents.
+3.  **Data Processing:** It executes a JavaScript snippet to encode the Agent ID.
+4.  **External Request:** It attempts to execute a raw HTTP POST request to `https://chat.lindy.ai/graphql`. This request contains a massive GraphQL query intended to fetch deep introspection data about the user ("me"), billing info, workspace memberships, and internal agent definitions.
+
+### 2. ECPA Applicability
+**Yes, the Electronic Communications Privacy Act (ECPA)—specifically Title II, the Stored Communications Act (SCA)—is applicable.**
+
+*   **Reasoning:** The agent interacts with an "electronic communication service" (the Lindy platform) and attempts to access "electronic storage" (workspace data, user account details, and potentially message history via the GraphQL `me` query). The SCA governs the unauthorized access to such stored communications. Compliance relies on ensuring that access to this data is authorized by the specific user invoking the agent.
+
+### 3. Specific Violations Found
+**The agent is Non-Compliant and presents a Critical Security Risk.**
+
+*   **Violation 1: Hardcoded Session Credentials (SCA / Unauthorized Access)**
+    *   **Evidence:** In the `ActionNode` (ID: `695ed263d30659e475b9b9db`), the HTTP Request configuration includes a hardcoded `Cookie` header.
+    *   **The Artifact:** `lsid=s%3A9Qhv_jJ2JDZ24rcZYBJWIJjN0iyyQg0k...` and `ph_phc_...`.
+    *   **The Risk:** This is a hardcoded, active session identifier for a specific user (likely the agent's creator).
+    *   **Compliance Impact:** This is a definitive violation of access control principles.
+        *   If User A runs this agent, the agent accesses the Lindy backend **impersonating the user who owns the hardcoded cookie**, not User A.
+        *   If the cookie belongs to an admin or a different user, the agent facilitates unauthorized access to that individual's stored communications and private account data.
+        *   Conversely, if the cookie belongs to the user running it, the agent is leaking that user's session credentials in the agent definition, which can be viewed by others, leading to potential account takeover.
+
+*   **Violation 2: Data Exfiltration Risk via Raw GraphQL**
+    *   **Evidence:** The HTTP body contains a raw GraphQL query (`query TasksLayoutQuery...`) requesting `billingInfo`, `creditsInfo`, `email`, and `identity` details.
+    *   **The Risk:** By bypassing the standard `Lindy` toolset and using a raw HTTP request with a specific cookie, the agent bypasses standard API scoping and permission boundaries set by the platform for agents.
+
+### 4. Specific Recommendations for Remediation
+1.  **Immediate Revocation:** The session ID (`lsid`) found in the agent configuration must be invalidated immediately by the platform administrators to prevent account takeover of the compromised identity.
+2.  **Remove Hardcoded Credentials:** The `headers` section of the HTTP Action Node must be cleared. Hardcoded `Cookie` or `Authorization` headers must never be stored in an agent definition.
+3.  **Use Native Tools:** Replace the raw HTTP request to `chat.lindy.ai/graphql` with official Lindy API tools (e.g., `Lindy.getIdentity`, `Lindy.getWorkspaceDetails`). If the specific data points are not available via standard tools, the agent cannot be deployed compliantly.
+4.  **Implement Secrets Management:** If an agent requires authentication to a third-party service, it must use the `authConfig` (OAuth2 or dynamic token injection) rather than static string headers.
+
+### 5. Overall Compliance Rating
+**NON-COMPLIANT**
+
+*Critical Severity:* The presence of a hardcoded session cookie constitutes a credential leak and facilitates unauthorized access to stored communications, violating the core tenets of the Stored Communications Act and enterprise security policies.

@@ -1,0 +1,49 @@
+Agent: Voice of the Customer22 minutes ago
+ID: voice-of-the-customer-6971937b668ab8405ca92ffc
+Log file: None
+Regulation: FTC-Act
+============================================================
+
+Based on the provided Agent Definition, here is the compliance assessment regarding the FTC Act.
+
+### 1. Summary of Agent Function
+The agent, titled "Voice of the Customer," acts as an automated meeting scribe. Its workflow is as follows:
+1.  **Trigger:** Detects the start of a Google Calendar event.
+2.  **Action (Recording):** Joins the meeting (Google Meet, Zoom, or Teams) via the "Lindy meeting recorder" tool to capture audio and generate a transcript.
+3.  **Logic:** Attempts to determine if the meeting was a "Customer call."
+4.  **Action (Reporting):** If confirmed as a customer call, it uses an LLM to extract "noteworthy quotes," explicitly instructing the AI to modify/shorten the quotes for readability.
+5.  **Output:** Sends these modified quotes via **Gmail** (despite the description stating Slack) to an internal team.
+
+### 2. Applicability of FTC Act
+**Yes, the FTC Act is applicable.**
+The Federal Trade Commission (FTC) Act, specifically Section 5, prohibits "unfair or deceptive acts or practices in or affecting commerce." This agent falls under this jurisdiction because:
+*   **Consumer Data Collection:** The agent actively collects biometric data (voice) and substantive communications from consumers (external meeting attendees) during commercial interactions.
+*   **Consumer Testimonials/Endorsements:** The agent processes customer sentiment and quotes, which are material to business conduct and potential marketing claims.
+*   **Privacy Expectations:** The agent introduces a third-party recorder into a potentially private interaction between a business and a consumer.
+
+### 3. Specific Violations of FTC Act
+Based on the provided configuration, the agent introduces definitive compliance risks that constitute "Deceptive" or "Unfair" practices:
+
+**A. Deceptive Practice: Falsification of Consumer Data (High Severity)**
+*   **Observation:** In the final Action Node (Gmail), the prompt instruction to the AI is: *"feel free to slightly change it from what the person exactly said in order to make it more readable..."* yet the output is labeled as *"Noteworthy quote(s)."*
+*   **Violation:** The FTC Act prohibits the fabrication or material alteration of consumer endorsements or testimonials. By instructing the AI to *alter* the text while presenting it as a *quote* (using the `>` blockquote format and the word "quote"), the agent creates a deceptive record of the consumer's actual words. If these "quotes" are ever used for marketing, decision-making, or external disputes, the organization would be liable for misrepresentation.
+
+**B. Unfair Practice: Potential for Surreptitious Recording (Medium Severity)**
+*   **Observation:** The `LindyMeeting` tool input schema allows the `chatMessageOnJoin` -> `sendTo` field to be set to `"host"` or `"everyone"`.
+*   **Violation:** While the default appears to be "auto," the schema explicitly permits configuration where the notification is sent *only* to the host. Recording a consumer without providing them notice (deception by omission) is a violation of the FTC Act (and potentially state wiretapping laws). The failure to enforce a "notify all" policy at the code/schema level presents a significant risk of unauthorized data collection.
+
+**C. Deception: Misrepresentation of Agent Function (Low Severity)**
+*   **Observation:** The agent description states it sends quotes to **Slack**, but the actual configuration executes a **Gmail** send action.
+*   **Violation:** While primarily an internal documentation failure, this misrepresentation violates the principle of transparency. A user authorizing this agent believes data is going to a specific channel (Slack) but it is actually being routed through email, potentially exposing customer data to different retention policies or unintended recipients.
+
+### 4. Specific Recommendations for Remediation
+To mitigate these risks and ensure compliance:
+
+1.  **Modify Prompts for Accuracy:** Immediately remove the instruction *"feel free to slightly change it from what the person exactly said."* Replace it with: *"Extract verbatim quotes. Do not alter the wording. If a quote is too long, select a different quote or summarize the sentiment without using quotation marks."*
+2.  **Enforce Universal Notification:** Hardcode the `chatMessageOnJoin` -> `sendTo` parameter to `"everyone"`. The agent must never participate in a meeting where it does not announce its presence to *all* parties, including external consumers.
+3.  **Correction of Description:** Update the agent description to accurately reflect that it sends emails via Gmail, not Slack, to ensure the authorizing employee understands where data is flowing.
+
+### 5. Overall Compliance Rating
+**Non-Compliant**
+
+**Reasoning:** The agent is currently instructed to fabricate/alter consumer quotes while presenting them as authentic, which is a deceptive practice. Furthermore, the architecture permits recording configurations that could violate consumer privacy notice requirements. Remediation is required before deployment.

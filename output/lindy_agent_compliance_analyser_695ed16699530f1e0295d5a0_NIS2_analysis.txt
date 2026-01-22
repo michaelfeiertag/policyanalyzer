@@ -1,0 +1,51 @@
+Agent: Lindy Agent Compliance Analyser14 days ago+2
+ID: lindy-agent-compliance-analyser-695ed16699530f1e0295d5a0
+Log file: None
+Regulation: NIS2
+============================================================
+
+Based on the review of the [AGENT_DEFINITION] provided, here is the security and compliance assessment regarding NIS2.
+
+### 1. Summary of Agent Function
+The agent, titled "Lindy Agent Compliance Analyser," is designed to retrieve and list all agents within a specific Lindy workspace.
+*   **Workflow:** It first calls `Lindy.getAgentTasks` to get a list of agents. It then enters a loop to process these items.
+*   **Processing:** Inside the loop, it executes a JavaScript snippet to Base64 encode the Agent ID.
+*   **External Call:** It subsequently performs a `POST` request (Action Node: `695ed263d30659e475b9b9db`) to a GraphQL endpoint. This request fetches extensive data regarding the user's identity, billing information, subscription plans, credit usage, and workspace membership details.
+
+### 2. NIS2 Applicability
+**Yes, NIS2 is applicable.**
+While NIS2 regulations apply to the *entity* (your Enterprise) rather than individual software artifacts, this agent is a component of your organization's digital supply chain and information system.
+*   **Article 21 (Cybersecurity risk-management measures):** Mandates that essential and important entities implement technical and organizational measures to manage risks to the security of network and information systems.
+*   **Supply Chain Security:** The directive specifically emphasizes the security of the supply chain and the quality of products/software integrated into the enterprise.
+*   **Risk Context:** As a security officer assessing agents for an enterprise, any agent that handles authentication, PII, or billing data falls under the scope of "security of network and information systems."
+
+### 3. Specific Violations of NIS2
+This agent contains a **Critical Security Violation** that renders it Non-Compliant with the risk management measures mandated by NIS2 Article 21.
+
+**Violation: Hardcoded Credentials / Secrets Management Failure (Article 21.2.f - Basic Cyber Hygiene)**
+In the Action Node `695ed263d30659e475b9b9db` (HTTP Request), the `headers` configuration contains hardcoded, sensitive session identifiers.
+*   **Evidence:** The `Cookie` header is hardcoded with a specific user's session:
+    ```json
+    "name": "Cookie",
+    "value": "ph_phc_...; lsid=s%3A9Qhv_jJ2JDZ24rcZYBJWIJjN0iyyQg0k...; lindy_anon_id=a0fe7266-bb8a-4fc6-a86c-b191b711eaba"
+    ```
+*   **Risk:** This `lsid` (Lindy Session ID) allows the agent—and anyone with access to this agent definition—to impersonate the user "Michael Feiertag" (inferred from the workspace URL and session data). This bypasses authentication controls, MFA, and access logging for the actual user invoking the agent.
+*   **NIS2 Impact:** This violates the requirement for "basic cyber hygiene practices" and undermines "policies on access control" (Article 21.2.i). It introduces a static, long-lived credential into the environment that can be exploited for unauthorized access to the workspace.
+
+**Violation: Excessive Data Exposure (Article 21.2.f)**
+The GraphQL query payload in the HTTP body requests significantly more data than described in the agent's instructions (which is simply to "list agents").
+*   **Evidence:** The query requests `billingInfo`, `creditUsage`, `subscriptionPlan`, `email`, and `isEmailQualified`.
+*   **Risk:** This violates the Principle of Least Privilege. The agent is exfiltrating administrative and billing data unrelated to its stated function.
+
+### 4. Recommendations for Remediation
+To bring this agent into compliance, the following immediate actions are required:
+
+1.  **Revoke the Session:** The user associated with the session ID `s:9Qhv_jJ2JDZ24rcZYBJWIJjN0iyyQg0k...` must log out immediately to invalidate the exposed cookie.
+2.  **Remove Hardcoded Headers:** Delete the manual `Cookie` header entry from the HTTP Action Node configuration.
+3.  **Implement Dynamic Authentication:** Reconfigure the agent to use the Lindy platform's native authentication (e.g., passing the invoking user's context securely) or a properly managed API key stored in a secure vault, not in the raw JSON definition.
+4.  **Scope Reduction:** Refactor the GraphQL query to request only the specific fields required for the agent listing task (e.g., `id`, `name`, `status`), removing requests for billing and identity administration data.
+
+### 5. Overall Compliance Rating
+**NON-COMPLIANT**
+
+**Reasoning:** The presence of a live, hardcoded session cookie in the agent configuration constitutes a severe security vulnerability (CWE-798). It presents an immediate risk of account takeover and unauthorized access to enterprise data, violating the core security hygiene requirements of NIS2. This agent should be disabled immediately until remediated.

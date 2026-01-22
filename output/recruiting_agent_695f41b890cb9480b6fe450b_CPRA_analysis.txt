@@ -1,0 +1,48 @@
+Agent: Recruiting Agent13 days ago+2
+ID: recruiting-agent-695f41b890cb9480b6fe450b
+Log file: None
+Regulation: CPRA
+============================================================
+
+Based on the provided agent definition and configuration, here is the compliance assessment regarding the California Privacy Rights Act (CPRA).
+
+### 1. Summary of Agent Function
+The "Recruiting Agent" is an automated prospecting tool designed to identify individuals ("leads") for recruiting or sales purposes. Its specific workflow is:
+1.  **Data Collection:** It searches the third-party database "People Data Labs" (PDL) to retrieve Personal Information (PI) based on criteria like role, location, and industry.
+2.  **Data Storage:** It creates a Google Sheet and exports the retrieved PI (including names, personal emails, phone numbers, employment history, and potentially gender/birth dates) into the sheet.
+3.  **Data Action:** It allows the user to draft and send cold emails to these individuals via the user's Gmail account in a looped batch process.
+
+### 2. Is CPRA Applicable?
+**YES.**
+
+CPRA applies to this agent for the following reasons:
+*   **Collection of Consumer Data:** The agent collects "Personal Information" as defined by CPRA (Cal. Civ. Code § 1798.140(v)), including identifiers (real name, personal email address), professional/employment-related information, and potentially characteristics of protected classifications (Gender).
+*   **No B2B Exemption:** As of January 1, 2023, the exemption for business-to-business (B2B) data expired. Information regarding employees of other companies (prospects/leads) is fully protected under CPRA.
+*   **Enterprise Scope:** As you represent a "large enterprise," you undoubtedly meet the threshold of doing business in California and having annual gross revenues in excess of $25 million, making your organization a covered business.
+
+### 3. Specific CPRA Violations
+The agent configuration introduces **Significant Violations** of CPRA requirements:
+
+*   **Violation of Notice at Collection (Section 1798.100(a)):**
+    The agent collects PI about consumers indirectly (via a third-party broker) and stores it in your corporate Google Drive. The consumers (the leads) are not notified that your enterprise is collecting their data at the point of collection. While People Data Labs may have its own notices, your enterprise is a distinct controller creating a new record of their PI without providing the required "Notice at Collection."
+
+*   **Violation of Right to Delete and Right to Know (Section 1798.105 & 1798.110):**
+    The agent stores PI in ad-hoc Google Sheets (`GoogleSheets.create`). This creates unmanaged "Shadow IT" data silos. If a consumer exercises their Right to Delete or Right to Know (DSAR), your compliance team has no programmatic way to identify that this specific agent created a specific spreadsheet containing that consumer's data. You cannot effectively fulfill a deletion request for data stored in these dynamically generated sheets.
+
+*   **Violation of Data Minimization (Section 1798.100(c)):**
+    CPRA mandates that data collection be "reasonably necessary and proportionate to achieve the purposes."
+    *   The `PeopleDataLabs.searchForPeople` output schema includes **`gender`**, **`birth_date`**, and **`recommended_personal_email`**.
+    *   The Agent Instructions direct the AI to "Export the leads and their relevant data."
+    *   Collecting `gender` and `birth_date` for professional recruiting/sales prospecting is not "necessary" and arguably disproportionate, exposing the organization to liability for collecting protected class data without a specific business need.
+
+### 4. Recommendations for Remediation
+To mitigate these risks, the following changes are required:
+
+1.  **Restrict Data Fields (Hard Filtering):** Modify the agent's instructions or the `PeopleDataLabs` tool wrapper to strictly explicitly **exclude** `gender`, `birth_date`, and `personal_email` from the output. Restrict collection to `work_email`, `job_title`, and `company` only.
+2.  **Integrate with System of Record (CRM):** Disable the `GoogleSheets` capability. Force the agent to write leads into a centralized CRM (e.g., Salesforce, HubSpot) where DSAR (Data Subject Access Request) workflows already exist. This ensures that if a user asks to be deleted, the deletion propagates to these records.
+3.  **Implement "Do Not Contact" Check:** The agent currently loops through leads and sends emails via `Gmail.send` immediately. It lacks a step to check the leads against your internal "Unsubscribe" or "Do Not Contact" lists. This must be added as a logic node before the email action.
+
+### 5. Overall Compliance Rating
+**NON-COMPLIANT**
+
+This agent creates unmanaged repositories of high-risk Personal Information (including potential protected class data) without notice to the consumer and without a mechanism to fulfill deletion requests. It poses a definitive regulatory risk in its current configuration.

@@ -1,0 +1,47 @@
+Agent: Email Triager
+ID: email-triager-697196b1971478a22c30ccbe
+Log file: None
+Regulation: FERPA
+============================================================
+
+Based on the review of the [AGENT_DEFINITION] provided, here is the security and compliance assessment regarding FERPA.
+
+### 1. Summary of Agent Function
+The agent, "Email Triager," connects to a Google Workspace account (specifically authorized for `m@mftestco.com`). Its primary function is to read **every incoming email**, send the content to a Large Language Model (Claude 3.5 Sonnet) for analysis, and classify the email as "Important," "Question," "Newsletter," "Spam," or "Customer FAQ."
+*   If classified as **Spam**, **Newsletter**, or **Important**, it applies a Gmail label.
+*   If classified as **Customer FAQ**, it searches a Knowledge Base and **automatically sends a reply** to the sender without human review.
+
+### 2. Applicability of FERPA
+**Does FERPA apply to this agent?**
+Technically, **No**, based on the specific instance provided.
+*   **Reasoning:** The agent is authenticated against `m@mftestco.com`. This appears to be a commercial enterprise domain ("testco"). FERPA (Family Educational Rights and Privacy Act) applies exclusively to educational agencies and institutions that receive funds from the U.S. Department of Education. It does not apply to standard commercial enterprises unless they are acting as a vendor handling Education Records on behalf of a school.
+
+**However**, as you are a security officer asking specifically about FERPA, the assessment below assumes you are evaluating this tool for deployment within an **Educational Institution** or an **EdTech vendor** handling student data. In that context, the agent processes data that would be subject to FERPA.
+
+### 3. Definitive FERPA Violations (If deployed in an Educational Context)
+If this agent were connected to an account belonging to a "School Official" (e.g., a registrar, professor, or administrator):
+
+**Violation 1: Unauthorized Third-Party Disclosure of Education Records**
+*   **The Issue:** The agent operates by sending the full body and subject of every incoming email to a third-party Large Language Model (Claude 3.5 Sonnet) to perform the logic checks (`Requires label?`).
+*   **The Violation:** Under FERPA, Education Records (which frequently appear in email correspondence regarding grades, discipline, or schedules) cannot be disclosed to third parties without written student consent.
+*   **Why it is a violation:** Unless your organization has a specific Data Processing Addendum (DPA) or Business Associate Agreement (BAA) with the AI vendor (Lindy.ai) *and* the LLM Provider (Anthropic) that strictly prohibits model training and data retention, this constitutes an unauthorized disclosure of protected student data.
+
+**Violation 2: Excessive Privileges / Violation of "Legitimate Educational Interest"**
+*   **The Issue:** The `auth` configuration in the definition requests the following OAuth scopes:
+    *   `https://www.googleapis.com/auth/drive` (Full access to all files)
+    *   `https://www.googleapis.com/auth/documents` (Full access to Docs)
+    *   `https://www.googleapis.com/auth/spreadsheets` (Full access to Sheets)
+*   **The Violation:** The `stateGraph` (logic flow) of the agent **only processes Gmail messages**. It does not perform any operations on Drive, Docs, or Sheets.
+*   **Why it is a violation:** FERPA allows access to records only to officials with a "legitimate educational interest." By granting this agent full read/write access to the user's Google Drive (where student transcripts or rosters may be stored) when the agent's function does not require it, you are failing to implement reasonable administrative controls to limit access to Education Records.
+
+### 4. Recommendations for Remediation
+To make this agent compliant for an educational environment:
+
+1.  **Scope Minimization (Critical):** Update the OAuth configuration to remove `drive`, `documents`, `spreadsheets`, and `calendar` scopes. The agent only requires `gmail.readonly`, `gmail.labels`, and `gmail.compose`.
+2.  **Contractual Review:** Confirm that the enterprise agreement with the AI platform ensures **Zero Data Retention** (ZDR). The data sent to the LLM must be transient and not used for model training.
+3.  **Human-in-the-Loop:** Change the "Customer FAQ" workflow. Instead of the `Send Reply` action, use a `Create Draft` action. FERPA data should not be automatically generated and sent to external parties without human verification of the content.
+
+### 5. Overall Compliance Rating
+**Non-Compliant**
+
+*Note: While the specific instance `mftestco.com` is likely exempt, the agent's configuration is fundamentally non-compliant for handling Education Records due to excessive permissions and automated third-party data transmission.*

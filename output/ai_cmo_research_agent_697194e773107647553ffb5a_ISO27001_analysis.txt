@@ -1,0 +1,56 @@
+Agent: AI CMO | Research Agent
+ID: ai-cmo-research-agent-697194e773107647553ffb5a
+Log file: None
+Regulation: ISO27001
+============================================================
+
+**Assessment of Agent: AI CMO | Research Agent**
+**Agent ID:** `ai-cmo-research-agent-697194e773107647553ffb5a`
+
+### 1. Agent Function Summary
+This agent functions as an automated market researcher. It accepts a company URL from the user, scrapes the website text, and utilizes Perplexity AI to conduct deep research on the company, its competitors, industry, and customer personas.
+
+Crucially, the agent automates the creation of **multiple Google Documents** within the user’s Google Drive to store this research (e.g., Competitor Analysis, Customer Profiles, Brand Guidelines). It then outputs links to these documents back to the user.
+
+### 2. ISO 27001 Applicability
+**ISO 27001 is Applicable.**
+This agent interacts directly with the organization's Information Processing Facilities (Google Workspace) and processes business intelligence data. It creates assets (documents) within the corporate environment and manages access control lists (ACLs) for those assets. Failures in this agent directly threaten the **Confidentiality** (via public link sharing) and **Integrity** (via write permissions) of corporate data, which are core pillars of the ISO 27001 framework.
+
+### 3. Definitive ISO 27001 Violations
+Based on the provided JSON configuration, the following **definitive** violations constitute immediate risk:
+
+**A. Violation of Control A.8.2 (Information Access Restriction) & A.8.4 (Access to Source Code/Configuration)**
+*   **Observation:** In multiple instances of the `GoogleDocs.create` action, the agent explicitly configures the `sharingPreference` to `Anyone with the link can edit`.
+*   **Evidence:**
+    *   **Node `...ffb78` (Competitor Document):** `sharingPreference` value is set to `"Anyone with the link can edit"`.
+    *   **Node `...ffb7c` (Customer Profile):** `sharingPreference` value is set to `"Anyone with the link can edit"`.
+    *   **Node `...ffb85` (Competitor Analysis):** `sharingPreference` value is set to `"Anyone with the link can edit"`.
+    *   *Note:* This pattern repeats for nodes `...ffb86`, `...ffb88`, `...ffb8c`, and `...ffb8a`.
+*   **Risk:** The agent is systematically creating corporate assets with **public read/write permissions**. Anyone guessing or intercepting the URL can view, modify, or inject malicious content into these documents. This is a critical data leakage vector.
+
+**B. Violation of Control A.5.15 (Access Control) & A.8.2 (Privileged Access Rights - Principle of Least Privilege)**
+*   **Observation:** The authentication configuration (Node ID `...2f886`) requests an excessive number of sensitive OAuth scopes that are unused by the agent's logic.
+*   **Evidence:** The `auth` configuration requests:
+    *   `https://www.googleapis.com/auth/gmail.modify` (Read/Write/Delete emails)
+    *   `https://www.googleapis.com/auth/gmail.send` (Send emails)
+    *   `https://www.googleapis.com/auth/calendar.events` (Read/Write calendar)
+    *   `https://www.googleapis.com/auth/spreadsheets` (Read/Write sheets)
+*   **Logic Check:** A review of the state graph shows the agent **only** uses the `GoogleDocs` tool (`create`) and `Browser` tool. It never performs actions related to Gmail, Calendar, or Spreadsheets.
+*   **Risk:** The agent holds "God-mode" permissions over the user's Workspace. If this agent is compromised, the attacker gains full control over the user's email and calendar, despite the agent having no functional need for these capabilities.
+
+**C. Violation of Control A.15.1 (Information Security in Supplier Relationships)**
+*   **Observation:** The agent transmits the user-provided URL and derived company data to a third-party AI processor (`Perplexity`).
+*   **Evidence:** Action Node `...ffb61` and others pass `query` data to `Perplexity`.
+*   **Risk:** There is no logic to filter "Internal" or "Confidential" URLs. If a user inputs a URL to a confidential internal staging site or a private document, that data is transmitted to an external vendor (Perplexity) for processing.
+
+### 4. Remediation Recommendations
+To bring this agent into compliance, the following changes are required immediately:
+
+1.  **Hard-Stop Data Leakage:** Modify all `GoogleDocs.create` action nodes. Change the `sharingPreference` from `"Anyone with the link can edit"` to `"Private (only me)"` or `"Anyone in my organization can view"`.
+2.  **Enforce Least Privilege:** Update the Authentication configuration to strip all unused scopes. Remove permissions for Gmail, Calendar, and Spreadsheets. The scope should be limited strictly to `https://www.googleapis.com/auth/documents` and `https://www.googleapis.com/auth/drive.file`.
+3.  **Input Sanitization:** Implement a logic step prior to the "Search with Perplexity" actions to verify the input URL is not an internal IP address or restricted corporate domain.
+
+### 5. Overall Compliance Rating
+**NON-COMPLIANT**
+
+**Reasoning:** The agent presents a critical severity risk by programmatically generating files with public read/write permissions. Combined with grossly over-provisioned access rights (access to read/write emails without functional need), this agent fails fundamental ISO 27001 controls regarding access control and information security.

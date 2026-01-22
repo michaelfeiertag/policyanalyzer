@@ -1,0 +1,56 @@
+Agent: Agent MonitorAbout 10 hours ago
+ID: agent-monitor-693b3fc7e12822592e50aff0
+Log file: None
+Regulation: SOC2
+============================================================
+
+Based on the review of the provided [AGENT_DEFINITION] (`Agent Monitor`), here is the security and compliance assessment.
+
+### 1. Summary of Agent Function
+The "Agent Monitor" is an automation designed to audit other agents. It listens for the "success" resolution of tasks from three specific source agents: "Brand Monitor Monitor," "Recruiting," and "Board Meeting Monitor."
+
+Upon detecting a completed task in any of these three agents, it executes the following workflow:
+1.  **Fetches Data:** Uses `getTaskDetails` to retrieve the full history, inputs, outputs, and execution blocks of the triggering task.
+2.  **Exfiltrates Data:** Uses `GoogleSheets.appendRow2` to write the raw timestamp, agent name, node, inputs, outputs, and metadata into a centralized Google Spreadsheet named "Lindy Monitoring Events."
+
+### 2. Is SOC 2 Applicable?
+**Yes.**
+
+SOC 2 is highly applicable to this agent for the following reasons:
+*   **Confidentiality (Trust Service Criteria):** The agent explicitly targets high-sensitivity data sources. The trigger `Board Meeting Monitor` implies the processing of Material Non-Public Information (MNPI) or sensitive strategic data.
+*   **Privacy (Trust Service Criteria):** The trigger `Recruiting` implies the processing of Personally Identifiable Information (PII) regarding job candidates (names, salaries, resumes).
+*   **Data Processing Integrity:** The agent acts as a pipeline moving data from a secure processing environment (Lindy execution context) to an external storage environment (Google Sheets).
+
+### 3. Specific SOC 2 Violations
+The following **definitive** violations were identified in the configuration. These are not speculative; they are explicit misconfigurations in the JSON logic.
+
+**A. Violation of Least Privilege (CC6.1, CC6.3)**
+*   **Evidence:** The Google Sheets action (`appendRow2`) utilizes an OAuth connection (`m@mftestco.com`) with grossly excessive permissions.
+*   **The Violation:** The agent acts solely to append a row to a spreadsheet. However, the authorized scopes in the definition include:
+    *   `https://www.googleapis.com/auth/gmail.send` (Send email)
+    *   `https://www.googleapis.com/auth/gmail.modify` (Read/Delete email)
+    *   `https://www.googleapis.com/auth/drive` (Full access to all files)
+*   **Risk:** If this agent's authentication token is compromised, an attacker gains full control over the user's email and entire Google Drive, far exceeding the scope required for the agent's function.
+
+**B. Violation of Confidentiality and Data Segregation (CC6.1, CC6.5)**
+*   **Evidence:** The agent aggregates logs from `Board Meeting Monitor` and `Recruiting` into the *same* destination Google Sheet (`Lindy Monitoring Events`) without conditional logic or sanitization.
+*   **The Violation:** Commingling PII (Recruiting) and MNPI (Board Meetings) into a single monitoring log creates a "toxic combination" of data. It forces the security classification of the destination Sheet to match the highest level of sensitivity (Board level), but "Monitoring" sheets generally have broader access visibility than Board Minutes.
+*   **Risk:** Unauthorized disclosure of sensitive board discussions or candidate PII to IT staff or analysts who only have clearance to view "Brand Monitor" logs.
+
+**C. Failure to Sanitize Sensitive Data (Privacy Principle)**
+*   **Evidence:** The `appendRow2` mapping writes the raw `outputs` and `inputs` from the source task directly to the sheet column.
+*   **The Violation:** There is no intermediate step in the state graph to redact, hash, or filter sensitive data.
+*   **Risk:** Raw PII (e.g., candidate phone numbers) and confidential text are being written in cleartext to an external storage provider.
+
+### 4. Remediation Recommendations
+1.  **Scope Reduction:** Immediately revoke the current Google OAuth token. Re-authenticate the agent using a dedicated Service Account that has *only* the `.../auth/spreadsheets` scope. Remove Gmail and full Drive scopes.
+2.  **Data Segregation:** Split this agent into three separate monitoring agents, or implement logic to write to three distinct Spreadsheets with different Access Control Lists (ACLs):
+    *   `Log_Brand` (Low sensitivity)
+    *   `Log_Recruiting` (Restricted/PII)
+    *   `Log_Board` (Highly Restricted)
+3.  **Data Minimization:** Modify the `getTaskDetails` output or the write step to only log metadata (Task ID, Status, Timestamp) rather than the full `inputs` and `outputs` payload for the Recruiting and Board Meeting streams.
+
+### 5. Overall Compliance Rating
+**NON-COMPLIANT**
+
+This agent presents a critical risk. It creates a mechanism that automatically copies the organization's most sensitive data (Board and HR info) into a generic spreadsheet using an over-privileged identity that exposes the corporate email system. It must be disabled immediately.

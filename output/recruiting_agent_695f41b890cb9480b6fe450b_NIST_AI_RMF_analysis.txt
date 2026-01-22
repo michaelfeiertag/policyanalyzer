@@ -1,0 +1,81 @@
+Agent: Recruiting Agent13 days ago+2
+ID: recruiting-agent-695f41b890cb9480b6fe450b
+Log file: None
+Regulation: NIST-AI-RMF
+============================================================
+
+**Assessment Report: NIST AI RMF Compliance**
+
+**Agent Name:** Recruiting Agent
+**Agent ID:** recruiting-agent-695f41b890cb9480b6fe450b
+**Assessment Date:** [Current Date]
+**Assessor:** Security & Compliance Officer
+
+---
+
+### 1. Summary of Agent Function
+The "Recruiting Agent" is a Generative AI automation designed to source candidates and companies using **People Data Labs (PDL)**. It performs the following specific workflows:
+1.  **Data Harvesting:** Searches for people or companies based on natural language criteria (e.g., role, location, skills).
+2.  **Data Processing:** Aggregates PII (Personally Identifiable Information) including full names, **personal emails**, mobile phones, and employment history into a **Google Sheet**.
+3.  **Outreach Automation:** Contains a logic loop to draft and send emails via **Gmail** to the identified leads. The loop is configured to handle up to **500 iterations** (emails) in a single run.
+
+---
+
+### 2. NIST AI RMF Applicability
+**Status:** **APPLICABLE**
+
+**Reasoning:**
+The NIST AI Risk Management Framework (AI RMF 1.0) applies to this agent because it is a generative system that:
+*   **Affects Individuals (Rights & Privacy):** It aggregates and processes sensitive PII (Map 1.5).
+*   **Exhibits Autonomy:** It makes decisions on search parameters and email content generation (Map 1.2).
+*   **Interacts with Critical Systems:** It has write access to enterprise communication (Gmail) and storage (Drive) systems (Manage 2.3).
+
+This agent operates within the **"Specific AI System"** profile, requiring strict adherence to the *Secure*, *Privacy-Enhanced*, and *Safe* characteristics of the framework.
+
+---
+
+### 3. Significant NIST AI RMF Violations
+The following are definitive, non-speculative violations based on the provided configuration.
+
+#### **Violation A: Violation of Least Privilege (NIST AI RMF: Secure 2.3)**
+*   **Severity:** **Critical**
+*   **Observation:** The agent’s authentication configuration (`auth` object `693b2e84e6a088955f32f886`) requests and grants **Full Access** to Google Drive (`https://www.googleapis.com/auth/drive`), Google Documents (`.../documents`), and Google Calendar (`.../calendar.events`).
+*   **Analysis:** The agent *only* utilizes Google Sheets and Gmail actions. There is no operational need for the agent to have read/write access to all files in Google Drive or the user's Calendar.
+*   **Risk:** If this agent is compromised (e.g., via prompt injection from the PDL data source), the attacker gains full access to exfiltrate or modify the user's entire corporate document repository and schedule, not just the recruiting spreadsheets.
+
+#### **Violation B: Excessive PII Aggregation / Privacy Design (NIST AI RMF: Privacy-Enhanced 1.5)**
+*   **Severity:** **High**
+*   **Observation:** The system prompt instructions explicitly demand: *"The bare minimum fields you should return is... Personal Email"*.
+*   **Analysis:** The agent is designed to bypass corporate communication channels (Work Email) and prioritize harvesting **Personal Emails** and **Mobile Phones** from a third-party aggregator (PDL).
+*   **Risk:** This creates immediate regulatory exposure (GDPR/CCPA). Storing personal contact details of non-consenting individuals in corporate spreadsheets creates a "Toxic Data" liability. The agent lacks mechanisms to verify if the lead has opted out of such data collection.
+
+#### **Violation C: Unsafe Automation / Reputation Risk (NIST AI RMF: Safe 1.2)**
+*   **Severity:** **High**
+*   **Observation:** The agent includes a loop (`LindyControlFlow.enterLoop`) configured with a `maxIterations` value of **500**.
+*   **Analysis:** While the `Gmail.send` action has `requireConfirmation: "Always"`, the architectural capacity to queue 500 emails from a standard Google Workspace user account is a safety flaw.
+*   **Risk:** Sending 500 emails in a short burst from a primary corporate account mimics spam behavior. This creates a high probability of the organization's email domain being blacklisted (DKIM/SPF reputation damage). The "Always" confirmation mitigates accidental sending, but does not mitigate the risk of a user approving a batch that triggers spam filters.
+
+---
+
+### 4. Remediation Recommendations
+
+1.  **Scope Hardening (Immediate):**
+    *   Revoke the current authentication token.
+    *   Re-issue credentials utilizing **strictly granular scopes**: `https://www.googleapis.com/auth/spreadsheets` and `https://www.googleapis.com/auth/gmail.send`.
+    *   Remove `drive`, `documents`, and `calendar` scopes entirely.
+
+2.  **Privacy Configuration:**
+    *   Modify the System Instructions to prioritize `work_email`.
+    *   Remove the instruction mandating `recommended_personal_email` and `mobile_phone` unless a specific legal basis for processing this data is established and documented.
+
+3.  **Rate Limiting & Safety:**
+    *   Reduce `maxIterations` in the loop configuration from 500 to a safe threshold (e.g., 20-50) to prevent accidental mass-spamming.
+    *   Enforce `saveAsDraft: true` in the `ActionConfiguration` for the Gmail node, forcing the user to manually review and click "Send" inside the Gmail interface, rather than allowing the AI to dispatch messages directly.
+
+---
+
+### 5. Overall Compliance Rating
+
+**Rating:** **NON-COMPLIANT**
+
+**Justification:** The agent creates unacceptable organizational risk through grossly over-privileged access rights (Violation A). It violates fundamental security principles by holding keys to the entire Google Drive environment while only needing access to Sheets. Until the OAuth scopes are minimized and the PII collection strategy is reviewed by legal, this agent must not be deployed.

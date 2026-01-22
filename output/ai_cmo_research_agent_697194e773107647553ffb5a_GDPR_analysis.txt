@@ -1,0 +1,62 @@
+Agent: AI CMO | Research Agent
+ID: ai-cmo-research-agent-697194e773107647553ffb5a
+Log file: None
+Regulation: GDPR
+============================================================
+
+Based on the review of the provided [AGENT_DEFINITION], here is the security and compliance assessment regarding GDPR.
+
+### 1. Summary of Agent Function
+The **AI CMO | Research Agent** is an automated market intelligence tool. Its primary workflow involves:
+1.  Accepting a company URL from the user.
+2.  Using Perplexity AI (`sonar-reasoning-pro` and `sonar-deep-research`) to scrape the web for the target company and identify its top 3 competitors.
+3.  Conducting deep research on these entities, specifically targeting: business fundamentals, product details, **founders/employees**, and **customer feedback**.
+4.  Scraping social media platforms (LinkedIn, X, TikTok) and review sites (G2, TrustPilot).
+5.  Generating marketing assets (Personas, Journey Maps, Battlecards) using GPT-5.
+6.  Exporting this data into external Google Docs within the user's Drive.
+
+### 2. GDPR Applicability
+**GDPR is Applicable.**
+
+*   **Processing of Personal Data:** The agent explicitly queries for and processes Personal Identifiable Information (PII). Specifically, the `Deep Competitor Research` node (ID: `697194e773107647553ffb73`) contains prompts instructing the AI to find:
+    *   **"Founders"**: Names of specific individuals.
+    *   **"Known Customers"**: Names of specific individuals or entities using the products.
+    *   **"Verbatim Quotes"**: Direct quotes from customer review platforms (G2, Capterra, TrustPilot), which are often linked to specific user profiles.
+    *   **"Social Media Presence"**: Specific handles and followers on platforms like LinkedIn and X.
+*   **Territorial Scope:** The agent accepts *any* URL. If a user inputs a URL for a company based in the EU, or if the competitors/customers identified are EU citizens, the agent processes EU data subjects' information.
+*   **Controller/Processor:** Your organization acts as the Data Controller by defining the instructions (the agent configuration) for data collection.
+
+### 3. Specific GDPR Violations
+The following definitive violations present practical risk based on the current configuration:
+
+*   **Violation of Article 14 (Information to be provided where personal data have not been obtained from the data subject):**
+    *   **Risk:** The agent scrapes data about third parties (competitor founders, customers leaving reviews) who are *not* the user interacting with the agent. These data subjects are not notified that their data is being collected, aggregated, and processed into a report.
+    *   **Evidence:** Node `697194e773107647553ffb73` instructs the AI to search "Professional networks (LinkedIn)" and "Customer review platforms" to extract "Known Customers" and "Verbatim Quotes."
+
+*   **Violation of Article 6 (Lawfulness of Processing) - Invalid Legal Basis for Scraping:**
+    *   **Risk:** The agent instructs the AI to use "Professional networks (LinkedIn)" and "Social media presence" as data sources. Scraping personal data from LinkedIn or similar platforms for commercial enrichment usually violates platform Terms of Service, which undermines "Legitimate Interest" as a GDPR legal basis.
+    *   **Evidence:** The prompt in `Deep Competitor Research` explicitly lists "Professional networks (LinkedIn...)" as a research methodology.
+
+*   **Violation of Article 5(1)(c) (Data Minimization):**
+    *   **Risk:** The agent collects "Verbatim Quotes" and "Known Customers." For the purpose of high-level market research, aggregate sentiment analysis is sufficient. Collecting specific identities and raw quotes constitutes excessive data collection relative to the purpose.
+
+*   **Violation of Article 44 (International Transfers):**
+    *   **Risk:** The agent sends scraped data to Perplexity (US-based) and OpenAI (via the "gpt5" model specified in `Customer Profile` actions), and stores it in Google Docs. If the scraped subject is an EU citizen, this constitutes a transfer of PII to US processors without visible safeguards (SCCs/DPF) configured in the agent definition.
+
+### 4. Recommendations for Remediation
+To mitigate these risks while maintaining agent functionality:
+
+1.  **Modify Research Prompts (Anonymization):**
+    *   Update the `Deep Competitor Research` prompt (Node `697194e773107647553ffb73`) to explicitly forbid the collection of PII.
+    *   *Change:* "Find Known Customers and Verbatim Quotes" $\rightarrow$ "Summarize general customer sentiment and list types of industries served. Do not include specific individual names or personal identifiers."
+2.  **Exclude Social Media Scraping:**
+    *   Remove instructions to search "Professional networks (LinkedIn)" for individual profiles. Restrict the agent to searching *official corporate* LinkedIn/Social pages only, not individual employees or founders.
+3.  **Implement a "Human-in-the-Loop" Warning:**
+    *   Add a logic step that warns the user: "This report may contain public data. Please verify that you are not processing Personal Identifiable Information (PII) of EU citizens before sharing or exporting."
+4.  **Review Sub-processor Agreements:**
+    *   Ensure your enterprise agreements with Perplexity and OpenAI cover the ingestion of third-party PII if you intend to keep the "Founder" research active (as this is B2B data, it is lower risk but still requires coverage).
+
+### 5. Overall Compliance Rating
+**NON-COMPLIANT**
+
+The agent is currently configured to actively scrape and process third-party personal data (customers and founders) from external sources without notice or consent mechanisms. This creates immediate regulatory exposure under GDPR Articles 6 and 14.
