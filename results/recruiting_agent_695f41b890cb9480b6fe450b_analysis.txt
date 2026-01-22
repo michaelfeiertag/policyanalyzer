@@ -1,0 +1,51 @@
+Agent: Recruiting Agent
+ID: recruiting-agent-695f41b890cb9480b6fe450b
+Log file: None
+Regulation: GDPR
+============================================================
+
+Based on the review of the [AGENT_DEFINITION] provided, here is the security and compliance assessment regarding GDPR.
+
+### 1. Summary of Agent Function
+The "Recruiting Agent" is an automated sourcing and outreach bot. Its workflow is:
+1.  **Data Collection:** Uses the `People Data Labs` (PDL) API to search for individuals based on criteria (role, location, company). It retrieves extensive PII (Personally Identifiable Information).
+2.  **Data Processing:** Aggregates this data into a Google Sheet.
+3.  **Data Activation:** Offers a looping function to send automated emails to these individuals via Gmail using user-provided templates.
+
+### 2. GDPR Applicability
+**Status: APPLICABLE**
+
+GDPR applies to this agent for the following reasons:
+*   **Processing of Personal Data:** The agent explicitly fetches and stores "Personal Data" as defined in Article 4(1), including: `full_name`, `personal_email`, `mobile_phone`, `birth_date`, `location`, and `employment_history`.
+*   **Territorial Scope:** The agent supports filtering by `location_country`. If a user searches for candidates within the EU (e.g., "Engineers in Berlin"), or if the database contains EU citizens regardless of search parameters, the agent is processing EU data subjects' information.
+*   **Profiling:** The agent aggregates data to create professional profiles for the specific purpose of recruitment, which constitutes "profiling" under GDPR.
+
+### 3. Specific Violations
+The following are **definitive, significant violations** based on the agent's configuration and logic flow. These are not speculative; they are "Privacy by Design" failures inherent to the JSON definition provided.
+
+**A. Violation of Data Minimization (Article 5(1)(c))**
+*   **Evidence:** The `People Data Labs` output schema explicitly requests/receives `birth_date`, `gender`, and `mobile_phone`.
+*   **Risk:** Processing Date of Birth and Gender is irrelevant and excessive for the initial purpose of professional sourcing. There is no legal justification for collecting this sensitive demographic data at the sourcing stage.
+
+**B. Failure to provide Fair Processing Notice (Article 14)**
+*   **Evidence:** The agent collects data from a third party (PDL), not the subject directly. Under Article 14, the Data Controller must notify the data subject that their data has been collected within one month or at the time of first communication.
+*   **Risk:** The `Gmail` action guidelines instruct the agent: *"Do not add any concluding remarks... This field is only meant to contain the body of the email."* There is no systemic enforcement of a privacy notice, opt-out link, or source-of-data disclosure in the email logic.
+
+**C. Insufficient Legal Basis for Direct Marketing/Outreach (Article 6 & ePrivacy Directive)**
+*   **Evidence:** The output schema prioritizes `recommended_personal_email` and `mobile_phone`. The agent allows cold emailing these addresses.
+*   **Risk:** Sending unsolicited recruitment emails to **personal** email addresses (as opposed to corporate addresses) generally requires prior Consent (Opt-in) in many EU jurisdictions. "Legitimate Interest" is frequently rejected by DPAs for cold outreach to personal accounts.
+
+### 4. Recommendations for Remediation
+To move this agent toward compliance, the following changes are required:
+
+1.  **Schema restriction (Data Minimization):** Modify the `People Data Labs` input/output filters to strictly **exclude** `birth_date`, `gender`, and `mobile_phone`. Only professional data (Current Role, Company, Professional Email) should be retrieved.
+2.  **Hard-coded Compliance Footer:** Modify the Gmail action prompt Instructions. Instead of allowing the user full control, force the agent to append a footer to every email containing:
+    *   Reason for contact (Legitimate Interest statement).
+    *   Link to your organization's Privacy Policy.
+    *   Explicit Opt-out/Unsubscribe instruction.
+3.  **Logic Logic Restriction:** Hard-code the agent to prefer `work_email`. If `work_email` is null, the agent should **not** automatically default to emailing `personal_email` without a "Human in the Loop" verification step, as this carries high regulatory risk.
+
+### 5. Overall Compliance Rating
+**NON-COMPLIANT**
+
+**Reasoning:** The agent is currently configured to collect excessive sensitive data (Birth Dates) and facilitate cold outreach to personal identifiers without built-in safeguards for Notice (Art. 14) or Consent, creating immediate actionable risk for the enterprise.

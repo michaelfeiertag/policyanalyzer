@@ -8,6 +8,7 @@ import sys
 
 from google import genai
 from google.genai import errors as genai_errors
+from google.genai import types
 
 
 def load_regulations() -> list[str]:
@@ -101,18 +102,19 @@ def main() -> int:
     # Substitute variables in prompt template
     prompt_template = prompt_template.replace("$(REGULATION)", regulation)
 
-    # Build the full prompt
-    full_prompt = prompt_template
-    full_prompt += f"\n\n## Agent Definition\n{agent_definition}"
+    # Build content parts with labels
+    parts = [
+        types.Part.from_text(text=prompt_template),
+        types.Part.from_text(text=f"[AGENT_DEFINITION]\n{agent_definition}"),
+    ]
     if sample_log:
-        full_prompt += f"\n\n## Sample Log\n{sample_log}"
+        parts.append(types.Part.from_text(text=f"[SAMPLE_LOG]\n{sample_log}"))
     if custom_policy:
-        full_prompt += f"\n\n## Custom Policy\n{custom_policy}"
-    if regulation:
-        full_prompt += f"\n\n## Regulation\n{regulation}"
+        parts.append(types.Part.from_text(text=f"[CUSTOM_POLICY]\n{custom_policy}"))
 
     if args.verbose:
-        print(f"Prompt length: {len(full_prompt)} characters", file=sys.stderr)
+        total_len = sum(len(p.text) for p in parts)
+        print(f"Total content length: {total_len} characters ({len(parts)} parts)", file=sys.stderr)
 
     # Configure and call Gemini
     api_key = os.environ.get("GEMINI_API_KEY")
@@ -126,7 +128,7 @@ def main() -> int:
             print(f"Using model: {args.model}", file=sys.stderr)
         response = client.models.generate_content(
             model=args.model,
-            contents=full_prompt,
+            contents=types.Content(role="user", parts=parts),
         )
         print(response.text)
     except genai_errors.ClientError as e:

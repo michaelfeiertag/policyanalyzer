@@ -1,4 +1,4 @@
-Given the attached Lindy agent configuration and activity log, does this agent do anything that is relevant to $(REGULATION)? Does it violate $(REGULATION)? I don't want anything speculative, just definitive violations.
+I am a security and compliance officer at a large enterprise. I am assessing a large number of agents to determine what regulatory and compliance risk they introduce. I have attached the definition of a single Lindy agent as [AGENT_DEFINITION], and a sample trace of its inputs and outputs as [SAMPLE_LOG]. Does $(REGULATION) apply to this agent? Does the agent violate $(REGULATION). I don't want anything speculative, just definitive, significant violations. I will have to review thousands of such agents and policies, so only raise important violations that can present practical risk to my organization.
 
 Provide an assessment including:
 1. Summary of the agent's funtion.
@@ -6,6 +6,3 @@ Provide an assessment including:
 3. Whether specific violations of $(REGULATION) are found.
 4. Specific recommendations for remediation
 5. Overall compliance rating (Compliant, Partially Compliant, Non-Compliant)
-
-
-
