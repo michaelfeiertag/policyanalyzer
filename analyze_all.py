@@ -172,7 +172,12 @@ def run_policy_analyzer(
         elapsed = time.time() - start
         output = result.stdout
         if result.returncode != 0:
-            return False, result.stderr or "Unknown error", elapsed
+            error_msg = result.stderr or result.stdout or "Unknown error"
+            return False, error_msg, elapsed
+        # Check if output contains error indicators
+        if not output or "Error:" in output or "error:" in output.split('\n')[0]:
+            error_msg = output or "Empty response"
+            return False, error_msg, elapsed
         return True, output, elapsed
     except Exception as e:
         return False, str(e), 0.0

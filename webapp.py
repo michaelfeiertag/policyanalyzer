@@ -7,12 +7,12 @@ import json
 import re
 import os
 from pathlib import Path
-from flask import Flask, render_template_string, abort
+from flask import Flask, render_template_string, abort, request
 
 app = Flask(__name__)
 
 # Default results directory
-RESULTS_DIR = Path(__file__).parent / "results"
+RESULTS_DIR = Path(__file__).parent / "output"
 
 # HTML Templates
 BASE_TEMPLATE = """
@@ -119,16 +119,24 @@ BASE_TEMPLATE = """
             color: var(--text-muted);
             margin-bottom: 12px;
         }
-        .agent-card .summary {
-            font-size: 14px;
-            color: var(--text-muted);
+        .agent-card .regulations {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
             margin-top: 12px;
+        }
+        .agent-card .reg-badge {
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 12px;
+            text-decoration: none;
         }
 
         .stats {
             display: flex;
             gap: 24px;
             margin-bottom: 24px;
+            flex-wrap: wrap;
         }
         .stat {
             background: var(--bg-secondary);
@@ -136,6 +144,7 @@ BASE_TEMPLATE = """
             border-radius: 6px;
             padding: 20px 24px;
             text-align: center;
+            min-width: 120px;
         }
         .stat-value {
             font-size: 32px;
@@ -200,19 +209,27 @@ BASE_TEMPLATE = """
             position: sticky;
             top: 20px;
         }
+        .sidebar h4 {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            margin-top: 16px;
+        }
+        .sidebar h4:first-child { margin-top: 0; }
         .sidebar-nav {
             list-style: none;
         }
         .sidebar-nav li {
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
         .sidebar-nav a {
             display: block;
-            padding: 8px 12px;
+            padding: 6px 12px;
             color: var(--text-muted);
             text-decoration: none;
             border-radius: 4px;
-            font-size: 14px;
+            font-size: 13px;
         }
         .sidebar-nav a:hover {
             background: var(--bg);
@@ -225,14 +242,81 @@ BASE_TEMPLATE = """
 
         .two-column {
             display: grid;
-            grid-template-columns: 250px 1fr;
+            grid-template-columns: 280px 1fr;
             gap: 24px;
         }
+
+        .filter-bar {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 16px;
+            margin-bottom: 24px;
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .filter-bar label {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+        .filter-bar select {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        td a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        td a:hover { text-decoration: underline; }
+
+        .matrix {
+            overflow-x: auto;
+        }
+        .matrix table {
+            min-width: 100%;
+        }
+        .matrix th, .matrix td {
+            text-align: center;
+            padding: 8px;
+            font-size: 13px;
+        }
+        .matrix th:first-child, .matrix td:first-child {
+            text-align: left;
+            position: sticky;
+            left: 0;
+            background: var(--bg-secondary);
+        }
+        .matrix .cell-compliant { background: rgba(63, 185, 80, 0.2); }
+        .matrix .cell-partial { background: rgba(210, 153, 34, 0.2); }
+        .matrix .cell-non-compliant { background: rgba(248, 81, 73, 0.2); }
+        .matrix .cell-missing { background: var(--bg); color: var(--text-muted); }
 
         @media (max-width: 768px) {
             .two-column { grid-template-columns: 1fr; }
             .stats { flex-wrap: wrap; }
-            .stat { flex: 1 1 150px; }
+            .stat { flex: 1 1 100px; }
         }
     </style>
 </head>
@@ -242,6 +326,7 @@ BASE_TEMPLATE = """
             <h1><a href="/">Policy Analyzer</a></h1>
             <nav>
                 <a href="/">Dashboard</a>
+                <a href="/matrix">Compliance Matrix</a>
             </nav>
         </div>
     </header>
@@ -260,8 +345,16 @@ DASHBOARD_TEMPLATE = """
 
 <div class="stats">
     <div class="stat">
-        <div class="stat-value">{{ total }}</div>
-        <div class="stat-label">Total Agents</div>
+        <div class="stat-value">{{ total_analyses }}</div>
+        <div class="stat-label">Total Analyses</div>
+    </div>
+    <div class="stat">
+        <div class="stat-value">{{ total_agents }}</div>
+        <div class="stat-label">Agents</div>
+    </div>
+    <div class="stat">
+        <div class="stat-value">{{ total_regulations }}</div>
+        <div class="stat-label">Regulations</div>
     </div>
     <div class="stat stat-compliant">
         <div class="stat-value">{{ compliant }}</div>
@@ -269,7 +362,7 @@ DASHBOARD_TEMPLATE = """
     </div>
     <div class="stat stat-partial">
         <div class="stat-value">{{ partial }}</div>
-        <div class="stat-label">Partially Compliant</div>
+        <div class="stat-label">Partial</div>
     </div>
     <div class="stat stat-non-compliant">
         <div class="stat-value">{{ non_compliant }}</div>
@@ -277,20 +370,86 @@ DASHBOARD_TEMPLATE = """
     </div>
 </div>
 
+<div class="filter-bar">
+    <label>Filter by regulation:</label>
+    <select onchange="window.location.href='/?regulation='+this.value">
+        <option value="">All regulations</option>
+        {% for reg in regulations %}
+        <option value="{{ reg }}" {% if selected_regulation == reg %}selected{% endif %}>{{ reg }}</option>
+        {% endfor %}
+    </select>
+</div>
+
 <div class="grid">
     {% for agent in agents %}
     <div class="agent-card">
         <h3><a href="/agent/{{ agent.id }}">{{ agent.name }}</a></h3>
         <div class="meta">
-            {{ agent.regulation }}
+            {{ agent.analysis_count }} analysis{% if agent.analysis_count != 1 %}es{% endif %}
             {% if agent.has_log %} &bull; Has execution log{% endif %}
         </div>
-        <span class="badge badge-{{ agent.rating_class }}">{{ agent.rating }}</span>
-        {% if agent.summary %}
-        <div class="summary">{{ agent.summary }}</div>
-        {% endif %}
+        <div class="regulations">
+            {% for reg in agent.regulations %}
+            <a href="/agent/{{ agent.id }}/{{ reg.name }}"
+               class="reg-badge badge-{{ reg.rating_class }}"
+               title="{{ reg.rating }}">{{ reg.name }}</a>
+            {% endfor %}
+        </div>
     </div>
     {% endfor %}
+</div>
+{% endblock %}
+"""
+
+MATRIX_TEMPLATE = """
+{% extends "base" %}
+{% block title %}Compliance Matrix - Policy Analyzer{% endblock %}
+{% block content %}
+<h2 style="margin-bottom: 24px;">Compliance Matrix</h2>
+
+<div class="card">
+    <div class="card-body matrix">
+        <table>
+            <thead>
+                <tr>
+                    <th>Agent</th>
+                    {% for reg in regulations %}
+                    <th>{{ reg }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for agent in agents %}
+                <tr>
+                    <td><a href="/agent/{{ agent.id }}">{{ agent.name }}</a></td>
+                    {% for reg in regulations %}
+                    {% set result = agent.by_regulation.get(reg) %}
+                    {% if result %}
+                    <td class="cell-{{ result.rating_class }}">
+                        <a href="/agent/{{ agent.id }}/{{ reg }}" title="{{ result.rating }}">
+                            {% if result.rating_class == 'compliant' %}&#10003;
+                            {% elif result.rating_class == 'partial' %}~
+                            {% elif result.rating_class == 'non-compliant' %}&#10007;
+                            {% else %}?{% endif %}
+                        </a>
+                    </td>
+                    {% else %}
+                    <td class="cell-missing">-</td>
+                    {% endif %}
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div style="margin-top: 16px; font-size: 13px; color: var(--text-muted);">
+    Legend:
+    <span style="color: var(--green);">&#10003; Compliant</span> &bull;
+    <span style="color: var(--yellow);">~ Partial</span> &bull;
+    <span style="color: var(--red);">&#10007; Non-Compliant</span> &bull;
+    <span>- Not analyzed</span>
 </div>
 {% endblock %}
 """
@@ -301,18 +460,37 @@ AGENT_TEMPLATE = """
 {% block content %}
 <div class="breadcrumb">
     <a href="/">Dashboard</a> <span>/</span> {{ agent.name }}
+    {% if selected_regulation %}<span>/</span> {{ selected_regulation }}{% endif %}
 </div>
 
 <div class="two-column">
     <div class="sidebar">
+        <h4>Regulations</h4>
+        <nav>
+            <ul class="sidebar-nav">
+                {% for reg in agent.regulations %}
+                <li>
+                    <a href="/agent/{{ agent.id }}/{{ reg.name }}"
+                       {% if reg.name == selected_regulation %}class="active"{% endif %}>
+                        {{ reg.name }}
+                        <span class="badge badge-{{ reg.rating_class }}" style="float:right; padding: 2px 6px; font-size: 10px;">
+                            {{ reg.rating_short }}
+                        </span>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </nav>
+
+        <h4>Other Agents</h4>
         <nav>
             <ul class="sidebar-nav">
                 {% for a in all_agents %}
+                {% if a.id != agent.id %}
                 <li>
-                    <a href="/agent/{{ a.id }}" {% if a.id == agent.id %}class="active"{% endif %}>
-                        {{ a.name }}
-                    </a>
+                    <a href="/agent/{{ a.id }}">{{ a.name }}</a>
                 </li>
+                {% endif %}
                 {% endfor %}
             </ul>
         </nav>
@@ -324,16 +502,22 @@ AGENT_TEMPLATE = """
                 <div>
                     <h2 style="font-size: 20px;">{{ agent.name }}</h2>
                     <div style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">
-                        {{ agent.regulation }}
-                        {% if agent.has_log %} &bull; Analyzed with execution log{% endif %}
+                        {% if selected_regulation %}{{ selected_regulation }}{% else %}Select a regulation{% endif %}
+                        {% if analysis and analysis.has_log %} &bull; Analyzed with execution log{% endif %}
                     </div>
                 </div>
-                <span class="badge badge-{{ agent.rating_class }}">{{ agent.rating }}</span>
+                {% if analysis %}
+                <span class="badge badge-{{ analysis.rating_class }}">{{ analysis.rating }}</span>
+                {% endif %}
             </div>
             <div class="card-body">
+                {% if analysis %}
                 <div class="analysis-content">
-                    {{ agent.content_html | safe }}
+                    {{ analysis.content_html | safe }}
                 </div>
+                {% else %}
+                <p style="color: var(--text-muted);">Select a regulation from the sidebar to view the analysis.</p>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -349,7 +533,7 @@ def parse_analysis_file(filepath: Path) -> dict:
 
     # Parse header
     agent_name = ""
-    agent_id = filepath.stem
+    agent_id = ""
     log_file = None
     regulation = ""
 
@@ -368,45 +552,58 @@ def parse_analysis_file(filepath: Path) -> dict:
             header_end = i + 1
             break
 
+    # Extract from filename if not in header
+    # Format: {agent_id}_{regulation}_analysis.txt
+    if not agent_id or not regulation:
+        fname = filepath.stem  # e.g., "chat_68421cb7c22d7402e81f5fc9_GDPR_analysis"
+        if fname.endswith('_analysis'):
+            fname = fname[:-9]  # Remove _analysis
+            # Find regulation (last part after final underscore that matches known patterns)
+            parts = fname.rsplit('_', 1)
+            if len(parts) == 2:
+                potential_reg = parts[1]
+                potential_id = parts[0]
+                # Simple heuristic: regulations are usually uppercase or known names
+                if potential_reg.isupper() or potential_reg in ['ePrivacy_Directive']:
+                    if not regulation:
+                        regulation = potential_reg.replace('_', '-')
+                    if not agent_id:
+                        agent_id = potential_id
+
+    if not agent_id:
+        agent_id = filepath.stem
+
     # Get analysis content
     analysis_content = '\n'.join(lines[header_end:]).strip()
 
     # Detect compliance rating
     rating = "Unknown"
     rating_class = "unknown"
+    rating_short = "?"
 
     content_lower = content.lower()
     if 'non-compliant' in content_lower or 'non compliant' in content_lower:
         rating = "Non-Compliant"
         rating_class = "non-compliant"
+        rating_short = "NC"
     elif 'partially compliant' in content_lower:
         rating = "Partially Compliant"
         rating_class = "partial"
-    elif 'compliant' in content_lower:
-        # Check if it's actually compliant (not just mentioning the word)
-        if re.search(r'rating[:\s]*(is\s+)?compliant|overall[:\s]*(is\s+)?compliant|\*\*compliant\*\*', content_lower):
-            rating = "Compliant"
-            rating_class = "compliant"
-        else:
-            rating = "Non-Compliant"
-            rating_class = "non-compliant"
-
-    # Extract summary (first paragraph of the analysis usually)
-    summary = ""
-    summary_match = re.search(r'summary.*?function[:\s]*\n+(.*?)(?:\n\n|\n###|\n\d\.)', analysis_content, re.IGNORECASE | re.DOTALL)
-    if summary_match:
-        summary = summary_match.group(1).strip()[:200]
-        if len(summary_match.group(1).strip()) > 200:
-            summary += "..."
+        rating_short = "PC"
+    elif re.search(r'rating[:\s]*(is\s+)?compliant|overall[:\s]*(is\s+)?compliant|\*\*compliant\*\*|#\s*compliant', content_lower):
+        rating = "Compliant"
+        rating_class = "compliant"
+        rating_short = "C"
 
     return {
-        "id": agent_id,
-        "name": agent_name or agent_id,
+        "file": filepath,
+        "agent_id": agent_id,
+        "agent_name": agent_name or agent_id,
         "regulation": regulation,
         "has_log": log_file is not None,
         "rating": rating,
         "rating_class": rating_class,
-        "summary": summary,
+        "rating_short": rating_short,
         "content": analysis_content,
     }
 
@@ -414,36 +611,85 @@ def parse_analysis_file(filepath: Path) -> dict:
 def markdown_to_html(text: str) -> str:
     """Convert markdown-like text to HTML."""
     import markdown
-    # Convert markdown to HTML
     html = markdown.markdown(text, extensions=['tables', 'fenced_code'])
     return html
 
 
-def get_all_agents() -> list[dict]:
+def get_all_analyses() -> list[dict]:
     """Load all analysis results."""
-    agents = []
+    analyses = []
     if RESULTS_DIR.exists():
         for f in sorted(RESULTS_DIR.glob("*.txt")):
             try:
-                agents.append(parse_analysis_file(f))
+                analyses.append(parse_analysis_file(f))
             except Exception as e:
                 print(f"Error parsing {f}: {e}")
-    return agents
+    return analyses
+
+
+def group_by_agent(analyses: list[dict]) -> list[dict]:
+    """Group analyses by agent."""
+    agents = {}
+    for a in analyses:
+        aid = a['agent_id']
+        if aid not in agents:
+            agents[aid] = {
+                'id': aid,
+                'name': a['agent_name'],
+                'has_log': a['has_log'],
+                'regulations': [],
+                'by_regulation': {},
+                'analysis_count': 0
+            }
+        agents[aid]['regulations'].append({
+            'name': a['regulation'],
+            'rating': a['rating'],
+            'rating_class': a['rating_class'],
+            'rating_short': a['rating_short']
+        })
+        agents[aid]['by_regulation'][a['regulation']] = a
+        agents[aid]['analysis_count'] += 1
+        if a['has_log']:
+            agents[aid]['has_log'] = True
+
+    # Sort regulations within each agent
+    for agent in agents.values():
+        agent['regulations'].sort(key=lambda r: r['name'])
+
+    return sorted(agents.values(), key=lambda a: a['name'].lower())
 
 
 @app.route('/')
 def dashboard():
-    agents = get_all_agents()
+    analyses = get_all_analyses()
+    agents = group_by_agent(analyses)
 
-    total = len(agents)
-    compliant = sum(1 for a in agents if a['rating_class'] == 'compliant')
-    partial = sum(1 for a in agents if a['rating_class'] == 'partial')
-    non_compliant = sum(1 for a in agents if a['rating_class'] == 'non-compliant')
+    # Get filter
+    selected_regulation = request.args.get('regulation', '')
+
+    # Filter if needed
+    if selected_regulation:
+        for agent in agents:
+            agent['regulations'] = [r for r in agent['regulations'] if r['name'] == selected_regulation]
+        agents = [a for a in agents if a['regulations']]
+
+    # Stats
+    all_regulations = sorted(set(a['regulation'] for a in analyses))
+    total_analyses = len(analyses)
+    total_agents = len(set(a['agent_id'] for a in analyses))
+    total_regulations = len(all_regulations)
+    compliant = sum(1 for a in analyses if a['rating_class'] == 'compliant')
+    partial = sum(1 for a in analyses if a['rating_class'] == 'partial')
+    non_compliant = sum(1 for a in analyses if a['rating_class'] == 'non-compliant')
 
     return render_template_string(
         DASHBOARD_TEMPLATE,
         agents=agents,
-        total=total,
+        regulations=all_regulations,
+        selected_regulation=selected_regulation,
+        total_analyses=total_analyses,
+        total_agents=total_agents,
+        total_regulations=total_regulations,
         compliant=compliant,
         partial=partial,
         non_compliant=non_compliant,
@@ -451,32 +697,55 @@ def dashboard():
     )
 
 
-@app.route('/agent/<agent_id>')
-def agent_detail(agent_id: str):
-    agents = get_all_agents()
-    agent = next((a for a in agents if a['id'] == agent_id), None)
+@app.route('/matrix')
+def matrix():
+    analyses = get_all_analyses()
+    agents = group_by_agent(analyses)
+    all_regulations = sorted(set(a['regulation'] for a in analyses))
 
+    return render_template_string(
+        MATRIX_TEMPLATE,
+        agents=agents,
+        regulations=all_regulations,
+        base=BASE_TEMPLATE
+    )
+
+
+@app.route('/agent/<agent_id>')
+@app.route('/agent/<agent_id>/<regulation>')
+def agent_detail(agent_id: str, regulation: str = None):
+    analyses = get_all_analyses()
+    agents = group_by_agent(analyses)
+
+    agent = next((a for a in agents if a['id'] == agent_id), None)
     if not agent:
         abort(404)
 
-    # Convert content to HTML
-    agent['content_html'] = markdown_to_html(agent['content'])
+    # Get specific analysis if regulation specified
+    analysis = None
+    if regulation:
+        analysis = agent['by_regulation'].get(regulation)
+        if analysis:
+            analysis['content_html'] = markdown_to_html(analysis['content'])
+    elif agent['regulations']:
+        # Default to first regulation
+        first_reg = agent['regulations'][0]['name']
+        analysis = agent['by_regulation'].get(first_reg)
+        if analysis:
+            analysis['content_html'] = markdown_to_html(analysis['content'])
+            regulation = first_reg
 
     return render_template_string(
         AGENT_TEMPLATE,
         agent=agent,
+        analysis=analysis,
+        selected_regulation=regulation,
         all_agents=agents,
         base=BASE_TEMPLATE
     )
 
 
-# Make Jinja2 recognize our base template
-@app.context_processor
-def inject_base():
-    return {'base': BASE_TEMPLATE}
-
-
-# Custom template loader to handle extends "base"
+# Custom template loader
 from jinja2 import BaseLoader, TemplateNotFound
 
 class CustomLoader(BaseLoader):
