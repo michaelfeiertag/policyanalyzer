@@ -140,9 +140,23 @@ def main() -> int:
     try:
         if args.verbose:
             print(f"Using model: {args.model}", file=sys.stderr)
+
+        # Use enhanced config for Gemini 3 Pro models
+        generation_config = None
+        if "gemini-3" in args.model and "pro" in args.model:
+            generation_config = types.GenerateContentConfig(
+                temperature=0.7,
+                top_p=0.95,
+                max_output_tokens=64000,
+                thinking_config=types.ThinkingConfig(thinking_level="HIGH"),
+            )
+            if args.verbose:
+                print("Using Gemini 3 Pro config with thinking enabled", file=sys.stderr)
+
         response = client.models.generate_content(
             model=args.model,
             contents=types.Content(role="user", parts=parts),
+            config=generation_config,
         )
         print(response.text)
     except genai_errors.ClientError as e:
