@@ -77,13 +77,14 @@ def run_agent_import(skip_import: bool = False, verbose: bool = False) -> tuple[
         return False, 0.0
 
 
-def get_agent_files() -> list[Path]:
-    """Get all agent JSON files from the output directory."""
-    if not AGENT_OUTPUT_DIR.exists():
+def get_agent_files(input_dir: Path = None) -> list[Path]:
+    """Get all agent JSON files from the specified directory."""
+    directory = input_dir or AGENT_OUTPUT_DIR
+    if not directory.exists():
         return []
 
     return [
-        f for f in AGENT_OUTPUT_DIR.glob("*.json")
+        f for f in directory.glob("*.json")
         if f.name != "_summary.json"
     ]
 
@@ -195,11 +196,14 @@ Examples:
   %(prog)s --regulation EU-AI-Act --skip-import
       Analyze existing agent files against EU AI Act
 
-  %(prog)s --regulations-file regulations.txt --skip-import -j 8 -o results/
+  %(prog)s --regulations-file regulations.txt -j 8 -o results/
       Analyze against all regulations in file (parallel)
 
-  %(prog)s --regulations-file regulations.txt --skip-import --retry -o results/
+  %(prog)s --regulations-file regulations.txt --retry -o results/
       Retry only failed/missing analyses from previous run
+
+  %(prog)s -i ../agents/compressed/ -R regulations.txt -o results/
+      Analyze agents from custom directory
 
   %(prog)s --custom-policy my_policy.txt --output-dir results/
       Analyze against custom policy and save results to files
@@ -224,6 +228,11 @@ Examples:
         "--skip-import", "-s",
         action="store_true",
         help="Skip agent import and use existing output files"
+    )
+    parser.add_argument(
+        "--input-dir", "-i",
+        type=Path,
+        help="Directory containing agent config JSON files (default: agentimport/lindy/output)"
     )
     parser.add_argument(
         "--model", "-m",
@@ -287,6 +296,16 @@ Examples:
     total_start = time.time()
     import_time = 0.0
 
+    # Determine input directory for agent configs
+    agent_input_dir = AGENT_OUTPUT_DIR
+    if args.input_dir:
+        agent_input_dir = args.input_dir
+        if not agent_input_dir.exists():
+            print(f"Error: Input directory not found: {agent_input_dir}", file=sys.stderr)
+            sys.exit(1)
+        # Skip import when using custom input directory
+        args.skip_import = True
+
     # Run agent import
     if not args.list_agents:
         success, import_time = run_agent_import(args.skip_import, args.verbose)
@@ -294,9 +313,9 @@ Examples:
             sys.exit(1)
 
     # Get agent files
-    agent_files = get_agent_files()
+    agent_files = get_agent_files(agent_input_dir)
     if not agent_files:
-        print(f"No agent files found in {AGENT_OUTPUT_DIR}", file=sys.stderr)
+        print(f"No agent files found in {agent_input_dir}", file=sys.stderr)
         sys.exit(1)
 
     # Load agent info
