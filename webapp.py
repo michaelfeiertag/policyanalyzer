@@ -7,12 +7,33 @@ import json
 import re
 import os
 from pathlib import Path
-from flask import Flask, render_template_string, abort, request
+from flask import Flask, render_template_string, abort, request, redirect, url_for, jsonify
 
 app = Flask(__name__)
 
 # Default results directory
 RESULTS_DIR = Path(__file__).parent / "output"
+COMMENTS_FILE = Path(__file__).parent / "comments.json"
+
+
+def load_comments() -> dict:
+    """Load comments from JSON file."""
+    if COMMENTS_FILE.exists():
+        try:
+            return json.loads(COMMENTS_FILE.read_text())
+        except:
+            return {}
+    return {}
+
+
+def save_comments(comments: dict):
+    """Save comments to JSON file."""
+    COMMENTS_FILE.write_text(json.dumps(comments, indent=2))
+
+
+def get_comment_key(agent_id: str, regulation: str) -> str:
+    """Generate a key for storing comments."""
+    return f"{agent_id}::{regulation}"
 
 # HTML Templates
 BASE_TEMPLATE = """
@@ -313,6 +334,69 @@ BASE_TEMPLATE = """
         .matrix .cell-non-compliant { background: rgba(248, 81, 73, 0.2); }
         .matrix .cell-missing { background: var(--bg); color: var(--text-muted); }
 
+        .comment-section {
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+        }
+        .comment-section h3 {
+            font-size: 14px;
+            margin-bottom: 12px;
+            color: var(--text-muted);
+        }
+        .comment-form textarea {
+            width: 100%;
+            min-height: 100px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text);
+            padding: 12px;
+            font-family: inherit;
+            font-size: 14px;
+            resize: vertical;
+        }
+        .comment-form textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        .comment-form button {
+            margin-top: 12px;
+            background: var(--accent);
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .comment-form button:hover {
+            opacity: 0.9;
+        }
+        .comment-display {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 16px;
+            margin-bottom: 12px;
+            white-space: pre-wrap;
+            font-size: 14px;
+        }
+        .comment-meta {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+        .flash-message {
+            background: var(--green);
+            color: #000;
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+
         @media (max-width: 768px) {
             .two-column { grid-template-columns: 1fr; }
             .stats { flex-wrap: wrap; }
@@ -514,6 +598,18 @@ AGENT_TEMPLATE = """
                 {% if analysis %}
                 <div class="analysis-content">
                     {{ analysis.content_html | safe }}
+                </div>
+
+                <div class="comment-section">
+                    <h3>Review Comments</h3>
+                    {% if comment %}
+                    <div class="comment-display">{{ comment.text }}</div>
+                    <div class="comment-meta">Last updated: {{ comment.updated_at }}</div>
+                    {% endif %}
+                    <form class="comment-form" method="POST" action="/agent/{{ agent.id }}/{{ selected_regulation }}/comment">
+                        <textarea name="comment" placeholder="Add your review comments here...">{{ comment.text if comment else '' }}</textarea>
+                        <button type="submit">Save Comment</button>
+                    </form>
                 </div>
                 {% else %}
                 <p style="color: var(--text-muted);">Select a regulation from the sidebar to view the analysis.</p>
@@ -735,14 +831,47 @@ def agent_detail(agent_id: str, regulation: str = None):
             analysis['content_html'] = markdown_to_html(analysis['content'])
             regulation = first_reg
 
+    # Load comment for this agent/regulation
+    comment = None
+    if regulation:
+        comments = load_comments()
+        key = get_comment_key(agent_id, regulation)
+        if key in comments:
+            comment = comments[key]
+
     return render_template_string(
         AGENT_TEMPLATE,
         agent=agent,
         analysis=analysis,
         selected_regulation=regulation,
         all_agents=agents,
+        comment=comment,
         base=BASE_TEMPLATE
     )
+
+
+@app.route('/agent/<agent_id>/<regulation>/comment', methods=['POST'])
+def save_comment(agent_id: str, regulation: str):
+    """Save a comment for an agent/regulation pair."""
+    from datetime import datetime
+
+    comment_text = request.form.get('comment', '').strip()
+    comments = load_comments()
+    key = get_comment_key(agent_id, regulation)
+
+    if comment_text:
+        comments[key] = {
+            'text': comment_text,
+            'agent_id': agent_id,
+            'regulation': regulation,
+            'updated_at': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        }
+    elif key in comments:
+        # Remove empty comments
+        del comments[key]
+
+    save_comments(comments)
+    return redirect(url_for('agent_detail', agent_id=agent_id, regulation=regulation))
 
 
 # Custom template loader

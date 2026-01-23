@@ -6,6 +6,20 @@ import os
 from pathlib import Path
 import sys
 
+
+def load_dotenv():
+    """Load environment variables from .env file."""
+    env_file = Path(__file__).parent / ".env"
+    if env_file.exists():
+        for line in env_file.read_text().splitlines():
+            line = line.strip()
+            if line and not line.startswith("#") and "=" in line:
+                key, _, value = line.partition("=")
+                os.environ.setdefault(key.strip(), value.strip())
+
+
+load_dotenv()
+
 from google import genai
 from google.genai import errors as genai_errors
 from google.genai import types

@@ -6,3 +6,7 @@ Provide an assessment including:
 3. Whether specific violations of $(REGULATION) are found.
 4. Specific recommendations for remediation
 5. Overall compliance rating (Compliant, Partially Compliant, Non-Compliant)
+
+Give the results in relation to $(REGULATION) only. Do not bring up any other issues, even if they are somewhat related.
+Identify and ignore any dead/no-oped code.
+If there is some question of compliance, look to the sample log file. If there is no evidence of a violation assume there is none.
