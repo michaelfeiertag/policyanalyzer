@@ -39,9 +39,9 @@ def requires_auth(f):
         return f(*args, **kwargs)
     return decorated
 
-# Default results directory
-RESULTS_DIR = Path(__file__).parent / "output"
-COMMENTS_FILE = Path(__file__).parent / "comments.json"
+# Default results directory (can be overridden by env var or CLI arg)
+RESULTS_DIR = Path(os.environ.get("RESULTS_DIR", Path(__file__).parent / "output"))
+COMMENTS_FILE = Path(os.environ.get("COMMENTS_FILE", Path(__file__).parent / "comments.json"))
 
 
 def load_comments() -> dict:
