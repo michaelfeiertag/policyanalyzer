@@ -37,3 +37,6 @@ typing_extensions==4.15.0
 uritemplate==4.2.0
 urllib3==2.6.3
 websockets==15.0.1
+flask==3.1.2
+markdown==3.10.1
+gunicorn==23.0.0

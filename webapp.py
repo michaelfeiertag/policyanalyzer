@@ -7,9 +7,37 @@ import json
 import re
 import os
 from pathlib import Path
-from flask import Flask, render_template_string, abort, request, redirect, url_for, jsonify
+from flask import Flask, render_template_string, abort, request, redirect, url_for, jsonify, Response
+from functools import wraps
 
 app = Flask(__name__)
+
+# Basic authentication
+AUTH_USERNAME = "demo"
+AUTH_PASSWORD = "agentpolicy"
+
+
+def check_auth(username, password):
+    """Check if username/password combination is valid."""
+    return username == AUTH_USERNAME and password == AUTH_PASSWORD
+
+
+def authenticate():
+    """Send a 401 response that enables basic auth."""
+    return Response(
+        'Authentication required.', 401,
+        {'WWW-Authenticate': 'Basic realm="Policy Analyzer"'}
+    )
+
+
+def requires_auth(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        auth = request.authorization
+        if not auth or not check_auth(auth.username, auth.password):
+            return authenticate()
+        return f(*args, **kwargs)
+    return decorated
 
 # Default results directory
 RESULTS_DIR = Path(__file__).parent / "output"
@@ -790,6 +818,7 @@ def group_by_agent(analyses: list[dict]) -> list[dict]:
 
 
 @app.route('/')
+@requires_auth
 def dashboard():
     analyses = get_all_analyses()
     agents = group_by_agent(analyses)
@@ -828,6 +857,7 @@ def dashboard():
 
 
 @app.route('/matrix')
+@requires_auth
 def matrix():
     analyses = get_all_analyses()
     agents = group_by_agent(analyses)
@@ -843,6 +873,7 @@ def matrix():
 
 @app.route('/agent/<agent_id>')
 @app.route('/agent/<agent_id>/<regulation>')
+@requires_auth
 def agent_detail(agent_id: str, regulation: str = None):
     analyses = get_all_analyses()
     agents = group_by_agent(analyses)
@@ -885,6 +916,7 @@ def agent_detail(agent_id: str, regulation: str = None):
 
 
 @app.route('/agent/<agent_id>/<regulation>/comment', methods=['POST'])
+@requires_auth
 def save_comment(agent_id: str, regulation: str):
     """Save a comment for an agent/regulation pair."""
     from datetime import datetime
