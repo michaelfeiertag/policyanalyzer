@@ -672,24 +672,58 @@ def parse_analysis_file(filepath: Path) -> dict:
     # Get analysis content
     analysis_content = '\n'.join(lines[header_end:]).strip()
 
-    # Detect compliance rating
+    # Detect compliance rating - look for the actual rating declaration
     rating = "Unknown"
     rating_class = "unknown"
     rating_short = "?"
 
     content_lower = content.lower()
-    if 'non-compliant' in content_lower or 'non compliant' in content_lower:
-        rating = "Non-Compliant"
-        rating_class = "non-compliant"
-        rating_short = "NC"
-    elif 'partially compliant' in content_lower:
-        rating = "Partially Compliant"
-        rating_class = "partial"
-        rating_short = "PC"
-    elif re.search(r'rating[:\s]*(is\s+)?compliant|overall[:\s]*(is\s+)?compliant|\*\*compliant\*\*|#\s*compliant', content_lower):
-        rating = "Compliant"
-        rating_class = "compliant"
-        rating_short = "C"
+
+    # Look for explicit rating patterns (more specific first)
+    # Pattern: "Overall Compliance Rating" or "5. Overall" followed by the rating
+    rating_section = re.search(
+        r'(?:overall\s+)?compliance\s+rating[:\s]*\n*\s*[#*]*\s*(non[- ]?compliant|partially\s+compliant|compliant)',
+        content_lower
+    )
+    if not rating_section:
+        # Try: **RATING: COMPLIANT** or **Non-Compliant** or **Compliant** or # Non-Compliant
+        rating_section = re.search(
+            r'\*\*(?:rating:\s*)?(non[- ]?compliant|partially\s+compliant|compliant)\*\*',
+            content_lower
+        )
+
+    if rating_section:
+        detected = rating_section.group(1).strip()
+        if 'non' in detected:
+            rating = "Non-Compliant"
+            rating_class = "non-compliant"
+            rating_short = "NC"
+        elif 'partial' in detected:
+            rating = "Partially Compliant"
+            rating_class = "partial"
+            rating_short = "PC"
+        else:
+            rating = "Compliant"
+            rating_class = "compliant"
+            rating_short = "C"
+    else:
+        # Fallback: count occurrences to determine overall sentiment
+        non_compliant_count = len(re.findall(r'\*\*non[- ]?compliant\*\*', content_lower))
+        compliant_count = len(re.findall(r'\*\*compliant\*\*', content_lower)) - non_compliant_count
+        partial_count = len(re.findall(r'\*\*partially compliant\*\*', content_lower))
+
+        if partial_count > 0 and partial_count >= non_compliant_count:
+            rating = "Partially Compliant"
+            rating_class = "partial"
+            rating_short = "PC"
+        elif non_compliant_count > compliant_count:
+            rating = "Non-Compliant"
+            rating_class = "non-compliant"
+            rating_short = "NC"
+        elif compliant_count > 0:
+            rating = "Compliant"
+            rating_class = "compliant"
+            rating_short = "C"
 
     return {
         "file": filepath,
