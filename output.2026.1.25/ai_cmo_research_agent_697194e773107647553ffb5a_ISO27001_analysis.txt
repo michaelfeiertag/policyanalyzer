@@ -1,0 +1,43 @@
+Agent: ai-cmo-research-agent-697194e773107647553ffb5a
+ID: ai-cmo-research-agent-697194e773107647553ffb5a
+Log file: None
+Regulation: ISO27001
+============================================================
+
+Based on the review of the provided agent definition `[AGENT_DEFINITION]`, here is the security and compliance assessment regarding ISO 27001.
+
+### 1. Summary of Agent Function
+The "AI CMO | Research Agent" is a market research automation tool. It accepts a company URL as input, scrapes the website, and uses Large Language Models (Perplexity and Lindy) to generate strategic business intelligence. This includes competitor analysis, customer personas, value propositions, and brand guidelines. The agent outputs this data by creating multiple Google Documents in the user's Google Drive.
+
+### 2. ISO 27001 Applicability
+**Yes, ISO 27001 is applicable.**
+The agent automates the creation, processing, and storage of information assets (business strategy, competitive intelligence, and customer data). Specifically, the agent interacts with an external file storage system (Google Drive) and defines access control lists (ACLs) for those files. ISO 27001 controls regarding **Access Control (A.9)**, **Information Classification (A.8.2)**, and **Information Transfer (A.13.2)** are directly implicated by how this agent handles data.
+
+### 3. Specific ISO 27001 Violations
+The agent contains definitive, high-severity violations regarding access control and information integrity.
+
+**Violation 1: Insecure Access Control / Public Exposure of Assets**
+*   **ISO Control A.9.2.1 (User Registration and De-registration):** The agent creates documents with permissions that bypass user authentication.
+*   **ISO Control A.8.2.3 (Handling of Assets):** The agent handles proprietary business intelligence (Competitor Analysis, Strategy) but configures the storage medium to be publicly accessible and editable.
+*   **Evidence:**
+    Multiple `GoogleDocs` action nodes are hardcoded to set the `sharingPreference` to **"Anyone with the link can edit"**. This creates a public link that allows anonymous internet users to view and *modify* the organization's strategic documents.
+
+    *   **Node ID:** `697194e773107647553ffb78` (Name: Create Competitor Document)
+    *   **Node ID:** `697194e773107647553ffb7c` (Name: Company | Customer Profile)
+    *   **Node ID:** `697194e773107647553ffb85` (Name: Competitor Analysis)
+    *   **Node ID:** `697194e773107647553ffb86` (Name: Company | Customer Psychology)
+    *   **Node ID:** `697194e773107647553ffb88` (Name: Company | Offering Context)
+    *   **Node ID:** `697194e773107647553ffb8a` (Name: Company | Brand Guidelines)
+    *   **Node ID:** `697194e773107647553ffb8c` (Name: Company | Marketing Offers)
+
+**Violation 2: Failure to Protect Data Integrity**
+*   **ISO Control A.13.2.1 (Information Transfer Policies):** By setting permissions to "Anyone with the link can **edit**," the agent introduces a risk where data integrity cannot be assured. If the link is leaked or guessed, the content can be altered or deleted by unauthorized parties without an audit trail of who made the changes.
+
+### 4. Recommendations for Remediation
+1.  **Modify Sharing Preferences:** Update the configuration for all `GoogleDocs` nodes listed above. Change the `sharingPreference` value from `"Anyone with the link can edit"` to `"Private (only me)"` or `"Domain Restricted"`.
+2.  **Standardize Output:** Ensure that Node `697194e773107647553ffb6c` and `697194e773107647553ffb87` (which are currently correctly set to "Private") serve as the template for all other document creation nodes.
+
+### 5. Overall Compliance Rating
+**Non-Compliant**
+
+The agent introduces significant risk by default. It automatically generates proprietary business strategy documents and exposes them with public read/write permissions. This is a direct violation of access control principles fundamental to ISO 27001.

@@ -1,0 +1,30 @@
+Agent: resume-screening-agent-6971956bbddcdd1d54fd8975
+ID: resume-screening-agent-6971956bbddcdd1d54fd8975
+Log file: None
+Regulation: DORA
+============================================================
+
+**Assessment of Resume Screening Agent**
+
+**1. Summary of Agent Function**
+The "Resume Screening Agent" is an automated workflow designed to assist Human Resources. It triggers upon receiving an email in Gmail. If the email contains a resume attachment, the agent retrieves a specific Job Description from a hardcoded Google Document. It then uses an AI model to compare the resume against the job description. Based on the evaluation, it classifies the candidate as "Qualified," "Unqualified," or "Borderline" and drafts/sends a structured summary email to the user (HR/Hiring Manager) detailing the candidate's strengths and weaknesses.
+
+**2. DORA Applicability**
+**Applicable (Low Impact).**
+The Digital Operational Resilience Act (DORA) applies to the financial entity as a whole and requires the management of risks associated with all Information and Communication Technology (ICT) assets. Therefore, this agent, as a software asset, falls under the general scope of DORA's ICT Risk Management Framework (Art. 5).
+
+However, the specific function performed by this agent (Recruitment/HR) is categorized as a corporate support function. It does not meet the criteria for a "Critical or Important Function" (CIF) under DORA, as its failure or malfunction would not materially impair the financial performance, soundness, or continuity of the financial entity's banking/investment services. Consequently, the strict requirements regarding advanced resilience testing, critical third-party risk monitoring, and reporting do not apply to this specific agent.
+
+**3. Specific Violations of DORA**
+**No significant violations found.**
+Based on the provided agent definition and the instruction to ignore dead code (Trigger ID: `6971956bbddcdd1d54fd897b`), there are no definitive violations of DORA.
+*   **Resilience:** While the agent relies on a hardcoded external dependency (a specific Google Doc URL), which is poor engineering practice, it does not constitute a regulatory violation for a non-critical support system.
+*   **Third-Party Risk:** The agent utilizes standard ICT providers (Google/Gmail). Assuming the enterprise maintains standard service agreements with Google, this usage is permissible for non-critical data.
+*   **Data Integrity:** The logical flow is consistent, and there is no evidence of unmanaged ICT risk that would threaten the organization's operational resilience.
+
+**4. Specific Recommendations for Remediation**
+*   **None required for DORA compliance.**
+*   *(Best Practice Note: To improve operational stability—though not required by regulation for this risk tier—consider removing the hardcoded Google Doc link and instead allowing the Job Description to be passed dynamically or stored in a managed configuration variable to prevent process failure if the document is moved or deleted.)*
+
+**5. Overall Compliance Rating**
+**Compliant**

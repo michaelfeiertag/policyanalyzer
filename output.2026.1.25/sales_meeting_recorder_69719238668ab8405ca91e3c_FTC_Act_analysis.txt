@@ -1,0 +1,41 @@
+Agent: sales-meeting-recorder-69719238668ab8405ca91e3c
+ID: sales-meeting-recorder-69719238668ab8405ca91e3c
+Log file: None
+Regulation: FTC-Act
+============================================================
+
+Based on the provided Agent Definition (noting that the [SAMPLE_LOG] was not included in the input, so the assessment relies strictly on the configuration logic provided), here is the assessment regarding the FTC Act.
+
+### 1. Summary of Agent Function
+The **Sales Meeting Recorder** agent is designed to automatically join external sales meetings (via Google Meet, Zoom, or Teams) triggered by calendar events. Its primary functions are to:
+*   Record and transcribe the conversation.
+*   Generate notes in Google Docs.
+*   Draft and send a follow-up email to the prospect using Gmail (configured to send immediately upon user confirmation).
+
+### 2. FTC Act Applicability
+**Applicable.**
+The FTC Act (Section 5) prohibits "unfair or deceptive acts or practices in or affecting commerce." This agent is directly applicable because:
+*   **Commerce:** It is explicitly designed for "Sales" and closing deals ("close more deals!"), placing its activities squarely within commercial trade.
+*   **Data Collection:** It collects biometric/voice data and consumer communications via the recording function.
+*   **Consumer Interaction:** It interacts directly with consumers (prospects) via the meeting bot and follow-up emails.
+
+### 3. Specific Violations of FTC Act
+Based on the agent definition, the following **definitive compliance risks** are identified which constitute potential violations of the FTC Act's prohibition on deceptive practices:
+
+*   **Deceptive Practice (Omission of Identity/Transparency):**
+    *   **Evidence:** In the "Record meeting" node (`69719238668ab8405ca91e47`), the configuration explicitly sets `includeLindyLogo` to `false`.
+    *   **Violation:** The FTC has issued guidance stating that AI agents mimicking human behavior or interacting with consumers must clearly disclose their identity. By explicitly disabling the visual identifier (logo) and using the generic name "Lindy Notetaker" (which could reasonably be mistaken for a human administrative assistant by a consumer), the agent engages in a deceptive omission. It obscures the fact that the "participant" is an automated AI system collecting data.
+
+*   **Risk of Deceptive Claims (Prompt Engineering):**
+    *   **Evidence:** In the "Draft prospect follow up email" node (`69719238668ab8405ca91e4a`), the prompt instructions include a hardcoded example email containing the phrase: *"As promised, I’ll have our CTO send over our SOC2 Compliance"*.
+    *   **Violation:** LLMs frequently mimic few-shot examples provided in their system prompts. By including a specific material claim (SOC2 Compliance) in the example, the agent is primed to hallucinate or fabricate this security certification in generated emails even if the user's organization does not hold it. Sending false claims regarding security certifications is a violation of the FTC Act.
+
+### 4. Remediation Recommendations
+1.  **Mandatory Configuration Change:** In the "Record meeting" node, change the value of `includeLindyLogo` from `false` to `true`. This ensures visual transparency to all meeting participants that an AI tool is present.
+2.  **Update Bot Name:** Change the bot name from "Lindy Notetaker" to "Lindy AI Recorder" or similar to explicitly disclose the automated nature of the participant.
+3.  **Sanitize Prompt Examples:** In the "Draft prospect follow up email" node, remove the specific text regarding "SOC2 Compliance" from the example prompt. Replace it with a generic placeholder like `[Insert relevant compliance document]` to prevent the AI from fabricating material commercial claims.
+
+### 5. Overall Compliance Rating
+**Partially Compliant**
+
+*The agent functions with safeguards (such as requiring confirmation for emails), but the specific configuration to hide the AI logo and the inclusion of specific compliance claims in the prompt examples introduce significant regulatory risk under the FTC Act regarding transparency and truth-in-advertising.*

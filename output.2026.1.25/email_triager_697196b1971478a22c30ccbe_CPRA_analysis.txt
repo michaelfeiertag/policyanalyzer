@@ -1,0 +1,37 @@
+Agent: email-triager-697196b1971478a22c30ccbe
+ID: email-triager-697196b1971478a22c30ccbe
+Log file: None
+Regulation: CPRA
+============================================================
+
+**Assessment of Agent: Email Triager (ID: 697196b1971478a22c30ccbe)**
+
+### 1. Summary of Agent Function
+The "Email Triager" agent is an automated workflow designed to monitor an inbox (Gmail). Upon receiving a message, it utilizes a Large Language Model (Claude 3.5 Sonnet) to analyze the email content and categorize it into one of five streams:
+1.  **High Priority:** Labels as "Important".
+2.  **Customer Question:** Labels as "Requires Response".
+3.  **Newsletter:** Labels as "Newsletter".
+4.  **Spam/Sales:** Labels as "Spam".
+5.  **Customer FAQ:** Labels as "Customer FAQ", searches a connected Knowledge Base, and automatically sends an email reply based on the search results.
+
+### 2. CPRA Applicability
+**Applicable.**
+The California Privacy Rights Act (CPRA) applies to this agent for the following reasons:
+*   **Processing of Personal Information (PI):** The agent's trigger (`onGmailMessageReceived`) ingests the full content of incoming emails. Email metadata (sender name, email address) and the body content inherently contain Personal Information and potentially Sensitive Personal Information (SPI) depending on the nature of the enterprise's business.
+*   **Automated Decision Making (ADM):** The agent uses AI to profile incoming communications and make automated decisions regarding their disposition (labeling) and response (auto-replying), which falls under CPRA provisions regarding automated processing.
+
+### 3. CPRA Violations
+**None Found.**
+Based on the provided agent definition and the instruction to assume no violation in the absence of evidence (noting that the `[SAMPLE_LOG]` was referenced but not provided in the input), there are no definitive, significant violations of CPRA in the agent's architecture.
+*   **Data Minimization:** The agent processes emails to fulfill a specific business purpose (customer service/triage), which is a compatible use case.
+*   **Opt-Out/Rights:** There is no evidence in the definition that the agent ignores opt-out headers or retains data in violation of retention policies.
+*   **Disclosure:** The automated reply includes a signature (`Sent via [Lindy]`), satisfying general requirements to disclose automated interactions where applicable.
+
+### 4. Recommendations for Remediation
+While the agent is technically compliant based on the definition, the following practical risks should be reviewed to maintain compliance:
+*   **Review "Spam" Logic for Rights Requests:** The agent uses an LLM to classify "spam or sales outreach." There is a risk that valid Consumer Rights Requests (e.g., "Delete my data" or "Do Not Sell my Info") could be misclassified as spam by the model. Ensure the prompt or logic explicitly handles "Legal/Privacy Requests" to prevent them from being buried in the Spam label, which would cause the enterprise to miss the 45-day statutory response window.
+*   **Sanitize Knowledge Base Output:** The agent connects the `searchKnowledgeBase` output directly to the `SendToGmail` action. Ensure the Knowledge Base source material does not contain PII or internal-only comments, as the agent may inadvertently include raw data chunks in the auto-reply sent to the consumer.
+*   **Data Processing Agreement (DPA):** Ensure a valid DPA is in place with the model provider (Anthropic via Lindy) since the agent sends raw consumer PII to a third-party processor.
+
+### 5. Overall Compliance Rating
+**Compliant**

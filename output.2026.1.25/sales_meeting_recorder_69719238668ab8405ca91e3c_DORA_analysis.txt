@@ -1,0 +1,46 @@
+Agent: sales-meeting-recorder-69719238668ab8405ca91e3c
+ID: sales-meeting-recorder-69719238668ab8405ca91e3c
+Log file: None
+Regulation: DORA
+============================================================
+
+Based on the provided Agent Definition, here is the DORA compliance assessment.
+
+### 1. Summary of Agent Function
+The "Sales Meeting Recorder" agent is designed to automate the documentation of sales interactions.
+*   **Trigger:** Activates when a calendar event starts for a specific user (`m@mftestco.com`).
+*   **Execution:** It joins Google Meet, Zoom, or Teams calls via `LindyMeeting`. It transcribes the discussion and generates "sales notes."
+*   **Outputs:**
+    *   Creates a Google Doc with the notes in "My Drive".
+    *   Drafts a follow-up email to the prospect via Gmail (requires human confirmation).
+    *   **Data Lifecycle:** The agent utilizes a recording tool where video URLs expire after 24 hours.
+
+### 2. DORA Applicability
+**Applicable.**
+DORA (Digital Operational Resilience Act) applies if your enterprise is a Financial Entity (or a critical ICT third-party provider to one).
+*   **Reasoning:** Sales interactions in financial enterprises often constitute critical business records (e.g., regarding advisory, negotiation, or trade terms).
+*   **ICT Risk:** This agent acts as an ICT system handling data availability and record-keeping. DORA Article 12 mandates that financial entities maintain ICT systems that ensure the availability, integrity, and confidentiality of data.
+
+### 3. Specific DORA Violations
+The following definitive violations were identified based on the agent definition:
+
+**Violation 1: Failure to Ensure Data Availability (Article 12 - Backup policies and recovery methods)**
+*   **Evidence:** The `LindyMeeting` tool description explicitly states: *"Video recording URLs are valid for 24 hours after a meeting completes. Upload the video to Google Drive or another storage provider for long-term storage."*
+*   **The Flaw:** The agent's workflow (Nodes list) performs the following steps: `Record` -> `Export sales notes` -> `Draft email`.
+*   **The Violation:** The agent **fails to perform the required upload action**. It saves the *text notes* to Google Docs, but the *primary source data* (the audio/video recording) is left in temporary storage. Consequently, the recording will be irretrievably deleted after 24 hours. This violates DORA's requirement to ensure data availability and resilience against data loss.
+
+**Violation 2: ICT Business Continuity Risk / Single Point of Failure (Article 11)**
+*   **Evidence:** The trigger configuration (Node `69719238668ab8405ca91e41`) is hardcoded to a specific individual's email address: `calendarId: "m@mftestco.com"`.
+*   **The Violation:** This creates a fragile dependency (Single Point of Failure). If this specific employee leaves the organization or their account is disabled, the ICT process for recording sales meetings ceases to function immediately. DORA requires ICT systems to be designed for continuity and resilience; tying an automated enterprise process to a hardcoded personal identity violates this principle.
+
+### 4. Remediation Recommendations
+To bring this agent into compliance:
+
+1.  **Implement Data Archival:** You must add a new Action node immediately following the "Record meeting" step. This action must take the `videoUrl` output and upload the file to a persistent, backed-up storage location (e.g., Google Drive, S3, or compliant Blob Storage) to prevent the 24-hour data loss.
+2.  **Remove Hardcoded Identity:** Change the `calendarId` in the trigger to use a service account, a shared team calendar, or a dynamic variable representing the "Current User," rather than a hardcoded employee email address (`m@mftestco.com`).
+3.  **Verify Data Integrity:** Ensure the "Export sales notes" step includes a link to the *permanent* storage location of the video, not the temporary 24-hour link.
+
+### 5. Overall Compliance Rating
+**Non-Compliant**
+
+The agent introduces significant risk by automating a process that guarantees the deletion of source records (recordings) after 24 hours, directly violating DORA's data availability and backup mandates.

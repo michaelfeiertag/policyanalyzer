@@ -1,0 +1,36 @@
+Agent: resume-screening-agent-6971956bbddcdd1d54fd8975
+ID: resume-screening-agent-6971956bbddcdd1d54fd8975
+Log file: None
+Regulation: ECPA
+============================================================
+
+Based on the provided agent definition and the parameters of the Electronic Communications Privacy Act (ECPA), here is the compliance assessment.
+
+### 1. Summary of Agent Function
+The "Resume Screening Agent" is an automated workflow designed to assist HR or Hiring Managers. Its primary functions are:
+*   **Monitoring:** It monitors a specific Gmail account for *all* incoming messages and attachments (`onGmailMessageReceived`).
+*   **Processing:** It retrieves a specific Job Description from a Google Doc.
+*   **Analysis:** It analyzes incoming email attachments (resumes) against the job description.
+*   **Reporting:** It sends a structured email back to the user (the account owner) categorizing the candidate as Qualified, Unqualified, or Borderline.
+
+### 2. ECPA Applicability
+**Yes, ECPA is applicable.**
+The Electronic Communications Privacy Act (18 U.S.C. §§ 2510-2522 and §§ 2701-2712) applies because this agent mechanically intercepts and accesses electronic communications (emails) in transit or from storage. Specifically, the agent utilizes the `Gmail` tool to read the contents and attachments of private messages addressed to the user.
+
+### 3. Specific Violations of ECPA
+**No definitive violations found.**
+
+Based on the provided definition, the agent is **Compliant** with ECPA for the following reasons:
+
+*   **Authorization and Consent:** ECPA (specifically the Wiretap Act and Stored Communications Act) generally permits the interception or access of communications if **one of the parties** to the communication consents. In this enterprise context, the "user" (the HR manager or the enterprise itself) is the intended recipient of the emails. By deploying this agent on their own account to process their own incoming mail, the recipient has authorized the access.
+*   **Ordinary Course of Business Exception:** The agent is performing a legitimate business function (screening job applications) on an employer-provided system. The automated scanning of incoming mail for classification purposes (similar to spam filtering or virus scanning) falls within the "ordinary course of business" exception, provided the agent is deployed by the system owner or authorized user.
+*   **No Unauthorized Third-Party Interception:** There is no evidence in the code that the agent forwards these emails to unauthorized external parties or surreptitiously intercepts communications between two parties who are unaware of the monitoring. It processes mail sent *to* the agent's host account and reports back *to* that same account.
+
+### 4. Recommendations for Remediation
+While the agent is compliant with ECPA, the following recommendations ensure continued adherence to the "authorization" aspect of the statute:
+
+*   **Confirm Account Ownership:** Ensure this agent is only deployed on enterprise-owned accounts (e.g., `hiring@company.com` or an HR employee's work email) and not on personal employee accounts where "business purpose" claims are weaker.
+*   **Scope Limitation (Best Practice):** While not a violation, the trigger is currently set to `participantsTypeFilter: "all"`. To strictly adhere to the "minimization" principles often associated with privacy compliance, ensure the agent logic (Node `6971956bbddcdd1d54fd8980`) robustly discards non-resume emails immediately without processing or storing the content, as implied by the current logic flow.
+
+### 5. Overall Compliance Rating
+**COMPLIANT**

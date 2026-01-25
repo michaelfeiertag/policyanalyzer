@@ -1,0 +1,37 @@
+Agent: lindy-agent-lister-693c78bb39099082df392692
+ID: lindy-agent-lister-693c78bb39099082df392692
+Log file: None
+Regulation: COPPA
+============================================================
+
+Here is the assessment regarding the "Lindy Agent Lister" agent.
+
+### 1. Summary of the Agent's Function
+The "Lindy Agent Lister" is an administrative utility designed to automate inventory management within a Lindy workspace.
+*   **Trigger:** It runs on an automated recurring schedule (hourly).
+*   **Process:** It retrieves a list of all agents existing in the workspace via the Lindy API. It iterates through this list using a control flow loop.
+*   **Output:** For every agent found, it performs an "upsert" (update or insert) operation on a specific Google Sheet. It records three data points: `AgentID`, `Agent Name`, and `Last Task Date`.
+
+### 2. COPPA Applicability
+**COPPA is Not Applicable.**
+
+The Children's Online Privacy Protection Act (COPPA) applies to operators of commercial websites and online services (including mobile apps) directed to children under 13 that collect, use, or disclose personal information from children, or operators of general audience websites or online services with actual knowledge that they are collecting, using, or disclosing personal information from children under 13.
+
+*   **Target Audience:** This agent is an enterprise backend tool designed for workspace administration. It is not directed at children.
+*   **Data Subject:** The agent collects metadata regarding software entities ("Agents"), not biological users.
+*   **Enterprise Context:** In a standard enterprise environment, users are employees and adults. There is no evidence this agent interacts with, targets, or collects data from children.
+
+### 3. Specific Violations of COPPA
+**No violations found.**
+
+*   **Data Collection:** The data collected (`AgentID`, `Agent Name`, `Last Task Date`) describes software configurations and system logs. It does not constitute "Personal Information" of a child (e.g., first and last name, home address, SSN, geolocation) as defined by the FTC under COPPA.
+*   **Interaction:** The agent runs on a timer and interacts with APIs (Lindy and Google Sheets), not human users via chat or interface. Therefore, it cannot solicit information from a child.
+*   **Log Review:** As no specific evidence of child interaction exists in the definition, and assuming the missing sample log reflects the defined behavior of API-to-API communication, there is no evidence of a violation.
+
+### 4. Specific Recommendations for Remediation
+**None required.**
+
+The agent operates outside the scope of COPPA. No changes are necessary regarding this specific regulation.
+
+### 5. Overall Compliance Rating
+**Compliant**

@@ -1,0 +1,36 @@
+Agent: sales-meeting-recorder-69719238668ab8405ca91e3c
+ID: sales-meeting-recorder-69719238668ab8405ca91e3c
+Log file: None
+Regulation: SOC2
+============================================================
+
+### Assessment of Agent: Sales Meeting Recorder (ID: 69719238668ab8405ca91e3c)
+
+**1. Summary of Agent Function**
+The agent is designed to automate the documentation of sales meetings. It triggers upon the start of a calendar event for a specific user (`m@mftestco.com`). It utilizes logic to determine if the meeting involves external attendees. If external, it joins the meeting to record and transcribe it, exports notes to a private Google Doc, and drafts a follow-up email to the prospect via Gmail. If the meeting is internal, the task is deleted without recording.
+
+**2. SOC 2 Applicability**
+**Applicable.**
+SOC 2 is applicable to this agent because it processes, records, and stores sensitive business data (confidential sales discussions) and Personally Identifiable Information (PII) of external prospects (names, email addresses).
+*   **Confidentiality:** The agent handles proprietary business discussions.
+*   **Privacy:** The agent records voices and interactions of individuals.
+*   **Processing Integrity:** The agent automates external communication based on AI interpretation of data.
+
+**3. Specific Violations of SOC 2**
+Based on the provided definition and the instruction to assume compliance where no evidence of a violation exists (noting that the [SAMPLE_LOG] was referenced but not provided in the input), **no definitive, significant SOC 2 violations were found.**
+
+*   **Logic Gates for Confidentiality:** The agent includes a specific logic node (`69719238668ab8405ca91e46`) to verify if a meeting is "External." If the meeting is "Internal," the agent routes to a "Delete task" action. This effectively prevents the unauthorized recording of internal-only confidential strategy meetings, aligning with SOC 2 Confidentiality principles.
+*   **Human-in-the-Loop for Output:** The `Gmail` action (`69719238668ab8405ca91e4a`) has the configuration `requiresConfirmation: true`. This control ensures that AI-generated content (which could contain hallucinations or incorrect data) is reviewed by an authorized user before being transmitted externally. This satisfies Processing Integrity and Data Transmission controls.
+*   **Access Control:** The generated Google Doc is configured with `sharingPreference: "Private (only me)"`. This adheres to the Principle of Least Privilege, ensuring sensitive notes are not broadly accessible by default.
+
+**4. Specific Recommendations for Remediation**
+While the agent is compliant, the following recommendations are made to strengthen the security posture and operational availability:
+
+*   **Data Availability (Video Retention):** The agent definition notes that "Video recording URLs are valid for 24 hours." The agent currently exports notes but *does not* save the video file to permanent storage. If your organization relies on video recordings for audit trails or dispute resolution (Availability Criteria), you should add a step to upload the video file to Google Drive before the URL expires.
+*   **Privacy Notice (Configuration):** The agent joins as "Lindy Notetaker." To ensure robust alignment with Privacy criteria regarding "Notice and Consent," ensure that the associated Google Calendar invite includes a disclaimer that the meeting will be recorded by an automated notetaker, as the agent does not appear to have an explicit "Announce" step configured.
+*   **Dead Code Removal:** The trigger with ID `69719238668ab8405ca91e59` (Tool: Unknown, Action: Unknown) is identified as dead/no-oped code. It bypasses the "External meeting?" logic check and connects directly to the recording action. While currently non-functional ("Unknown"), it represents a dormant bypass of security controls and should be removed from the definition entirely.
+
+**5. Overall Compliance Rating**
+**COMPLIANT**
+
+*The agent demonstrates appropriate logic to segregate internal vs. external data and enforces human review for external communications.*

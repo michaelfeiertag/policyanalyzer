@@ -1,0 +1,47 @@
+Agent: sales-meeting-recorder-69719238668ab8405ca91e3c
+ID: sales-meeting-recorder-69719238668ab8405ca91e3c
+Log file: None
+Regulation: ISO27001
+============================================================
+
+### Assessment of Agent: Sales Meeting Recorder (ID: 69719238668ab8405ca91e3c)
+
+#### 1. Summary of Agent Function
+The "Sales Meeting Recorder" is an automated assistant designed to join sales calls, record audio/video, transcribe the conversation, and perform post-meeting administrative tasks.
+*   **Trigger:** It activates when a calendar event starts on the user's calendar (`m@mftestco.com`).
+*   **Logic:** It filters meetings to determine if they are external (sales calls) or internal. Internal meetings are ignored (task deleted).
+*   **Actions:** For external meetings, it joins the call using the "LindyMeeting" tool, creates a text summary in Google Docs, and drafts a follow-up email in Gmail to the prospect.
+
+#### 2. ISO 27001 Applicability
+**ISO 27001 is Applicable.**
+This agent processes Personally Identifiable Information (PII) and confidential business intelligence. Specifically:
+*   **A.8 (Asset Management):** The agent handles voice recordings and transcripts of external parties.
+*   **A.13 (Communications Security):** The agent automatically drafts and sends emails to external domains.
+*   **A.18 (Compliance):** The agent records conversations, invoking legal requirements regarding consent and data retention (GDPR, CCPA, etc.).
+
+#### 3. Specific Violations of ISO 27001
+Based on the provided definition, the following definitive violations are identified. Note: The trigger node `69719238668ab8405ca91e59` (Unknown/Unknown) was identified as dead/misconfigured code and was excluded from the functional risk analysis per your instructions.
+
+**Violation 1: Failure of Information Backup (ISO 27001:2013 Control A.12.3.1)**
+*   **Observation:** The `LindyMeeting` tool description explicitly states: *"Video recording URLs are valid for 24 hours after a meeting completes. Upload the video to Google Drive or another storage provider for long-term storage."*
+*   **The Violation:** The agent configuration **fails to perform this required upload step**. It creates a Google Doc (notes), but it does not save the source video file to a persistent storage location (e.g., Google Drive).
+*   **Risk:** This results in the guaranteed destruction of the primary audit record (the raw recording) after 24 hours. In an enterprise environment, relying on AI-generated notes without retaining the source material for verification violates data integrity and auditability requirements.
+
+**Violation 2: Privacy and Protection of PII (ISO 27001:2013 Control A.18.1.4)**
+*   **Observation:** In the "Record meeting" node (`...e47`), the configuration parameter `includeLindyLogo` is manually set to `false`.
+*   **The Violation:** Disabling the visual indicator of the recording bot reduces transparency. While the bot is named "Lindy Notetaker", removing the logo obfuscates the presence of an automated recording device.
+*   **Risk:** This increases the risk of non-compliance with privacy regulations requiring clear notification of recording (e.g., "Two-party consent" laws). In an enterprise context, recording external parties without distinct, clear indicators is a significant compliance liability.
+
+**Compliance Note (Positive Findings):**
+*   **A.13.2 (Information Transfer):** The Gmail action uses `requiresConfirmation: true`. This effectively mitigates the risk of the AI sending unapproved or hallucinated content to clients.
+*   **A.9.2 (Access Control):** The Google Docs action sets `sharingPreference` to "Private (only me)". This adheres to the principle of least privilege.
+
+#### 4. Recommendations for Remediation
+1.  **Implement Data Retention:** Add a new action step immediately after "Record meeting" to upload the video file (using the URL from the meeting output) to a designated folder in Google Drive or enterprise storage. This ensures the raw audit trail is preserved before the 24-hour expiration.
+2.  **Enable Transparency:** Change the `includeLindyLogo` setting to `true` in the "Record meeting" configuration to ensure maximum visibility of the recording agent to external participants.
+3.  **Clean Up Configuration:** Remove the "Unknown" trigger (ID `...e59`). While currently treated as dead code, its presence represents poor release management (A.14.2) and, if activated, would bypass the "External meeting" logic filter, allowing the recording of confidential internal meetings.
+
+#### 5. Overall Compliance Rating
+**Non-Compliant**
+
+*Rationale:* While the agent handles access control and email permissions correctly, the guaranteed loss of the primary data asset (the video recording) due to the failure to configure backup storage constitutes a significant failure in Information Lifecycle Management and Auditability. This poses a practical risk to the organization regarding data integrity and dispute resolution.

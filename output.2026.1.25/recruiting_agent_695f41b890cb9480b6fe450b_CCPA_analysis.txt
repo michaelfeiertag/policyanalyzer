@@ -1,0 +1,47 @@
+Agent: recruiting-agent-695f41b890cb9480b6fe450b
+ID: recruiting-agent-695f41b890cb9480b6fe450b
+Log file: None
+Regulation: CCPA
+============================================================
+
+Based on the provided Agent Definition (note: the [SAMPLE_LOG] was referenced but not included in the prompt, so this assessment relies strictly on the logic and configuration defined in the JSON), here is the CCPA compliance assessment.
+
+### 1. Summary of Agent Function
+The "Recruiting Agent" is an automated prospecting tool designed to:
+1.  **Collect PII:** Query a third-party data broker (People Data Labs) to retrieve Personal Information (PI) including Full Names, Job Titles, Companies, Locations, **Personal Emails**, and LinkedIn URLs.
+2.  **Store PII:** Create and populate unmanaged Google Sheets with this data.
+3.  **Process/Act on PII:** Iterate through the retrieved list and send emails directly to the individuals via a connected Gmail account.
+
+### 2. CCPA Applicability
+**Yes, CCPA is applicable.**
+*   **Personal Information (PI) Processing:** The agent explicitly collects and processes "Personal Information" as defined under Cal. Civ. Code § 1798.140(v), specifically names, personal email addresses, and professional employment information.
+*   **Commercial Purpose:** The agent operates for the benefit of the enterprise (recruiting/sales), constituting a business purpose.
+*   **Consumer Definition:** The search criteria (e.g., "Data Scientists in San Francisco") targets individuals who are likely California residents ("Consumers").
+
+### 3. Specific Violations of CCPA
+Based on the agent's logic flow, the following definitive violations and risks are identified:
+
+**A. Inability to Operationalize "Right to Delete" and "Right to Know" (Cal. Civ. Code § 1798.100 - 105)**
+*   **Violation:** The agent creates ad-hoc Google Sheets (`"tool": "GoogleSheets", "action": "create"`) to store PII.
+*   **Why it violates CCPA:** CCPA requires businesses to maintain a data inventory to fulfill Consumer Rights Requests (e.g., a request to delete all data the company holds on them). By generating unstructured, unmapped spreadsheets containing PII, the agent creates "dark data" silos. If a consumer submits a deletion request, the enterprise's central compliance systems will likely not know this specific Google Sheet exists, leading to a failure to delete the data and a violation of the regulation.
+
+**B. Failure to Respect Opt-Out/Suppression Requests (Cal. Civ. Code § 1798.120)**
+*   **Violation:** The agent logic flows directly from `Search for leads` -> `Send lead info` -> `Loop` -> `Gmail send`.
+*   **Why it violates CCPA:** There is **no logic node** configured to cross-reference the retrieved leads against the organization's internal "Do Not Sell/Share" or "Do Not Contact" suppression lists.
+*   **Risk:** If a California resident has previously exercised their right to opt-out or delete their data, this agent will re-acquire their data from the third party (People Data Labs) and immediately process it (email them), constituting a direct violation of their exercised rights.
+
+**C. Notice at Collection (Cal. Civ. Code § 1798.100(b))**
+*   **Violation:** The agent collects data from a source other than the consumer (Indirect Collection) and facilitates immediate outreach without enforcing a privacy notice.
+*   **Why it violates CCPA:** When collecting data indirectly, the business must provide notice to the consumer. While the agent sends an email, the content is defined by the user (`"prompt": "the user tells you the content..."`). There is no systemic enforcement ensuring the email contains the required CCPA privacy notice or a link to the privacy policy, creating a high risk of non-compliant collection.
+
+### 4. Recommendations for Remediation
+To bring this agent into compliance, the following changes are required:
+
+1.  **Integrate Suppression Check:** Insert a `Logic` or `Action` node between the "Search for leads" and "Create lead list" steps that cross-references the retrieved emails against the enterprise's central "Opt-Out/Suppression" database. The agent must discard any leads found on this list.
+2.  **Eliminate Unmanaged Storage:** Replace the `GoogleSheets` action with a CRM action (e.g., Salesforce, HubSpot). PII should only be stored in systems that are connected to the enterprise's Data Subject Access Request (DSAR) automation tools.
+3.  **Enforce Privacy Notice:** Hardcode a footer into the `Gmail` action configuration that includes a mandatory link to the enterprise's Privacy Policy and CCPA Notice, rather than relying entirely on user-generated content.
+
+### 5. Overall Compliance Rating
+**Non-Compliant**
+
+The agent introduces significant regulatory risk by generating unmapped PII silos (Google Sheets) that impede Data Subject Rights fulfillment and by lacking the logic to verify if a consumer has previously opted out of contact.

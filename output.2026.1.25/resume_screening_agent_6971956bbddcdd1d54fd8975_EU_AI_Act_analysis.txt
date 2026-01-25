@@ -1,0 +1,52 @@
+Agent: resume-screening-agent-6971956bbddcdd1d54fd8975
+ID: resume-screening-agent-6971956bbddcdd1d54fd8975
+Log file: None
+Regulation: EU-AI-Act
+============================================================
+
+Here is the assessment of the "Resume Screening Agent" based on the EU AI Act.
+
+### 1. Summary of Agent Function
+The agent is an automated recruitment tool designed to screen job applicants. It triggers upon receiving an email (via Gmail) containing a resume. It retrieves a specific Job Description from a Google Doc, compares the resume against the job description using an AI model, and classifies the applicant into one of three categories: "Qualified," "Unqualified," or "Borderline." Finally, it drafts and sends an email to the Hiring Manager (the user) with a summary of the candidate's fit and a recommendation.
+
+### 2. EU AI Act Applicability
+**Applicable: YES**
+**Classification: High-Risk AI System**
+
+**Reasoning:**
+Under **Annex III, Paragraph 4(a)** of the EU AI Act, AI systems intended to be used for the "recruitment or selection of natural persons, notably for placing targeted job advertisements, analysing and filtering applications, and evaluating candidates" are classified as **High-Risk**.
+
+This agent explicitly functions to "screen," "classify," "evaluate," and assign a "matching score" to candidates for employment. Therefore, it falls squarely under the High-Risk regulatory regime, subjecting it to strict compliance obligations regarding data governance, transparency, human oversight, and accuracy.
+
+### 3. Specific Violations
+Based on the provided agent definition, the following definitive violations are present:
+
+*   **Violation of Article 14 (Human Oversight - Automation Bias):**
+    *   **Evidence:** The agent is configured to definitively categorize candidates in the email subject lines as "Qualified Candidate" or "Unqualified Candidate" (Nodes `6971956bbddcdd1d54fd8983` and `6971956bbddcdd1d54fd8984`).
+    *   **Risk:** This design induces "automation bias," where the human operator (Hiring Manager) is psychologically primed to accept the AI's judgment without critical review. The system presents a conclusion rather than a support tool for decision-making. For High-Risk systems, the design must enable the deployer to oversee the system and override outputs; the current "Unqualified" workflow effectively filters the candidate before the human reads the details.
+
+*   **Violation of Article 12 (Record-Keeping):**
+    *   **Evidence:** The agent logic flows directly from analysis to email generation. There is no step in the definition that logs the raw analysis, the "matching score" mentioned in the instructions, or the specific criteria that led to the decision (beyond the ephemeral email body).
+    *   **Risk:** High-Risk systems must automatically record events (logs) to ensure traceability of the system's functioning. If a candidate challenges a rejection (which is their right), the organization has no retained record of the specific logic or scoring used to disqualify them, only the final email draft.
+
+*   **Violation of Article 13 (Transparency and Provision of Information):**
+    *   **Evidence:** The "Unqualified" email prompt instructs the AI to "Clearly state the reasons for disqualification."
+    *   **Risk:** Without a "Explainability" or "Reasoning" node that is separate from the email drafting node, the system risks hallucinating reasons to fit the "Unqualified" bucket. The system does not provide the user (HR) with the raw data comparison, only a generated narrative. This violates the requirement for the output to be sufficiently transparent and interpretable by the deployer.
+
+### 4. Remediation Recommendations
+To mitigate these risks and move toward compliance:
+
+1.  **Implement "Human-in-the-Loop" Logic (Article 14):**
+    *   Change the email subject lines. Do not use "Unqualified Candidate." Use neutral language such as "Candidate Analysis: [Name]" for all outcomes.
+    *   Modify the prompt instructions to present *evidence* rather than *conclusions*. The AI should provide a "Fit Analysis" rather than a "Rejection."
+
+2.  **Establish Logging (Article 12):**
+    *   Add a step to the agent workflow to save the analysis results (the pros/cons and matching score) to a persistent record (e.g., a row in a Google Sheet or a database) *before* sending the email. This creates an audit trail required for High-Risk systems.
+
+3.  **Fundamental Rights Impact Assessment (Article 27):**
+    *   As a High-Risk system deployer, you must perform an assessment of how this agent might impact the fundamental rights of applicants (specifically regarding non-discrimination). You must verify the model ("md") has been tested for bias against protected groups.
+
+### 5. Compliance Rating
+**NON-COMPLIANT**
+
+**Summary:** As a High-Risk AI system under Annex III, this agent currently lacks the necessary governance, logging, and oversight mechanisms required by law. Deploying it in its current state creates significant legal and regulatory liability.

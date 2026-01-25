@@ -1,0 +1,47 @@
+Agent: ai-cmo-research-agent-697194e773107647553ffb5a
+ID: ai-cmo-research-agent-697194e773107647553ffb5a
+Log file: None
+Regulation: SOC2
+============================================================
+
+Here is the compliance assessment for the agent **AI CMO | Research Agent** based on the provided definition and SOC 2 Trust Services Criteria.
+
+### 1. Agent Function Summary
+This agent acts as an automated Chief Marketing Officer researcher. It accepts a company URL as input, scrapes the website, and utilizes Perplexity AI to perform deep research on the company, its industry, and its competitors. It generates comprehensive marketing assets including customer personas, value propositions, and competitive analysis. Finally, it creates multiple Google Docs containing this proprietary intelligence and outputs links to the user.
+
+### 2. SOC 2 Applicability
+**Applicable.**
+SOC 2 is applicable because this agent processes, generates, and stores proprietary business intelligence and strategy data. The **Confidentiality** principle of the Trust Services Criteria is directly engaged, as the organization expects generated competitive analysis and internal strategy documents to remain restricted to authorized personnel.
+
+### 3. Specific SOC 2 Violations
+**Violation Found: Critical Failure of Confidentiality Controls (CC6.1, CC6.7)**
+
+The agent explicitly configures the access control lists (ACLs) of generated assets to be publicly accessible and editable by anonymous users on the internet.
+
+*   **Evidence:** In the Agent Definition, multiple `GoogleDocs` `create` action nodes utilize the following configuration:
+    ```json
+    {
+      "path": "sharingPreference",
+      "type": "manual",
+      "value": "Anyone with the link can edit"
+    }
+    ```
+*   **Affected Nodes:**
+    *   `697194e773107647553ffb78` (Create Competitor Document)
+    *   `697194e773107647553ffb7c` (Company | Customer Profile)
+    *   `697194e773107647553ffb85` (Competitor Analysis)
+    *   `697194e773107647553ffb86` (Company | Customer Psychology)
+    *   `697194e773107647553ffb88` (Company | Offering Context)
+    *   `697194e773107647553ffb8a` (Company | Brand Guidelines)
+    *   `697194e773107647553ffb8c` (Company | Marketing Offers)
+
+**Impact:** This configuration bypasses authentication controls. Any entity possessing the link (which can be intercepted via logs, browser history, or network traffic) can not only read proprietary strategy documents but also modify or delete the data (Integrity violation). This is a definitive failure to restrict access to authorized users.
+
+### 4. Remediation Recommendations
+1.  **Restrict File Permissions:** Immediately modify the `sharingPreference` value in all listed nodes from `"Anyone with the link can edit"` to `"Private (only me)"` or `"Domain/Organization restricted"`.
+2.  **Review Hardcoded Folder IDs:** The agent uses a hardcoded Google Drive folder ID (`1g8A373DKGNTI2ofPgy0S_btYkUmfrfSB`) in multiple nodes. Verify this folder ID belongs to a secured, enterprise-managed Drive and not a personal or external drive to ensure data retention policies are met.
+
+### 5. Compliance Rating
+**Non-Compliant**
+
+The agent introduces a high-severity risk by defaulting proprietary data output to public-write access. It cannot be deployed in a SOC 2 controlled environment without immediate remediation of the permission settings.

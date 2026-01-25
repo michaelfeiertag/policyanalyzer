@@ -1,0 +1,45 @@
+Agent: recruiting-agent-695f41b890cb9480b6fe450b
+ID: recruiting-agent-695f41b890cb9480b6fe450b
+Log file: None
+Regulation: CPRA
+============================================================
+
+Here is the assessment of the "Recruiting Agent" based on the provided definition and strict adherence to CPRA regulations.
+
+### 1. Summary of Agent Function
+The "Recruiting Agent" functions as a Sales Development Representative (SDR) automation tool. Its primary workflow involves:
+1.  **Data Collection:** Querying a third-party data broker (People Data Labs) to retrieve Personal Information (PI) including Full Names, Job Titles, Personal Emails, and LinkedIn URLs based on user criteria (e.g., "Data Scientists in San Francisco").
+2.  **Data Storage:** Creating new, ad-hoc Google Sheets and populating them with this PI.
+3.  **Data Activation:** Offering functionality to loop through these leads and send outbound emails via a connected Gmail account.
+
+### 2. CPRA Applicability
+**Status:** **Applicable**
+
+*   **Jurisdiction:** As a large enterprise, your organization likely meets the threshold requirements for CPRA (gross revenues >$25 million or processing data of 100,000+ consumers).
+*   **Data Subjects:** The agent configuration explicitly uses "San Francisco" as a prompt example and filters by location. It is designed to process the data of California residents.
+*   **Personal Information (PI):** The agent explicitly collects "Personal Email," "Full Name," and "Employment History." Under CPRA (Cal. Civ. Code § 1798.140(v)(1)), this constitutes Personal Information.
+
+### 3. Specific CPRA Violations
+Based on the agent definition, the following **definitive** violations and risks exist:
+
+**A. Violation of Right to Delete and Access (Data Governance Failure)**
+*   **Regulatory Basis:** CPRA § 1798.105 (Right to Delete) and § 1798.110 (Right to Know).
+*   **Evidence:** Node `695f41b990cb9480b6fe4512` (Create lead list) creates a *new* Google Sheet for every request titled "DD.MM / {Topic}".
+*   **The Violation:** The agent creates unmanaged data silos (Shadow IT). By generating ad-hoc spreadsheets containing PI outside of a centralized Customer Relationship Management (CRM) or Compliance system, the agent makes it operationally impossible for the enterprise to fulfill a Data Subject Access Request (DSAR). If a consumer requests their data be deleted, the compliance team will have no index or knowledge of these specific spreadsheets to perform the deletion, leading to a definitive compliance gap.
+
+**B. Failure of Notice at Collection (Indirect Collection)**
+*   **Regulatory Basis:** CPRA Regulations § 7012 (Notice at Collection of Personal Information).
+*   **Evidence:** Node `695f41b990cb9480b6fe4513` (Search for leads) and Node `695f41b990cb9480b6fe451e` (Gmail send).
+*   **The Violation:** The agent collects PI from a source other than the consumer (People Data Labs) and processes it (stores it and sends emails). A business that does not collect information directly from the consumer must provide a Notice of Collection before or at the time the business contacts the consumer.
+*   The agent's logic allows it to email the lead immediately (Node `695f41b990cb9480b6fe451e`) without any verification that the consumer has been provided a privacy notice or an opportunity to opt-out prior to the solicitation.
+
+### 4. Recommendations for Remediation
+1.  **Integrate with System of Record:** Disable the "Create Google Sheet" action. Replace it with an action that pushes leads directly into a CPRA-compliant CRM (e.g., Salesforce, HubSpot) where DSAR deletion rules are already enforced.
+2.  **Implement Notice Protocol:** Modifying the email loop to ensure that the *first* contact with any lead includes a clear link to the Enterprise Privacy Policy and a Notice of Collection, satisfying the requirement for indirect collection notice.
+3.  **Data Minimization:** Hardcode the People Data Labs query to strictly exclude Sensitive Personal Information (SPI) unless a specific business purpose and additional security layer are added.
+4.  **Vendor Validation:** Verify that the contract with People Data Labs includes the required CPRA "Service Provider" or "Contractor" terms to ensure the transfer of data from PDL to your enterprise does not constitute "selling" or "sharing" under CPRA.
+
+### 5. Overall Compliance Rating
+**Rating:** **Non-Compliant**
+
+The agent introduces significant risk by mechanically generating unmanaged repositories of Personal Information (Google Sheets) that bypass the organization's ability to execute Consumer Rights Requests (Deletion/Access).

@@ -1,0 +1,48 @@
+Agent: lindy-agent-compliance-analyser-695ed16699530f1e0295d5a0
+ID: lindy-agent-compliance-analyser-695ed16699530f1e0295d5a0
+Log file: None
+Regulation: CCPA
+============================================================
+
+Here is the assessment for the "Lindy Agent Compliance Analyser" based on the provided definition.
+
+### 1. Summary of Agent Function
+The agent is designed to iterate through a list of items (likely agent IDs), convert these IDs into a base64 encoded GraphQL format, and execute a high-volume HTTP POST request to the Lindy GraphQL API.
+*   **Workflow:** It enters a loop (max 500 iterations), executes a JavaScript snippet to format an ID, and performs a `fetch2` (HTTP POST) request.
+*   **Data Access:** The GraphQL query included in the HTTP body is extremely extensive. It requests deep nested data including:
+    *   User Identities (Name, Email, Avatar, IDs).
+    *   Billing Information (Credit usage, subscription plans, payment failures, promo codes).
+    *   Workspace Memberships (Roles, admin status).
+    *   Agent Definitions (Full state graphs, instructions, prompts).
+
+### 2. CCPA Applicability
+**Applicable.**
+CCPA (California Consumer Privacy Act) applies to this agent for the following reasons:
+1.  **Processing of Personal Information (PI):** The agent explicitly queries for and processes "Personal Information" as defined by CCPA, including real names, email addresses (`email`), unique personal identifiers (`distinct_id`, `lsid`), and commercial information (`billingInfo`, `creditBalance`, `subscriptionPlan`).
+2.  **Security Obligations:** As an enterprise agent handling PI, it is subject to Cal. Civ. Code § 1798.81.5, which mandates "reasonable security procedures and practices" to protect non-encrypted personal information from unauthorized access, destruction, use, modification, or disclosure.
+
+### 3. Specific Violations of CCPA
+**Violation Found: Failure to Implement Reasonable Security Procedures (Cal. Civ. Code § 1798.81.5)**
+
+*   **Issue:** The `fetch2` node (ID: `695ed263d30659e475b9b9db`) contains **hardcoded, sensitive authentication credentials and session identifiers** in the `Cookie` header configuration.
+*   **Evidence:** The headers configuration includes:
+    *   `ph_phc_...`: A PostHog tracking cookie containing a specific `distinct_id` ("693b2e83...").
+    *   `lsid`: A live session ID (`s:9Qhv_jJ2JDZ...`).
+    *   `lindy_anon_id`: An anonymous user UUID.
+*   **Risk:** By hardcoding a specific user's session token and tracking ID into the agent definition, this agent allows *any* user who runs or views this agent to impersonate the original user ("Michael Feiertag" or the owner of `distinct_id` 693b2e83). This grants unauthorized access to that user's Personal Information (emails, billing data) and workspace data.
+*   **Compliance Impact:** This is a definitive breach of the duty to implement reasonable security. Hardcoding active session tokens constitutes a failure to protect PI against unauthorized access. If this agent is shared or the definition is logged, the user's account is compromised.
+
+**Violation Found: Inability to Facilitate Rights to Delete/Opt-Out (Cal. Civ. Code § 1798.105)**
+*   **Issue:** The agent logic relies on hardcoded persistent identifiers (`distinct_id` and `lindy_anon_id`) embedded directly in the code.
+*   **Compliance Impact:** If a user requests deletion of their data, this agent cannot comply because the identifiers are "baked in" to the operational logic of the automation. The agent effectively creates a permanent record of a specific user's identifiers that persists outside standard data retention policies.
+
+### 4. Specific Recommendations for Remediation
+1.  **Immediate Action:** Revoke the session ID (`lsid`) found in the `fetch2` node immediately to prevent active impersonation.
+2.  **Remove Hardcoded Credentials:** Delete the manual `Cookie` header entry in the `fetch2` node. Replace this with the platform's native authentication handling (e.g., using the `LindyControlFlow` or an authenticated API tool wrapper) that utilizes the *current* user's context dynamically.
+3.  **Data Minimization:** The GraphQL query is excessively broad. Reduce the query to fetch *only* the data required for the stated purpose ("list agents"). Remove fragments requesting `BillingInfo`, `Identity` (emails), and `SubscriptionInfo` unless strictly necessary for the agent's output.
+4.  **Variable Injection:** Do not hardcode workspace URLs (`michael-feiertags-workspace-2`) or user IDs. These should be passed as dynamic input variables to ensure the agent processes data relevant only to the current authorized user.
+
+### 5. Overall Compliance Rating
+**Non-Compliant**
+
+The presence of hardcoded active session cookies and personal identifiers constitutes a significant security vulnerability that violates the core "reasonable security" requirements of CCPA. This agent exposes specific user data to unauthorized access and impersonation.

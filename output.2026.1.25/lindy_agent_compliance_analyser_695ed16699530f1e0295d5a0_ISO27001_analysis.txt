@@ -1,0 +1,47 @@
+Agent: lindy-agent-compliance-analyser-695ed16699530f1e0295d5a0
+ID: lindy-agent-compliance-analyser-695ed16699530f1e0295d5a0
+Log file: None
+Regulation: ISO27001
+============================================================
+
+Here is the assessment of the "Lindy Agent Compliance Analyser" based on the provided definition. Note that no `[SAMPLE_LOG]` was provided in the prompt, so this assessment relies strictly on the static analysis of the `[AGENT_DEFINITION]`.
+
+### 1. Summary of Function
+The agent is designed to iterate through a list of items (presumably internal agent representations). Inside a loop (max 500 iterations), it performs the following steps:
+1.  **Data Transformation:** Uses a JavaScript code node to parse an input item and generate a Base64 encoded GraphQL Global ID (`AgentDefinition:<ID>`).
+2.  **API Request:** Executes a `POST` request to a GraphQL endpoint. The request includes a massive query payload requesting deep details about the user's workspace, including billing info, credit usage, subscription plans, identity details, and agent definitions.
+3.  **Authentication:** It utilizes a hardcoded `Cookie` header to authenticate the request.
+
+### 2. ISO 27001 Applicability
+**Applicable.**
+ISO/IEC 27001 is applicable to this agent because it:
+*   **Handles Authentication Information:** The agent stores and transmits session tokens.
+*   **Accesses Sensitive Information:** The agent retrieves PII (Personal Identifiable Information), financial data (billing/credits), and proprietary configuration data (agent instructions/prompts).
+*   **Performs Automated Processing:** The agent executes code and makes external network calls, falling under operations security and communications security domains.
+
+### 3. Specific Violations of ISO 27001
+The following **definitive and significant** violations were identified in the agent definition:
+
+**A. Improper Protection of Authentication Information (ISO 27001:2022 Control 5.17, 8.24)**
+*   **Violation:** Hardcoded Session Credentials.
+*   **Evidence:** In the configuration for the HTTP Action node (`695ed263d30659e475b9b9db`), the `headers` section contains a hardcoded `Cookie` value. This value includes a live Session ID (`lsid=s%3A9Qhv...`), Cloudflare tokens, and PostHog tracking IDs.
+*   **Risk:** This is a critical vulnerability. Hardcoding a session token means the agent is impersonating a specific user (likely the developer who built it). Anyone with access to this agent definition can extract this token and hijack the user session, gaining full access to their account. This violates requirements for secret management and secure authentication.
+
+**B. Principle of Least Privilege / Access Control (ISO 27001:2022 Control 5.15, 8.2)**
+*   **Violation:** Excessive Data Access.
+*   **Evidence:** The agent's description states it "lists all agents." However, the GraphQL query in the HTTP body (`695ed263d30659e475b9b9db`) requests a vast amount of unrelated sensitive data, including:
+    *   `billingInfo` (subscription plans, credit balances, payment failures).
+    *   `workspaceMemberships` (roles, emails of other members).
+    *   `pendingInvitations`.
+    *   `flags` (internal feature flags).
+*   **Risk:** The agent retrieves significantly more data than is required for its stated business purpose. This violates the Principle of Least Privilege. If the output of this agent is logged or shared, it leaks financial and organizational data unnecessarily.
+
+### 4. Recommendations for Remediation
+1.  **Remove Hardcoded Credentials (Critical):** Immediately revoke the session ID (`lsid`) found in the JSON. Modify the agent to use a dynamic authentication method (e.g., OAuth2 or passing a token via runtime variables) rather than embedding a static cookie string in the definition.
+2.  **Minimize Data Scope:** Rewrite the GraphQL query to request *only* the fields required to list the agents (e.g., `id`, `name`, `status`). Remove requests for `billingInfo`, `creditsInfo`, and deep nested `workspaceMembership` details.
+3.  **Implement Variable Injection:** Instead of hardcoding headers, map the authentication headers to a secure credential store or the context of the user triggering the agent.
+
+### 5. Overall Compliance Rating
+**Non-Compliant**
+
+*The presence of hardcoded active session tokens constitutes a critical security failure that immediately violates ISO 27001 controls regarding access control and information security.*

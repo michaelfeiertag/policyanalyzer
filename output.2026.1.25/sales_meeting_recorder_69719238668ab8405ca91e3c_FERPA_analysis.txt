@@ -1,0 +1,31 @@
+Agent: sales-meeting-recorder-69719238668ab8405ca91e3c
+ID: sales-meeting-recorder-69719238668ab8405ca91e3c
+Log file: None
+Regulation: FERPA
+============================================================
+
+Based on the provided Agent Definition and the constraints of your request, here is the assessment regarding FERPA compliance.
+
+### 1. Summary of the Agent's Function
+The "Sales Meeting Recorder" is an automated workflow designed to assist sales professionals. It triggers when a calendar event starts, checks if the meeting involves external attendees, and if so, joins the meeting to record and transcribe it. It subsequently exports meeting notes to a private Google Doc and drafts a follow-up email to the "prospect" (external attendee) via Gmail, summarizing the call and proposing next steps.
+
+### 2. FERPA Applicability
+**FERPA is NOT Applicable.**
+
+**Reasoning:**
+The Family Educational Rights and Privacy Act (FERPA) protects the privacy of student education records held by educational agencies or institutions that receive funding from the U.S. Department of Education.
+
+*   **Nature of Data:** The agent is explicitly configured for B2B commercial sales. The email generation prompt references "outbound process," "LinkedIn messaging," "SOC2 Compliance," and "trialing" software. This indicates the data being processed is commercial business information, not "Education Records" (records directly related to a student).
+*   **User Context:** The user email domain (`mftestco.com`) and the context of the agent ("Sales Meeting," "close more deals") suggest a commercial enterprise environment, not an educational institution acting in a capacity involving student records.
+
+### 3. Specific Violations of FERPA
+**No violations found.**
+
+*   **Evidence:** There is no evidence in the agent definition or the implied trace data that this agent processes "Personally Identifiable Information" (PII) derived from student education records.
+*   **Dead Code:** The node `69719238668ab8405ca91e59` (Tool: Unknown) is a dead/no-op path that feeds into the recording action but lacks configuration; it does not introduce any data processing relevant to FERPA.
+
+### 4. Specific Recommendations for Remediation
+*   **None required.** As the agent does not process FERPA-regulated data, no remediation is necessary regarding this specific regulation.
+
+### 5. Overall Compliance Rating
+**Compliant**

@@ -1,0 +1,33 @@
+Agent: lindy-agent-lister-693c78bb39099082df392692
+ID: lindy-agent-lister-693c78bb39099082df392692
+Log file: None
+Regulation: SOC2
+============================================================
+
+Based on the provided Agent Definition (and noting the absence of the referenced `[SAMPLE_LOG]` in the input), here is the SOC 2 compliance assessment.
+
+### 1. Summary of Agent Function
+The "Lindy Agent Lister" is an automated reporting tool. It triggers on a recurring hourly schedule (`0 * * * *`). Upon triggering, it retrieves a list of all agents within the user's Lindy workspace. It then iterates through this list (up to 500 items) and upserts specific metadata (AgentID, Agent Name, Last Task Date) into a specific, hardcoded Google Sheet.
+
+### 2. SOC 2 Applicability
+**Applicable.**
+SOC 2 is applicable to this agent because it performs automated data processing involving internal system configuration data (Agent Metadata) and transmits this data to an external sub-processor (Google Sheets). This activity falls under the Trust Services Criteria for **Confidentiality** (protecting information designated as confidential) and **Processing Integrity** (system processing is complete, valid, and accurate).
+
+### 3. Specific Violations of SOC 2
+**None Found.**
+
+Based strictly on the agent definition provided and the instruction to assume compliance in the absence of evidence to the contrary, there are no definitive SOC 2 violations.
+*   **Access Control (CC6.1):** The agent utilizes standard integration tools (`GoogleSheets`). While the Spreadsheet ID is hardcoded, this is a configuration identifier, not a credential/secret (like an API Key or Password). There is no evidence in the definition that the agent is bypassing authentication or logging credentials insecurely.
+*   **Data Transmission (CC6.7):** Google Sheets API interactions occur over HTTPS/TLS, satisfying encryption requirements for data in transit.
+*   **Processing Integrity (PI1.2):** The logic flow (Loop -> Upsert) is structurally sound for the intended purpose of reporting.
+
+*Note: As the [SAMPLE_LOG] was not provided, no runtime errors or data leakage could be assessed.*
+
+### 4. Specific Recommendations for Remediation
+While the agent is compliant based on the definition, the following recommendations align with SOC 2 best practices for Change Management (CC8.1) and Logical Access (CC6.1):
+
+1.  **Externalize Configuration:** Move the hardcoded Spreadsheet ID (`1auUbfTVe3XnLfvMoFdLsC8nqO5QW0srkyIvyBGyZu2Q`) to an environment variable or a secure configuration input. Hardcoding destination resources makes the agent brittle and harder to audit if the destination changes.
+2.  **Verify Destination Access Control:** Ensure the Google Sheet with the ID `1auUbfTVe3XnLfvMoFdLsC8nqO5QW0srkyIvyBGyZu2Q` has strict Access Control Lists (ACLs) limited only to authorized personnel. The agent writes data there; if that sheet is "Public with the link," it would become a Confidentiality violation.
+
+### 5. Overall Compliance Rating
+**Compliant**

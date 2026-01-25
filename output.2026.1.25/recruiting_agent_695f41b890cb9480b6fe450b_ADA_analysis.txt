@@ -1,0 +1,35 @@
+Agent: recruiting-agent-695f41b890cb9480b6fe450b
+ID: recruiting-agent-695f41b890cb9480b6fe450b
+Log file: None
+Regulation: ADA
+============================================================
+
+Based on the provided Agent Definition and the constraints of your request (focusing strictly on ADA and ignoring missing logs if no evidence exists in the definition), here is the assessment.
+
+### 1. Summary of Agent Function
+The "Recruiting Agent" is an automated sourcing tool designed to find potential job candidates. It utilizes the "People Data Labs" (PDL) tool to search for individuals based on professional criteria (job title, company, location, industry, skills). It compiles these leads into a Google Sheet, presents a summary in a markdown table, and possesses the capability to send outreach emails via Gmail to the identified leads.
+
+### 2. ADA Applicability
+**Yes, ADA is applicable.**
+This agent is deployed in the context of employment recruiting and hiring. Under **Title I of the Americans with Disabilities Act (ADA)**, employers are prohibited from discriminating against qualified individuals with disabilities in job application procedures and hiring.
+*   **Reasoning:** The Equal Employment Opportunity Commission (EEOC) and the Department of Justice (DOJ) have issued guidance stating that the use of software, algorithms, and AI in employment selection procedures must not screen out individuals with disabilities or result in disparate impact. As this agent acts as a "screener" or "sourcer," it is subject to these regulations.
+
+### 3. Specific Violations of ADA
+**No definitive ADA violations found.**
+
+Based strictly on the provided JSON definition:
+*   **Search Criteria:** The hardcoded filters in the agent's prompt (Node `695f41b990cb9480b6fe4513`) are: `location`, `company name & size`, `company industry`, `job title`, and `gender`. While `gender` presents risks under other statutes (Title VII), none of these filters screen for medical history, disability status, gaps in employment (often a proxy for disability), or physical capabilities.
+*   **Output Accessibility:** The agent outputs data into Google Sheets and Markdown tables. These formats are generally compatible with assistive technologies (screen readers), meeting the requirement that recruitment materials be accessible.
+*   **Process:** The agent does not administer tests (e.g., gamified assessments or timed responses) that would require accommodation handling.
+
+*Note: The sample log was referenced in your prompt but was not included in the data block. As per your instructions ("If there is no evidence of a violation assume there is none"), this assessment relies solely on the definition which contains no evidence of ADA non-compliance.*
+
+### 4. Specific Recommendations for Remediation
+While the agent is technically compliant based on its definition, the following recommendations ensure continued safety:
+*   **Maintain Standard Filters:** Ensure that future iterations of the system prompt (Node `695f41b990cb9480b6fe4513`) do not add exclusionary criteria such as "must have valid driver's license" (unless essential to the job) or "no gaps in employment," as these can disproportionately affect individuals with disabilities.
+*   **User Training:** Remind users interacting with the agent that they should not prompt the agent to search for health-related data, even though the agent is instructed to use professional filters.
+
+### 5. Overall Compliance Rating
+**Compliant**
+
+The agent's logic and configuration, as defined in the provided code, do not contain logic that discriminates based on disability, nor does it produce inaccessible output formats.

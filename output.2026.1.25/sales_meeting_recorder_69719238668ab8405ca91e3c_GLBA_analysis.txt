@@ -1,0 +1,34 @@
+Agent: sales-meeting-recorder-69719238668ab8405ca91e3c
+ID: sales-meeting-recorder-69719238668ab8405ca91e3c
+Log file: None
+Regulation: GLBA
+============================================================
+
+**GLBA Compliance Assessment: Sales Meeting Recorder**
+
+**1. Summary of Agent Function**
+The "Sales Meeting Recorder" is an automated assistant designed to join scheduled sales meetings via video conferencing tools (Zoom, Google Meet, Teams). Upon detecting an external meeting (based on attendee email domains), it records the session, transcribes the audio, and uses AI to generate sales notes. These notes are saved to a private Google Doc in the user's "My Drive." Finally, it drafts a follow-up email to the prospect with a summary of the call, which requires human confirmation before sending.
+
+**2. GLBA Applicability**
+**Applicable.**
+As a security officer for a large enterprise, if your organization falls under the definition of a "financial institution" (offering financial products/services like loans, insurance, or investment advice), this agent is subject to the Gramm-Leach-Bliley Act (GLBA). Sales calls in this context frequently involve the collection of Nonpublic Personal Information (NPI), such as income details, credit history, social security numbers, or account information. Therefore, the Safeguards Rule (protecting data security) and Privacy Rule (limiting sharing) apply to the data processed by this agent.
+
+**3. Specific Violations of GLBA**
+**None Found.**
+Based on the provided agent definition and the instruction to identify only definitive, significant violations:
+
+*   **Data Privacy (Safeguards Rule):** The agent explicitly configures the output Google Doc with `sharingPreference` set to `"Private (only me)"`. This adheres to the principle of least privilege and prevents unauthorized internal or external access to the NPI contained in the notes.
+*   **Information Sharing (Privacy Rule):** While the agent drafts an email containing a summary of the call (which could theoretically contain NPI), the configuration `requiresConfirmation: true` ensures a human must review and approve the email before it is sent. This "human-in-the-loop" mechanism prevents the automated, unchecked dissemination of NPI via email.
+*   **Logic Filtering:** The agent includes logic (`External meeting?`) to ensure it only acts on meetings involving external parties, reducing the risk of recording sensitive internal-only financial discussions.
+*   *Note on Dead Code:* An "Unknown" tool trigger (ID: `...1e59`) was identified that connects directly to the recording action. As per instructions, this was identified as dead/no-oped code and ignored; however, if this trigger were active, it would bypass the "External meeting" check, which would be a risk.
+
+**4. Recommendations for Remediation**
+While the agent logic is compliant, the following recommendations address operational risks associated with GLBA:
+
+*   **Vendor Due Diligence (Lindy & AI Provider):** Ensure that the vendor providing the `LindyMeeting` tool and the underlying LLM (`claude3_5_sonnet`) has signed a Data Processing Addendum (DPA) or contract that aligns with your organization's GLBA obligations, specifically regarding the temporary storage and transcription of audio data.
+*   **Centralized Storage:** The agent saves notes to `My Drive`. For better auditability under the Safeguards Rule, consider updating the `googledocs-folder` configuration to save to a centralized, monitored Shared Drive (e.g., "Client Records") rather than individual user drives, ensuring data retention policies are met if the employee leaves.
+
+**5. Overall Compliance Rating**
+**COMPLIANT**
+
+The agent's configuration includes specific privacy controls (private document creation) and safety gates (human confirmation for emails) that prevent definitive GLBA violations in its automated logic.

@@ -1,0 +1,46 @@
+Agent: sales-meeting-recorder-69719238668ab8405ca91e3c
+ID: sales-meeting-recorder-69719238668ab8405ca91e3c
+Log file: None
+Regulation: ePrivacy-Directive
+============================================================
+
+Based on the provided Agent Definition and the requirements of the ePrivacy Directive (Directive 2002/58/EC), here is the compliance assessment.
+
+### 1. Summary of Agent Function
+The "Sales Meeting Recorder" is an automated agent designed to assist sales staff. Its primary workflow is:
+1.  **Monitor Calendar:** Automatically detects the start of calendar events.
+2.  **Filter:** Checks if the meeting involves external attendees (non-company domains).
+3.  **Intercept & Record:** Automatically joins the video conference (Zoom, Teams, Google Meet) as a bot named "Lindy Notetaker," records the audio/video, and generates a transcript.
+4.  **Process Data:** Saves notes to a private Google Doc.
+5.  **Communications:** Drafts a follow-up sales email to the prospect based on the call context.
+
+### 2. ePrivacy Directive Applicability
+**Applicable.**
+The ePrivacy Directive applies to this agent for the following reasons:
+*   **Article 5 (Confidentiality of the Communications):** The agent performs "interception" and "surveillance" of communications by recording and transcribing voice data from telephone or internet-based calls.
+*   **Article 13 (Unsolicited Communications):** The agent generates electronic mail for direct marketing or commercial follow-up purposes.
+
+### 3. Specific Violations of ePrivacy Directive
+
+**Violation 1: Interception of Communications without Consent (Article 5(1))**
+*   **The Issue:** The agent is configured to trigger the `joinMeeting` action automatically (`onCalendarEventStart`) with a 1-minute offset. There is no logic node prior to joining that solicits or verifies consent from the meeting participants.
+*   **Regulatory Basis:** Article 5(1) prohibits "listening, tapping, storage or other kinds of interception or surveillance of communications... without the consent of the users concerned."
+*   **Evidence:**
+    *   Node `69719238668ab8405ca91e47` (Record meeting) executes immediately after the logic check for "External meeting?" passes.
+    *   The configuration `includeLindyLogo: false` indicates an attempt to minimize the visual footprint of the recording bot, which reduces transparency and the likelihood of users noticing the recording to object to it.
+    *   While the bot is named "Lindy Notetaker," mere presence does not constitute the explicit consent required for recording electronic communications in many EU jurisdictions governed by this Directive.
+
+**Note on Email Marketing (Article 13):**
+The agent drafts a follow-up email. However, the configuration for the Gmail node (`69719238668ab8405ca91e4a`) includes `"requiresConfirmation": true`. Because a human must review and approve the email before it is sent, this does not constitute a violation of the prohibition on automated unsolicited communications, assuming the human operator verifies the recipient's relationship/consent status.
+
+### 4. Specific Recommendations for Remediation
+To mitigate the risks identified under Article 5(1):
+
+1.  **Implement Consent Gating:** The automated trigger must be disabled or modified. The agent should not record immediately upon joining. Instead, it should join, announce its presence and intent to record, and wait for a specific "start recording" command or explicit confirmation.
+2.  **Enable Visual Indicators:** Change the configuration value `includeLindyLogo` from `false` to `true` to ensure the bot is clearly visible to all participants as a third-party automated entity.
+3.  **Pre-Meeting Notification:** Configure the agent (or the calendar invite logic) to send an email prior to the meeting notifying attendees that an AI notetaker will be present and recording, providing them an opportunity to opt-out before the call begins.
+
+### 5. Overall Compliance Rating
+**Non-Compliant**
+
+The agent introduces significant regulatory risk by automatically intercepting and recording private communications without a mechanism to ensure the consent of all parties involved, which is a fundamental requirement of the ePrivacy Directive.

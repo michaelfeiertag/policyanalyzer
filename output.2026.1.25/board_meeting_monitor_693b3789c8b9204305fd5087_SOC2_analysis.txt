@@ -1,0 +1,35 @@
+Agent: board-meeting-monitor-693b3789c8b9204305fd5087
+ID: board-meeting-monitor-693b3789c8b9204305fd5087
+Log file: None
+Regulation: SOC2
+============================================================
+
+Based on the provided Agent Definition, here is the assessment regarding SOC2 compliance.
+
+### 1. Summary of Agent Function
+The agent ("Board meeting monitor") is designed to run twice daily (09:00 and 18:00). It queries a connected Calendar for "board meetings" occurring the following day.
+*   **In the morning:** It sends an email summary to `m@testco.com`.
+*   **In the afternoon:** It sends an SMS summary to `+14155312776`.
+
+### 2. SOC2 Applicability
+**Applicable.**
+SOC2 is applicable to this agent because it processes and transmits data that falls under the **Confidentiality** Trust Services Criteria. Specifically, the agent queries for "Board meetings." Information regarding the Board of Directors (schedules, existence of meetings, and topics) is universally classified as "Confidential" or "Restricted" within enterprise data classification policies. The unauthorized disclosure of this data constitutes a significant risk.
+
+### 3. Specific SOC2 Violations
+Based on the configuration provided, the following definitive violations are present:
+
+*   **Violation of CC6.7 (Confidentiality & Transmission):**
+    *   **Issue:** The agent is configured to transmit Board meeting details via SMS (Twilio node `693b38d0...`) during the afternoon execution.
+    *   **Reasoning:** SMS is a cleartext protocol and is not encrypted end-to-end. SOC2 Criteria CC6.7 requires that the entity restricts the transmission of confidential information over public networks to authorized users and uses encryption technologies. Sending Board data via SMS is a direct violation of transmission security standards for confidential data.
+
+*   **Violation of CC6.1 (Logical Access Security):**
+    *   **Issue:** The recipient phone number (`+14155312776`) and email (`m@testco.com`) are hardcoded directly into the agent's configuration.
+    *   **Reasoning:** SOC2 requires logical access to be managed via centralized identity and access management (IAM) systems to ensure access can be instantly revoked (e.g., upon employee termination). By hardcoding the destination, the agent bypasses corporate IAM controls. If the owner of that phone number leaves the organization, the agent will continue to leak confidential Board data to their personal device, and IT/Security has no automated way to revoke this access.
+
+### 4. Recommendations for Remediation
+1.  **Disable SMS Output:** Remove the Twilio/SMS node entirely. Confidential data should never be transmitted via SMS. Replace this with a secure, authenticated channel such as a corporate Slack/Teams message or an encrypted email.
+2.  **Remove Hardcoded Destinations:** Replace the hardcoded phone number and email address with variables that resolve to a user profile or a distribution list managed by the enterprise directory (e.g., Active Directory/Okta). This ensures that if a user is offboarded, the data flow stops automatically.
+3.  **Verify Domain Allow-listing:** Ensure `testco.com` is a sanctioned corporate domain. If this is a production agent handling real Board data, sending to a generic "test" domain violates production data handling procedures (CC8.1).
+
+### 5. Overall Compliance Rating
+**Non-Compliant**

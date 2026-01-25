@@ -1,0 +1,34 @@
+Agent: lindy-agent-lister-693c78bb39099082df392692
+ID: lindy-agent-lister-693c78bb39099082df392692
+Log file: None
+Regulation: CPRA
+============================================================
+
+Here is the assessment of the "Lindy Agent Lister" agent regarding CPRA compliance.
+
+**1. Summary of the Agent's Function**
+The agent is designed to run on an hourly recurring schedule. It accesses the internal Lindy API to retrieve a list of all other agents currently existing within the user's workspace. It iterates through this list and upserts (updates or inserts) specific metadata—specifically the `AgentID`, `Agent Name`, and `Last Task Date`—into a specific external Google Sheet (`1auUbfTVe3XnLfvMoFdLsC8nqO5QW0srkyIvyBGyZu2Q`).
+
+**2. CPRA Applicability**
+**Not Applicable / Low Relevance.**
+CPRA (California Privacy Rights Act) regulates the collection, processing, sharing, and retention of "Personal Information" (PI) belonging to California residents (consumers, employees, and B2B contacts).
+
+Based on the [AGENT_DEFINITION], this agent processes the following data points:
+*   `AgentID` (System-generated unique identifier for software)
+*   `Agent Name` (Label for the software configuration)
+*   `Last Task Date` (System timestamp)
+
+These data points constitute system configuration metadata and operational logs regarding software entities. They do not meet the definition of Personal Information under Cal. Civ. Code § 1798.140(v)(1), as they do not identify, relate to, describe, or link to a natural person or household. Consequently, the specific obligations of CPRA (Right to Know, Right to Delete, Opt-out of Sale/Sharing) are not triggered by the operation of this agent.
+
+**3. Specific Violations of CPRA**
+**None Found.**
+As the agent does not process, store, or transmit Personal Information (PI) or Sensitive Personal Information (SPI), it does not violate CPRA data minimization, retention, or security requirements regarding consumer data.
+
+*   **Note on Sample Log:** As no sample log was provided (`[SAMPLE_LOG]` was referenced but not attached), and the definition strictly limits data collection to system metadata (`AgentID`, `Agent Name`, `Last Task Date`), there is no evidence to suggest the agent is scraping or processing user inputs or PII. Per instructions, we assume no violation exists absent evidence.
+
+**4. Specific Recommendations for Remediation**
+*   **None required for CPRA.**
+*   *Operational Note:* Ensure the target Google Sheet does not inadvertently become a repository for user-entered agent names that might contain PII (e.g., "Agent for John Doe - 555-0199"), though this is a low-risk edge case and not a direct violation by the agent itself.
+
+**5. Overall Compliance Rating**
+**Compliant**

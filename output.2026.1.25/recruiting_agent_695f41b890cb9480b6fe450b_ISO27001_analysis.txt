@@ -1,0 +1,40 @@
+Agent: recruiting-agent-695f41b890cb9480b6fe450b
+ID: recruiting-agent-695f41b890cb9480b6fe450b
+Log file: None
+Regulation: ISO27001
+============================================================
+
+**Assessment of Agent: Recruiting Agent (ID: 695f41b890cb9480b6fe450b)**
+
+### 1. Summary of Agent Function
+The "Recruiting Agent" is designed to automate lead generation and outreach. Its primary workflow involves:
+1.  Accepting user criteria for potential candidates or companies.
+2.  Querying an external third-party data provider (**People Data Labs**) to retrieve Personally Identifiable Information (PII) such as names, job titles, **personal emails**, and LinkedIn URLs.
+3.  Aggregating this data into a new **Google Sheet**.
+4.  Optionally entering a loop to send outreach emails to the identified leads via the user's **Gmail** account, with a "Sent via Lindy" signature.
+
+### 2. ISO 27001 Applicability
+**Applicable.**
+ISO 27001 is highly applicable to this agent for the following reasons:
+*   **PII Processing (A.18.1.4):** The agent explicitly targets and retrieves "Personal Email" and employment data, placing it within the scope of privacy and data protection controls.
+*   **Asset Management (A.8):** The agent creates information assets (Google Sheets) containing sensitive data.
+*   **Supplier Relationships (A.15):** The agent transmits data to and receives data from an external supplier (People Data Labs).
+*   **Operational Security (A.12):** The agent performs automated messaging (Gmail), which impacts the integrity and reputation of the organization's communication channels.
+
+### 3. Specific Violations of ISO 27001
+Based on the provided definition and the strict instruction to assume compliance in the absence of evidence (noting the missing `[SAMPLE_LOG]`), there are **no definitive, non-speculative violations** of ISO 27001 found in the agent's logic configuration.
+
+However, the following configuration elements were reviewed against ISO controls:
+*   **Input Validation (A.14.2.5):** The agent uses AI to generate a `sqlWhereClause` for the People Data Labs action (Node `695f41b990cb9480b6fe4513`). While this presents a theoretical risk of injection if the API accepts raw SQL, without the log file to demonstrate that the agent accepts and executes malicious input, this cannot be cited as a definitive violation.
+*   **Operational Control (A.12.1.2):** The `Gmail:send` action (Node `695f41b990cb9480b6fe451e`) is configured with `requiresConfirmation: true`. This effectively mitigates the risk of automated spamming or unauthorized communication by enforcing a "human-in-the-loop" control, ensuring compliance with change management and operational oversight procedures.
+
+### 4. Remediation Recommendations
+While the agent is technically compliant based on the available definition, the following recommendations are made to reduce practical risk:
+*   **Review Data Minimization (A.8.2):** The agent is configured to request "Personal Email" by default. Verify that the collection of personal emails (vs. business emails) aligns with the organization's specific privacy policy and the Terms of Service of the data provider.
+*   **Validate Supplier Security (A.15.1):** Ensure "People Data Labs" is an authorized vendor within the organization's ISMS, as data is being dynamically queried and transferred to them.
+*   **Monitor Loop Capacity (A.12.1.3):** The loop (Node `695f41b990cb9480b6fe451b`) allows for 500 iterations. Sending 500 emails via a standard Gmail account in a short burst may trigger spam filters or suspension. Ensure the `Gmail:send` action rate limits are aligned with the provider's acceptable use policy.
+
+### 5. Overall Compliance Rating
+**Compliant**
+
+*Note: This rating is based strictly on the provided JSON definition and the instruction to assume no violation in the absence of the sample log file. No dead code affecting security was identified.*

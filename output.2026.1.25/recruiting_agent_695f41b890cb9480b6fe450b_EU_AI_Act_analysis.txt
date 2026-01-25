@@ -1,0 +1,52 @@
+Agent: recruiting-agent-695f41b890cb9480b6fe450b
+ID: recruiting-agent-695f41b890cb9480b6fe450b
+Log file: None
+Regulation: EU-AI-Act
+============================================================
+
+Based on the provided Agent Definition, here is the compliance assessment regarding the EU AI Act.
+
+### 1. Summary of Agent Function
+The **Recruiting Agent** (also referred to as "SDR Lead Generator") is an automated system designed to source and contact potential job candidates or sales leads. Its primary workflow involves:
+1.  Accepting user criteria (role, location, industry, etc.).
+2.  Querying an external data provider (PeopleDataLabs) to identify individuals matching these criteria.
+3.  Collecting PII, including **Full Name, Job Title, Personal Email, and LinkedIn URL**.
+4.  Generating a Google Sheet with this data.
+5.  Optionally executing an automated email outreach loop via Gmail to the identified individuals.
+
+### 2. EU AI Act Applicability
+**Applicability:** **Yes, Applicable.**
+
+**Reasoning:**
+Under the EU AI Act, this agent is classified as a **High-Risk AI System** based on **Annex III, Paragraph 4(a)**: *Employment, workers management and access to self-employment*.
+*   The agent is explicitly defined as a "Recruiting Agent" intended to "help you find and reach out to potential candidates."
+*   Systems intended to be used for the **recruitment or selection of natural persons**, specifically for screening or filtering candidates, are High-Risk.
+
+As a High-Risk system, it is subject to strict compliance obligations regarding data governance, record-keeping, transparency, human oversight, and accuracy.
+
+### 3. Specific Violations of EU AI Act
+Based on the provided definition, the following definitive violations are identified:
+
+**A. Violation of Article 10 (Data Governance) & Article 71 (Penalties regarding Fundamental Rights/Non-Discrimination)**
+*   **Evidence:** In Node `695f41b990cb9480b6fe4513` (Search for leads), the prompt configuration explicitly instructs the AI: *"The filters you support are location, company name & size, company industry, job title, **gender**."*
+*   **Violation:** The EU AI Act mandates that High-Risk systems must not create discriminatory outcomes. Programming a recruiting AI to filter candidates based on **Gender** enables direct discrimination in the employment selection process. This violates the requirement for appropriate data governance to prevent bias and protect fundamental rights.
+
+**B. Violation of Article 10 (Data Governance - Data Minimization)**
+*   **Evidence:** In Node `695f41b990cb9480b6fe4513`, the agent is instructed to return **"Personal Email"** as a bare minimum field.
+*   **Violation:** High-Risk AI systems must adhere to data governance standards, including GDPR compliance (which the AI Act reinforces). Scraping or retrieving *personal* emails (as opposed to professional business emails) for unsolicited recruiting/sales outreach ("cold emailing") lacks a clear lawful basis and violates the principle of data minimization required for the training and operation of compliant AI systems.
+
+**C. Risk regarding Article 14 (Human Oversight)**
+*   **Evidence:** The agent includes a loop (`695f41b990cb9480b6fe451b`) to process leads. While the email action (`695f41b990cb9480b6fe451e`) has `"requiresConfirmation": true`, the *selection* of the candidates is automated based on the filters.
+*   **Violation:** While the "requiresConfirmation" flag is present, the presence of the "Gender" filter negates effective human oversight. If the AI pre-filters a list by gender, the human operator is only reviewing a biased subset, making the oversight mechanism ineffective at preventing discriminatory outcomes.
+
+### 4. Specific Recommendations for Remediation
+To mitigate these risks and move toward compliance:
+
+1.  **Immediate Removal of Protected Class Filters:** You must edit the prompt in Node `695f41b990cb9480b6fe4513`. Remove **"gender"** from the list of supported filters. Ensure the AI explicitly rejects requests to filter candidates by age, gender, ethnicity, or religion.
+2.  **Restrict Data Collection:** Modify the prompt to prioritize **Professional/Business Emails** over Personal Emails. Collecting personal emails for recruitment without consent is a high compliance risk.
+3.  **Enhance Human Oversight:** The agent currently generates a list and asks if the user wants to reach out. The system should be updated to require the user to explicitly *approve specific rows* in the Google Sheet before the email loop (`695f41b990cb9480b6fe451b`) can begin, rather than just approving the general action of "reaching out."
+
+### 5. Overall Compliance Rating
+**Rating: Non-Compliant**
+
+**Justification:** The system is a High-Risk AI under Annex III. It contains hard-coded instructions that facilitate discriminatory hiring practices (filtering by gender), which is a fundamental violation of the EU AI Act's requirements regarding fundamental rights and bias prevention. This agent cannot be deployed in the EU in its current state.

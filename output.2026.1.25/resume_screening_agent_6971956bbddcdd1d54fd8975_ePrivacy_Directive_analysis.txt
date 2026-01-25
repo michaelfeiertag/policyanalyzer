@@ -1,0 +1,27 @@
+Agent: resume-screening-agent-6971956bbddcdd1d54fd8975
+ID: resume-screening-agent-6971956bbddcdd1d54fd8975
+Log file: None
+Regulation: ePrivacy-Directive
+============================================================
+
+Based on the provided agent definition, here is the assessment regarding the **ePrivacy Directive (Directive 2002/58/EC)**.
+
+### 1. Summary of the Agent's Function
+The "Resume Screening Agent" automates the recruitment review process. It monitors a Gmail account for incoming emails. When an email containing a resume is detected, the agent retrieves a job description from a linked Google Doc, analyzes the resume against the job requirements, and generates a classification (Qualified, Unqualified, or Borderline). Finally, it sends an email **to the agent owner (Hiring Manager)** summarizing the findings.
+
+### 2. ePrivacy Directive Applicability
+**Applicable.**
+The ePrivacy Directive is applicable because the agent interacts directly with the "confidentiality of communications" (Article 5) by programmatically accessing email content and metadata (traffic data), and it engages in sending electronic mail (Article 13).
+
+### 3. Specific Violations of ePrivacy Directive
+**No violations found.**
+
+*   **Article 5(1) (Confidentiality of Communications):** This article prohibits the interception or surveillance of communications without the consent of the users concerned. While the agent triggers on `onGmailMessageReceived` and scans incoming email content, it operates as an authorized user agent on behalf of the account owner (the Hiring Manager). The processing is performed on the recipient's end with the recipient's implicit consent (via installation), which satisfies the exception for consent under Article 5(1).
+*   **Article 5(3) (Storage/Access on User Equipment):** The agent does not deploy cookies, trackers, or execute scripts on the *sender's* (candidate's) device. It processes files already transmitted to the system.
+*   **Article 13 (Unsolicited Communications):** The agent sends emails, but the configuration (Nodes 83, 84, 85) and prompt instructions ("Send it to the user", "Hello Hiring Manager") indicate these emails are internal notifications sent to the agent owner, not to the external candidates. Even if they were sent to candidates, a status update on a job application is not "direct marketing," and therefore does not violate the anti-spam provisions of Article 13.
+
+### 4. Specific Recommendations for Remediation
+*   **None required.** The agent operates within the bounds of the ePrivacy Directive.
+
+### 5. Overall Compliance Rating
+**Compliant**
