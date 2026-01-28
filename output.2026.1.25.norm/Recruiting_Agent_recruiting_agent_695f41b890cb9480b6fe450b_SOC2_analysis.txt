@@ -1,0 +1,48 @@
+Agent: recruiting-agent-695f41b890cb9480b6fe450b
+ID: recruiting-agent-695f41b890cb9480b6fe450b
+Log file: None
+Regulation: SOC2
+============================================================
+
+Based on the provided Agent Definition, here is the SOC 2 compliance assessment.
+
+### 1. Summary of Agent Function
+The "Recruiting Agent" is an automated Sales Development Representative (SDR) tool. Its primary functions are:
+*   **Data Collection:** Searching for candidate PII (Personally Identifiable Information) such as names, personal emails, and job titles using People Data Labs.
+*   **Data Storage:** Creating and populating Google Sheets with this data.
+*   **Data Presentation:** Displaying candidate PII directly in the chat interface via markdown tables.
+*   **Outreach:** Executing a loop to send cold emails to candidates via a Gmail integration.
+
+### 2. SOC 2 Applicability
+**Applicable.**
+SOC 2 applies to this agent because it processes, stores, and transmits **PII (Personally Identifiable Information)** of external individuals (candidates). This engages the following Trust Services Criteria (TSC):
+*   **Privacy:** The agent collects and uses personal information (emails, names, employment history).
+*   **Confidentiality:** The agent handles potentially sensitive corporate recruiting data (leads).
+*   **Processing Integrity:** The agent performs automated bulk actions (emailing) that affect the organization's reputation and domain standing.
+
+### 3. Specific Violations of SOC 2
+
+**Violation 1: Uncontrolled Propagation of PII (Privacy & Confidentiality)**
+*   **Evidence:** In Node `695f41b990cb9480b6fe4515` ("Send lead info and sheet"), the prompt explicitly instructs the agent: *"Send the link to the sheet... along with a markdown table of the initial leads."*
+*   **SOC 2 Issue:** This instruction forces the agent to write PII (Personal Emails, Names, etc.) directly into the unstructured chat logs / conversation history.
+*   **Risk:** Chat logs typically have lower retention security controls than designated databases (like the Google Sheet). This creates "shadow data" repositories of PII that bypass standard Data Loss Prevention (DLP) and access controls, violating **Confidentiality** and **Privacy** criteria regarding data minimization and controlled storage.
+
+**Violation 2: Lack of Consent/Opt-Out Management (Privacy)**
+*   **Evidence:** The agent flow moves from Lead Search (Node `695f41b990cb9480b6fe4513`) directly to an Email Loop (Node `695f41b990cb9480b6fe451b`) and Email Send (Node `695f41b990cb9480b6fe451e`).
+*   **SOC 2 Issue:** There is no logic step included to cross-reference candidates against a "Do Not Contact" list, internal suppression list, or CRM.
+*   **Risk:** Sending unsolicited emails to personal addresses without a mechanism to screen for prior opt-outs violates SOC 2 **Privacy** criteria (P4.2 and P4.3) regarding consent and choice.
+
+**Violation 3: Processing Integrity / Stability Risk**
+*   **Evidence:** Node `695f41b990cb9480b6fe451b` allows for a loop of up to **500 iterations** connecting directly to the Gmail `send` action.
+*   **SOC 2 Issue:** Sending 500 emails via a standard Gmail user integration (non-transactional API) presents a high risk of triggering spam filters, resulting in service blocking.
+*   **Risk:** This violates **Processing Integrity** (system processing is complete, valid, and accurate) as the high volume increases the likelihood of failed executions and domain blacklisting.
+
+### 4. Specific Recommendations for Remediation
+1.  **Remediate PII Leakage:** Modify the prompt in Node `695f41b990cb9480b6fe4515`. Remove the instruction to send a "markdown table." The agent should **only** provide the link to the secure Google Sheet.
+2.  **Implement Logic Gate for Privacy:** Insert a logic node before the Email Loop that cross-references leads against an internal suppression list or CRM to ensure compliance with Opt-Out requests.
+3.  **Reduce Batch Size:** Reduce the `maxIterations` in Node `695f41b990cb9480b6fe451b` from 500 to a safer limit (e.g., 20-50) to ensure Processing Integrity and prevent Gmail API suspension.
+
+### 5. Overall Compliance Rating
+**Non-Compliant**
+
+*Reasoning:* While the agent includes a `requiresConfirmation` flag on the email action (which mitigates accidental execution), the deliberate architecture of printing PII into chat logs and the absence of any "Do Not Contact" verification logic constitutes a failure to meet standard SOC 2 Privacy and Confidentiality controls.

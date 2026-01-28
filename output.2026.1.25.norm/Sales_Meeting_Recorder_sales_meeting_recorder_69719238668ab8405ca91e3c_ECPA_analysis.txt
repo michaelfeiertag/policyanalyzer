@@ -1,0 +1,35 @@
+Agent: sales-meeting-recorder-69719238668ab8405ca91e3c
+ID: sales-meeting-recorder-69719238668ab8405ca91e3c
+Log file: None
+Regulation: ECPA
+============================================================
+
+Based on the provided Agent Definition (no Sample Log was included in the input, so the assessment relies strictly on the logic defined in the JSON), here is the ECPA compliance assessment.
+
+### 1. Summary of Agent Function
+The "Sales Meeting Recorder" is an automated agent designed to join video conferencing meetings (Google Meet, Zoom, Teams). It is triggered automatically when a calendar event starts (`onCalendarEventStart`). It checks if the meeting involves external attendees. If so, it joins the call using the display name "Lindy Notetaker," records the audio/video, transcribes it, saves notes to Google Docs, and drafts a follow-up email in Gmail (which requires user confirmation before sending).
+
+### 2. ECPA Applicability
+**Yes, ECPA (Electronic Communications Privacy Act) is applicable.**
+Specifically, **Title I (The Wiretap Act)** applies because the agent utilizes the `LindyMeeting:joinMeeting` tool to capture, record, and transcribe oral and electronic communications. This constitutes an "interception" of communication under the Act.
+
+### 3. Specific Violations of ECPA
+**Violation Found: Unattended Interception (Risk of Recording without Consent)**
+
+*   **Evidence:** The agent uses the trigger `onCalendarEventStart` with `minutesOffset: -1` (joining 1 minute before start). The Logic node (`External meeting?`) checks for external emails but **does not check for the presence of the User (the employee)**.
+*   **The Violation:** Under the Federal Wiretap Act (18 U.S.C. § 2511), interception is lawful if **at least one party** to the communication consents. In an enterprise setting, the User consents by configuring the agent. However, if the User is late to the meeting or absent, and the agent joins and records external parties speaking among themselves, **no party to the communication has consented** (as the bot is not a legal person capable of consent). This results in a felony violation of the Wiretap Act. The current logic definitively allows the agent to record without the consenting user present.
+
+**Violation Found: Ambiguous Notice (Surreptitious Recording)**
+
+*   **Evidence:** In the `Record meeting` node, the configuration sets the bot's name to `"Lindy Notetaker"`.
+*   **The Violation:** While "Notetaker" implies transcription, it does not explicitly convey that an audio/video recording is being created and stored. If the agent records without the user present (see above), or if the external party assumes a "Notetaker" is merely a text-based scribe, the recording may be deemed surreptitious. While less definitive than the "Unattended Interception" violation, this creates significant liability regarding the "expectation of privacy" provisions in ECPA.
+
+### 4. Specific Recommendations for Remediation
+1.  **Mandatory User Presence Check:** Modify the logic to ensure the agent only begins recording **after** detecting the User's voice or presence in the meeting, OR change the Trigger from `onCalendarEventStart` to a manual trigger invoked by the user once they are in the meeting.
+2.  **Explicit Naming:** Change the `name` configuration in the `Record meeting` node from `"Lindy Notetaker"` to **"Lindy Automated Recorder"** or **"Meeting Recorder"**. This provides clear notice to all parties that interception/storage is occurring.
+3.  **Announcement Protocol:** Ideally, configure the agent to send a chat message upon joining: "This meeting is being recorded for note-taking purposes."
+
+### 5. Overall Compliance Rating
+**Partially Compliant (High Risk)**
+
+*The agent complies with ECPA in standard scenarios where the User is present (satisfying One-Party Consent). However, the automation logic introduces a definitive capability for the agent to record third parties without any consent if the User is absent, which presents a significant legal risk to the organization.*

@@ -1,0 +1,46 @@
+Agent: cr668_financialInsights
+ID: cr668_financialInsights
+Log file: None
+Regulation: ISO27001
+============================================================
+
+Based on the review of the provided [AGENT_DEFINITION] and the absence of a [SAMPLE_LOG] (implying no runtime anomalies were observed in the logs), here is the assessment regarding ISO 27001 compliance.
+
+### 1. Summary of Agent Function
+The agent, titled "Financial Insights," is designed to assist users in retrieving and summarizing financial information. It operates in a hybrid context:
+*   **Internal:** It accesses proprietary organizational data (analyst reports, earnings call transcripts) via a "Query your repository" topic.
+*   **External:** It accesses public financial data via a connection to `https://www.sec.gov/`.
+*   **Guardrails:** It includes logic to detect and deflect requests for "Financial Advice" or "Forecasting" to ensure regulatory alignment.
+
+### 2. ISO 27001 Applicability
+**ISO 27001 is Applicable.**
+This agent falls squarely under the scope of an Information Security Management System (ISMS) for the following reasons:
+*   **Asset Management (A.8):** The agent acts as an interface to "proprietary entities," "internal databases," and "files in repository." These are classified assets requiring protection.
+*   **Access Control (A.9):** The agent handles user authentication (`OAuthInput`) and authorizes access to information.
+*   **Information Transfer (A.13):** The agent facilitates the transfer of data between internal repositories, external public sites, and the end-user.
+
+### 3. Specific Violations of ISO 27001
+I have identified **one definitive violation** based on the provided definition.
+
+**Violation: Failure of Change Management and Separation of Environments**
+*   **ISO Control Reference:** A.12.1.4 (Separation of development, testing, and operational environments) and A.12.1.2 (Change Management).
+*   **Evidence:** In the `Conversation start` topic (`cr668_financialInsights.topic.Conversationstart`), the active `message` property contains the following text:
+    > `**[Delete before publishing]** To get the most out of this agent, set up the financial document analysis skill (preview) in Azure...`
+*   **Analysis:** The agent metadata indicates it was `publishedon: "2026-01-24"`. However, development instructions and administrative configuration details explicitly marked for deletion were deployed to the production environment.
+*   **Risk:**
+    1.  **Information Disclosure (A.8.7):** This text reveals specific backend architecture details (reliance on "financial document analysis skill" in "Azure Marketplace") to the end-user. This information assists potential attackers in the "Reconnaissance" phase by identifying the technology stack and potential attack surface.
+    2.  **Process Failure:** It demonstrates a failure in the release management process, proving that the agent was not adequately reviewed or sanitized before being promoted from development to production.
+
+*Note on other controls:* The agent correctly implements Error Handling (A.14.2.5) by checking `System.Conversation.InTestMode` before displaying detailed error messages. It also utilizes OAuth for authentication, satisfying Access Control requirements.
+
+### 4. Remediation Recommendations
+To remediate the identified risk and return to compliance:
+
+1.  **Sanitize Production Outputs:** Immediately modify the `Conversation start` topic to remove the paragraph starting with `**[Delete before publishing]**`.
+2.  **Implement Release Gates:** Establish a mandatory peer review or automated linting process for agent definitions to ensure development comments and configuration instructions are stripped prior to the "Publish" action.
+3.  **Review System Prompts:** Audit the `GptComponentMetadata` instructions to ensure no other internal system prompts or sensitive context data is exposed in the system prompt that could be leaked via prompt injection.
+
+### 5. Overall Compliance Rating
+**PARTIALLY COMPLIANT**
+
+The agent demonstrates functional security controls (Authentication, HTTPS usage, Test Mode error masking) but failed a critical Change Management control, resulting in the exposure of system configuration details to end-users.

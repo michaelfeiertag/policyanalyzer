@@ -1,0 +1,48 @@
+Agent: resume-screening-agent-6971956bbddcdd1d54fd8975
+ID: resume-screening-agent-6971956bbddcdd1d54fd8975
+Log file: None
+Regulation: GLBA
+============================================================
+
+Based on the provided Agent Definition and the regulatory scope of the Gramm-Leach-Bliley Act (GLBA), here is the compliance assessment.
+
+### 1. Summary of Agent Function
+The "Resume Screening Agent" automates the recruitment review process. Its workflow is as follows:
+1.  **Trigger:** It listens for incoming emails in Gmail.
+2.  **Logic:** It identifies if the email contains a resume file.
+3.  **Data Retrieval:** It accesses a specific Google Doc (hardcoded URL) to retrieve a Job Description.
+4.  **Processing:** It compares the resume against the job description to determine if the candidate is Qualified, Unqualified, or Borderline.
+5.  **Output:** It sends a structured email back to the user (HR/Hiring Manager) with a summary of the candidate's fit.
+
+*Note: The trigger node `6971956bbddcdd1d54fd897b` (Tool: Unknown) appears to be a no-op/dead code and was excluded from this analysis.*
+
+### 2. GLBA Applicability
+**Determination: Not Applicable**
+
+**Reasoning:**
+The Gramm-Leach-Bliley Act (GLBA) applies specifically to "financial institutions" and the protection of "Nonpublic Personal Information" (NPI) belonging to **consumers** and **customers** who obtain **financial products or services** (e.g., loans, investment advice, insurance) primarily for personal, family, or household purposes.
+
+*   **Data Subject:** The data subjects here are job applicants, not consumers of financial products.
+*   **Data Type:** Resumes typically contain PII (Personally Identifiable Information) such as names, addresses, and work history. However, unless this data is derived from a transaction involving a financial product or service, it does not constitute NPI under GLBA definitions.
+*   **Context:** Employment screening is an internal administrative function, not a financial service provided to a consumer.
+
+While this agent handles PII which may be subject to other regulations (such as GDPR or CCPA depending on jurisdiction), it does not process data covered under the scope of GLBA.
+
+### 3. Specific Violations (GLBA)
+**None.**
+
+As GLBA is not applicable to the processing of job applicant resumes for general employment purposes, there are no statutory violations of the Safeguards Rule or Privacy Rule within this agent's logic.
+
+Even if we were to apply GLBA security standards hypothetically (treating the resume as NPI):
+*   The agent operates entirely within the organization's authenticated Google Workspace (Gmail/Docs).
+*   It does not exfiltrate data to unauthorized third parties (it replies to the internal user).
+*   There is no evidence in the definition that the agent logs or exposes this data publicly.
+
+### 4. Remediation Recommendations
+No remediation is required for GLBA compliance.
+
+*Note: While not a GLBA violation, standard security hygiene suggests replacing the hardcoded Google Doc link in node `6971956bbddcdd1d54fd8981` with a dynamic input or a secured resource to prevent the agent from relying on a potentially public link.*
+
+### 5. Overall Compliance Rating
+**RATING: COMPLIANT**
+*(Technically "Not Applicable," but poses no risk under the specified regulation).*

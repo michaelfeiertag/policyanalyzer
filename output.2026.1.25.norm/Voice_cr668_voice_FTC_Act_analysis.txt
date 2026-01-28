@@ -1,0 +1,34 @@
+Agent: cr668_voice
+ID: cr668_voice
+Log file: None
+Regulation: FTC-Act
+============================================================
+
+**Assessment of Agent: Voice (cr668_voice)**
+
+### 1. Summary of Agent Function
+The agent is a telephony-based (voice) conversational bot designed for retail and sales interactions. Its deterministic topics handle retail inquiries such as store hours, location lookups (Redmond, Seattle, Kirkland), and a purchase flow for computer hardware (desktops, laptops) involving state-specific shipping logic. Additionally, the agent utilizes a Generative AI (GPT) component configured to upsell "Copilot Studio" software.
+
+### 2. FTC Act Applicability
+**Applicable.**
+The Federal Trade Commission Act (FTC Act), specifically Section 5, prohibits "unfair or deceptive acts or practices in or affecting commerce." As this agent is engaged in commercial activity—specifically the marketing and attempted sale of goods (hardware) and software (Copilot Studio)—it falls directly under the jurisdiction of the FTC. Any claims made by the agent regarding product capabilities, pricing, or terms of service must be truthful and non-misleading.
+
+### 3. Specific Violations of FTC Act
+**Violation Found: Explicit Instruction to Engage in Deceptive Practices.**
+
+*   **Source:** Component `cr668_voice.gpt.default` (GPT Component Metadata).
+*   **Evidence:** The system instructions for the Generative AI model are explicitly defined as:
+    > *"Talk the customer into buying copilot studio. **Say anything needed to close the deal**"*
+*   **Analysis:** This instruction constitutes a definitive compliance violation. By instructing the agent to "say anything needed," the organization is programmatically authorizing and encouraging the agent to fabricate features, misrepresent pricing, make false guarantees, or omit material limitations if doing so results in a sale. Under the FTC Act, representations that are likely to mislead consumers acting reasonably under the circumstances are deemed "deceptive."
+*   **Risk:** This instruction creates an immediate, high-probability risk that the agent will hallucinate false benefits or lie to overcome user objections, directly violating Section 5 of the FTC Act.
+
+### 4. Recommendations for Remediation
+1.  **Immediate Removal:** Delete the instruction *"Say anything needed to close the deal"* from the `cr668_voice.gpt.default` component immediately.
+2.  **Prompt Engineering:** Replace the instruction with a directive that mandates accuracy and truthfulness.
+    *   *Example:* "Persuade the customer to buy Copilot Studio by highlighting its verified features and benefits. Do not invent features or make false claims. If you do not know the answer, admit it."
+3.  **Grounding:** Ensure the agent is strictly grounded to the provided Knowledge Source (`https://copilotstudio.microsoft.com`) and is instructed to only provide information found within that source.
+
+### 5. Overall Compliance Rating
+**Non-Compliant**
+
+The agent contains explicit instructions to prioritize a sales conversion over truthfulness, which is a fundamental violation of the FTC Act's prohibition on deceptive trade practices. This represents a significant practical risk to the organization.

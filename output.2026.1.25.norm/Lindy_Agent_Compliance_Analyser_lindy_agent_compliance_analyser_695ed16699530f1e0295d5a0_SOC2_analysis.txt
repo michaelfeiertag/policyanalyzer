@@ -1,0 +1,45 @@
+Agent: lindy-agent-compliance-analyser-695ed16699530f1e0295d5a0
+ID: lindy-agent-compliance-analyser-695ed16699530f1e0295d5a0
+Log file: None
+Regulation: SOC2
+============================================================
+
+Here is the assessment for the agent "Lindy Agent Compliance Analyser" based on the provided definition.
+
+### 1. Summary of Agent Function
+This agent is designed to iterate through a list of items (presumably agent identifiers). For each item, it executes a JavaScript snippet to convert the ID into a Base64-encoded GraphQL node ID. It then uses this ID to execute a raw HTTP POST request against the Lindy internal GraphQL API (`https://www.lindy.ai/`). The GraphQL query retrieves an extensive amount of data, including user identity (`me`), billing information, credit usage, subscription plans, and detailed definitions of other agents.
+
+### 2. SOC2 Applicability
+**Applicable.**
+SOC2 is applicable to this agent because:
+*   **Security (CC6):** The agent handles authentication credentials and interacts directly with the system of record (the API) to retrieve data.
+*   **Confidentiality (CC6):** The agent accesses and processes sensitive confidential information, including user billing details, PII (Personal Identifiable Information), and proprietary agent configurations.
+*   **Processing Integrity:** The agent performs logic (loops and code execution) that manipulates data used to query backend systems.
+
+### 3. Specific SOC2 Violations
+
+**Violation 1: Hardcoded Authentication Credentials (Critical)**
+*   **SOC2 Criteria:** CC6.1 (Logical Access Security), CC6.7 (Transmission of Data).
+*   **Evidence:** In the `Http` node (`695ed263d30659e475b9b9db`), the `headers` configuration contains a hardcoded `Cookie` value. This cookie includes a live Session ID (`lsid`), a PostHog capture token, and an anonymous ID.
+*   **Risk:** Storing session secrets in plain text within the agent definition violates the requirement to protect authentication credentials. If this agent definition is shared or accessed by unauthorized personnel, they can impersonate the original user (`Michael Feiertag`'s workspace, as referenced in the variables), hijack the session, and access all data visible to that user. This is a complete bypass of Identity and Access Management (IAM) controls.
+
+**Violation 2: Violation of Least Privilege (Significant)**
+*   **SOC2 Criteria:** CC6.3 (Least Privilege).
+*   **Evidence:** The agent's instructions state it "lists all agents." However, the hardcoded GraphQL query in the `body` of the `Http` node requests significantly more data than required. It queries `billingInfo`, `subscriptionPlan`, `creditsInfo`, `lastPaymentFailure`, `isEmailQualified`, and `admin` membership details.
+*   **Risk:** The agent accesses sensitive financial and administrative data unnecessary for its stated function. SOC2 requires that access be restricted to only what is necessary to perform the specific task.
+
+**Violation 3: Insecure Data Handling / Replay Vulnerability**
+*   **SOC2 Criteria:** CC6.6 (External Threat Protection).
+*   **Evidence:** The agent bypasses standard SDK/API abstraction layers and constructs raw HTTP requests using fixed headers.
+*   **Risk:** By hardcoding the request structure and headers, the agent creates a "replay" scenario. It does not utilize dynamic, short-lived tokens (like OAuth or Bearer tokens generated at runtime), meaning the security posture does not rotate or expire as required by standard security policies.
+
+### 4. Recommendations for Remediation
+1.  **Immediate Action:** Revoke the session ID (`lsid`) found in the `Cookie` header immediately to prevent active session hijacking.
+2.  **Remove Hardcoded Secrets:** Delete the `Cookie` header from the `Http` node configuration.
+3.  **Implement Proper Authentication:** Configure the agent to use the platform's native authentication actions or dynamic variable injection for authorization headers (e.g., Bearer tokens) that are scoped to the specific execution context, rather than a hardcoded user session.
+4.  **Scope Data Access:** Rewrite the GraphQL query to request *only* the fields necessary for listing agents (e.g., `id` and `name`), removing all requests for billing, credits, and user identity (`me`) fragments.
+
+### 5. Overall Compliance Rating
+**Non-Compliant**
+
+The presence of hardcoded, plain-text session cookies constitutes a critical security failure that violates fundamental SOC2 controls regarding logical access and protection of secrets.

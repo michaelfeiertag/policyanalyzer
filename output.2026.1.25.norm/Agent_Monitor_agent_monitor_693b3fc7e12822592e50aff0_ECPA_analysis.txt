@@ -1,0 +1,32 @@
+Agent: agent-monitor-693b3fc7e12822592e50aff0
+ID: agent-monitor-693b3fc7e12822592e50aff0
+Log file: None
+Regulation: ECPA
+============================================================
+
+Based on the provided agent definition and the instructions to focus strictly on the Electronic Communications Privacy Act (ECPA), here is the assessment.
+
+### 1. Summary of the Agent's Function
+The "Agent Monitor" is an automated logging utility designed to oversee three specific other agents (identified by IDs `695d...`, `695f...`, and `693b...`).
+*   **Trigger:** It activates strictly when one of the monitored agents successfully resolves a task (`onAgentTaskResolution`).
+*   **Process:** Upon activation, it executes `getTaskDetails` to retrieve the full context and history of the completed task.
+*   **Output:** It writes this data into a specific Google Sheet ("Lindy Monitoring Events") using the `appendRow2` action.
+
+### 2. Whether ECPA is Applicable and Why
+**Yes, ECPA is theoretically applicable, but limited in scope.**
+ECPA (specifically Title II, the Stored Communications Act) governs the unauthorized access to "electronic communications" held in electronic storage. Since this agent retrieves "task history" (which may contain chat logs, inputs, or communications between humans and the target agents) and moves that data to a spreadsheet, it is processing stored electronic communications.
+
+### 3. Whether Specific Violations of ECPA are Found
+**No definitive violations found.**
+
+*   **No Unauthorized Interception (Title I):** The agent triggers on `onAgentTaskResolution` (post-event), not during real-time transmission. Therefore, it is not "intercepting" communications as defined by the Wiretap Act.
+*   **Business Use Exception (Title II):** The agent is configured to monitor internal enterprise automation tools ("Lindy Agents"). Under the "Ordinary Course of Business" exception and the "System Provider" exception, an enterprise is permitted to access and log communications occurring on its own systems for the purposes of quality assurance, performance monitoring, and record-keeping.
+*   **Non-Human Subjects:** The primary targets of the monitoring are other *agents* (software), not specific human employees or external customers. ECPA protections regarding privacy generally apply to natural persons. While human text might be captured in the "history," logging the output of company-owned automation tools is a standard administrative function.
+
+As no sample log was provided to prove that the agent is inadvertently scraping private, non-business personal email accounts or acting outside the scope of business automation, we must assume the agent is operating within the parameters defined in the JSON: monitoring system tasks.
+
+### 4. Specific Recommendations for Remediation
+*   **None required for ECPA compliance.** The agent functions as a standard system logger.
+
+### 5. Overall Compliance Rating
+**Compliant**

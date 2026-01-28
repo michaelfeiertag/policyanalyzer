@@ -1,0 +1,29 @@
+Agent: sales-meeting-recorder-69719238668ab8405ca91e3c
+ID: sales-meeting-recorder-69719238668ab8405ca91e3c
+Log file: None
+Regulation: COPPA
+============================================================
+
+**Assessment of Agent: Sales Meeting Recorder**
+
+**1. Summary of the Agent's Function**
+The "Sales Meeting Recorder" is an automated business-to-business (B2B) workflow tool designed to assist sales professionals. It triggers when a calendar event begins, checks if the meeting involves external attendees, and if so, joins the meeting conference call (Zoom, Google Meet, Teams) to record and transcribe the conversation. It subsequently exports notes to Google Docs and drafts a follow-up email to the prospect using context from the call, specifically referencing business topics like SOC2 compliance and trial periods.
+
+**2. COPPA Applicability**
+**COPPA is Not Applicable.**
+The Children's Online Privacy Protection Act (COPPA) applies to operators of commercial websites and online services (including mobile apps) directed to children under 13, or operators that have actual knowledge they are collecting personal information from a child under 13.
+
+This agent is explicitly designed for a commercial, professional environment. The definitions include references to "closing deals," "outbound processes," "LinkedIn messaging," "SOC2 Compliance," and "prospects." These are adult, business-oriented activities. There is no content, visual design, or functionality directed toward children, nor is there any mechanism suggesting the agent would be used in a context where children are present.
+
+**3. Specific Violations of COPPA**
+**No Violations Found.**
+Based on the provided agent definition:
+*   The agent targets professional users (`m@mftestco.com`) and business prospects.
+*   The data collection (recording meetings, scraping calendar invites) is limited to professional sales contexts.
+*   There is no evidence of data collection targeting children under 13.
+
+**4. Specific Recommendations for Remediation**
+*   **None required.** The agent operates outside the scope of COPPA.
+
+**5. Overall Compliance Rating**
+**Compliant**

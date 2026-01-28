@@ -1,0 +1,47 @@
+Agent: resume-screening-agent-6971956bbddcdd1d54fd8975
+ID: resume-screening-agent-6971956bbddcdd1d54fd8975
+Log file: None
+Regulation: SOC2
+============================================================
+
+Here is the assessment of the "Resume Screening Agent" based on the provided definition and SOC 2 Trust Services Criteria.
+
+### 1. Summary of Agent Function
+The agent automates the initial screening of job applications. It triggers upon receiving any email containing an attachment (presumed resume) in a connected Gmail account. It retrieves a job description from a specific Google Doc, compares the resume against the job description using an LLM, and sends an email containing the screening results (Qualified, Unqualified, or Borderline) and an assessment summary.
+
+### 2. SOC 2 Applicability
+**Yes, SOC 2 is applicable.**
+This agent processes sensitive data and automates business logic, engaging two specific Trust Services Criteria (TSC):
+*   **Confidentiality:** The agent handles Personally Identifiable Information (PII) contained in resumes and generates internal confidential data (hiring assessments/scores).
+*   **Processing Integrity:** The agent makes automated decisions that impact the hiring process.
+
+### 3. Specific SOC 2 Violations
+Based on the provided definition, the agent contains significant configuration errors that constitute violations of SOC 2 controls regarding Confidentiality and Processing Integrity.
+
+**Violation 1: Unauthorized Disclosure of Confidential Information (TSC Confidentiality - C1.1, C1.2)**
+*   **Evidence:** In nodes `6971956bbddcdd1d54fd8983`, `8984`, and `8985`, the email body prompt explicitly drafts a message addressed to "Hello Hiring Manager" containing internal assessment scores ("Strengths," "Concerns," "Recommendation"). However, the recipient configuration (`path: "to"`) is set to `"Send it to the user"`.
+*   **The Risk:** In the context of an "On Email Received" trigger, "the user" is contextually resolved as the **Sender** (the applicant). The agent is configured to send the internal, confidential evaluation intended for HR directly to the external applicant.
+*   **Compliance Impact:** This violates the principle that confidential information (internal hiring logic and specific candidate assessments) must be protected from unauthorized disclosure.
+
+**Violation 2: Lack of Input Validation and Access Control (TSC Security - CC6.1)**
+*   **Evidence:** The trigger `6971956bbddcdd1d54fd897c` is configured with `participantsTypeFilter: "all"`.
+*   **The Risk:** The agent processes *any* email received by the account. There is no mechanism to verify if the sender is a legitimate applicant or if the email is spam/malicious.
+*   **Compliance Impact:** SOC 2 requires logical access controls to prevent unauthorized initiation of processing. Allowing unverified external actors to trigger internal processing resources and LLM costs is a failure of boundary protection.
+
+**Violation 3: Integrity of Processing / Hardcoded External Dependency (TSC Processing Integrity - PI1.2)**
+*   **Evidence:** Node `6971956bbddcdd1d54fd8981` retrieves the job description from a hardcoded Google Doc URL (`https://docs.google.com/document/d/1h1pD3...`).
+*   **The Risk:** The system logic relies on a static external link. If this document is modified, deleted, or permissions are changed, the agent will fail or screen candidates against incorrect criteria without alerting an administrator.
+*   **Compliance Impact:** System inputs must be accurate and complete. Relying on an unmanaged, hardcoded link undermines the integrity of the screening data.
+
+### 4. Remediation Recommendations
+To bring this agent into compliance, the following changes are required:
+
+1.  **Correct Email Routing (Critical):** Change the `to` field in the "Send Email" nodes from "Send it to the user" to a specific, hardcoded internal email address (e.g., `hiring-manager@company.com`).
+2.  **Separate External Communication:** If the agent is intended to notify the candidate, create a separate action node with a sanitized message (e.g., "We have received your application") that does not include the internal scoring.
+3.  **Implement Trigger Restrictions:** Change the `participantsTypeFilter` or add a Logic Node immediately after the trigger to verify the email subject line matches a specific pattern (e.g., "Application for [Role]") to prevent processing spam or irrelevant emails.
+4.  **Manage Data Sources:** Instead of a hardcoded URL, map the Job Description input to a managed variable or a system that ensures the document exists and is the correct version before processing.
+
+### 5. Overall Compliance Rating
+**Non-Compliant**
+
+The agent currently presents a high risk of data leakage (sending internal notes to external applicants) and lacks basic access controls. It should not be deployed in a production environment in its current state.

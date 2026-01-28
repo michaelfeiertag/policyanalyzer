@@ -1,0 +1,39 @@
+Agent: lindy-agent-compliance-analyser-695ed16699530f1e0295d5a0
+ID: lindy-agent-compliance-analyser-695ed16699530f1e0295d5a0
+Log file: None
+Regulation: FTC-Act
+============================================================
+
+Here is the assessment of the `Lindy Agent Compliance Analyser` based on the provided agent definition.
+
+### 1. Summary of Agent Function
+The agent is designed to iterate through a list of items (presumably Agent IDs). For each item, it executes a JavaScript snippet to convert the ID into a Base64 encoded GraphQL Node ID. Subsequently, it executes a raw HTTP POST request (`fetch2`) to a GraphQL endpoint (`TasksLayoutQuery`). This query requests extensive data regarding the agent, including layout configurations, **billing information**, **subscription plans**, **credit usage**, and **identity/owner information**.
+
+### 2. FTC Act Applicability
+**Applicable.**
+The FTC Act (Section 5) applies to this agent because it involves the collection and transmission of consumer data and the management of authentication credentials. The FTC enforces against "unfair or deceptive acts or practices."
+1.  **Unfairness:** Practices that cause substantial injury to consumers (such as data breaches or unauthorized access) that are not reasonably avoidable fall under this jurisdiction.
+2.  **Deception:** Misrepresenting how data is accessed or failing to disclose the collection of sensitive financial data (billing info) falls under deceptive practices.
+
+### 3. Specific Violations of FTC Act
+**YES - Definitive Violations Found.**
+
+*   **Unfair Security Practice (Hardcoded Session Credentials):**
+    *   **Evidence:** In the `Http` node (`fetch2`), the `headers` configuration contains a hardcoded `Cookie` string.
+    *   **Detail:** The value explicitly includes live session tokens: `ph_phc_...`, `lsid=s%3A9Qhv...`, and `lindy_anon_id=...`.
+    *   **Violation:** Hardcoding active session credentials into an agent definition constitutes a gross failure to maintain reasonable security. If this agent is shared, published, or accessed by another employee, the user running the agent effectively impersonates the original creator (User ID `693b2e83e6a088955f32f826`), bypassing authentication controls. The FTC views the failure to secure credentials and prevent unauthorized access to consumer accounts as an "unfair" practice.
+
+*   **Deceptive Data Collection (Excessive/Undisclosed Scope):**
+    *   **Evidence:** The `instructions` state the agent "lists all agents." However, the GraphQL query in the HTTP body requests deeply sensitive financial data, including `billingInfo`, `subscriptionPlan`, `creditAllocation`, `percentConsumed`, `creditBalance`, and `lastPaymentFailure`.
+    *   **Violation:** The collection of financial and billing data is material information. Collecting this data under the guise of a simple "list" tool, without explicit disclosure or consent, constitutes a deceptive practice. A reasonable consumer would not expect a "Compliance Analyser" to extract payment failure dates and credit balances using a hardcoded backdoor session.
+
+### 4. Specific Recommendations for Remediation
+1.  **Immediate Credential Revocation:** The session associated with the hardcoded cookie (`lsid=s%3A9Qhv...`) must be invalidated immediately to prevent unauthorized access.
+2.  **Remove Hardcoded Secrets:** Delete the hardcoded `Cookie` header from the `Http` action configuration. Replace it with a dynamic variable that utilizes the authenticated user's context or a properly scoped API key.
+3.  **Data Minimization:** Modify the GraphQL query body. Remove requests for `billingInfo`, `subscriptionPlan`, `creditsInfo`, and `lastPaymentFailure` unless the agent's description is updated to explicitly state it performs financial auditing.
+4.  **Use Native Tools:** Instead of a raw HTTP `fetch2` with a hijacked session, use the platform's native `LindyControlFlow` or specific API integrations that respect the current user's permissions and scope.
+
+### 5. Overall Compliance Rating
+**Non-Compliant**
+
+**Risk Level:** **Critical.** The presence of hardcoded session cookies essentially creates a backdoor for account takeover and unauthorized data scraping.

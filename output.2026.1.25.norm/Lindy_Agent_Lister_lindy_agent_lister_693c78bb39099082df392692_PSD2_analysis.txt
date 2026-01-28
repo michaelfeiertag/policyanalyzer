@@ -1,0 +1,41 @@
+Agent: lindy-agent-lister-693c78bb39099082df392692
+ID: lindy-agent-lister-693c78bb39099082df392692
+Log file: None
+Regulation: PSD2
+============================================================
+
+Based on the provided agent definition, here is the security and compliance assessment regarding PSD2 (Payment Services Directive 2).
+
+### 1. Summary of the Agent's Function
+The **Lindy Agent Lister** is an administrative automation tool designed to inventory internal workspace configurations.
+*   **Trigger:** It runs on a recurring hourly schedule (`0 * * * *`).
+*   **Process:** It retrieves a list of existing agents within the Lindy workspace.
+*   **Output:** It iterates through this list and updates a specific Google Sheet ("Lindy Agents") with the `AgentID`, `Agent Name`, and `Last Task Date`.
+
+### 2. PSD2 Applicability
+**PSD2 is Not Applicable.**
+
+**Reasoning:**
+PSD2 (Revised Payment Services Directive) regulates payment services and payment service providers throughout the European Union and EEA. Its scope is strictly limited to:
+1.  **Account Information Services (AIS):** Accessing consolidated information from payment accounts.
+2.  **Payment Initiation Services (PIS):** Initiating a payment order at the request of the payment service user.
+3.  **Confirmation of Funds:** Confirming funds availability for card-based transactions.
+
+The "Lindy Agent Lister":
+*   **Does not** interact with financial institutions or banking APIs.
+*   **Does not** process, initiate, or view financial transactions.
+*   **Does not** handle sensitive payment authentication data (SCA) or user banking credentials.
+*   **Data Scope:** The data handled (`AgentID`, `Agent Name`, `Last Task Date`) is technical configuration metadata regarding the software platform itself, not financial data.
+
+### 3. Specific Violations of PSD2
+**None.**
+
+As the agent operates entirely outside the regulatory perimeter of payment services and banking data, no PSD2 articles (such as SCA requirements under RTS, or secure communication standards) are violated.
+
+### 4. Specific Recommendations for Remediation
+*   **No remediation required** regarding PSD2.
+
+### 5. Overall Compliance Rating
+**Compliant**
+
+*Note: While the agent is compliant with PSD2 (by virtue of non-applicability), standard data governance regarding the access to the Google Sheet should be maintained per general internal security policies, though this is outside the scope of this specific PSD2 assessment.*

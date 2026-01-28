@@ -1,0 +1,36 @@
+Agent: meeting-scheduler-697192e92908dc843c114766
+ID: meeting-scheduler-697192e92908dc843c114766
+Log file: None
+Regulation: FTC-Act
+============================================================
+
+Based on the provided Agent Definition, here is the compliance assessment regarding the FTC Act.
+
+### 1. Summary of Agent Function
+The "Meeting Scheduler" agent (Lindy) functions as an Executive Assistant. It is triggered when CC'd on an email. It accesses the user's calendar to find available time slots, communicates with other parties via email to propose these times, and upon acceptance, creates a calendar event. It can also handle rescheduling requests.
+
+### 2. FTC Act Applicability
+**Applicable.**
+The FTC Act (Section 5) applies to this agent because it is acting as a commercial intermediary ("in or affecting commerce") on behalf of the enterprise.
+*   **Deception:** The agent makes representations to consumers (meeting attendees) about scheduling and privacy.
+*   **Unfairness:** The agent handles data (calendars, emails, meeting locations) where mishandling can cause injury (privacy breaches) that the consumer cannot reasonably avoid.
+
+### 3. Specific Violations of FTC Act
+**VIOLATION FOUND: Unfair Practices / Inadequate Data Security (Privacy Exposure)**
+
+*   **Issue:** In Node `697192e92908dc843c114770` ("Schedule event"), the configuration for `conferenceLink` is set to a **static, hardcoded manual value**: `https://meet.google.com/cbp-ybrq-ijr`.
+*   **Analysis:** This configuration forces *every* meeting scheduled by this agent, regardless of the participants or the topic, to occur in the exact same digital meeting room.
+*   **FTC Violation:** This constitutes an **Unfair Practice**. It creates a severe security and privacy vulnerability where different groups of users (e.g., an internal HR review vs. an external vendor call) will be sent to the same URL. This leads to a high probability of "Zoombombing" or unauthorized access to confidential discussions. This causes substantial injury (data breach/privacy loss) that is not reasonably avoidable by the consumer (who assumes a unique meeting link is generated), and offers no countervailing benefit.
+
+**Note on Deception:**
+The agent correctly discloses its identity in the `greetingMessage` ("I'm your AI-powered meeting scheduler") and the email signature (`Sent via Lindy`), satisfying transparency requirements regarding AI disclosure.
+
+### 4. Remediation Recommendations
+**Critical Fix Required:**
+1.  **Remove the Hardcoded Link:** In Node `697192e92908dc843c114770`, change the `conferenceLink` configuration.
+2.  **Implement Dynamic Link Generation:** Change the configuration type from `manual` to a dynamic value. Configure the `Calendar` tool's `createEvent` action to auto-generate a unique Google Meet/Zoom link for every new event, or leave the field null if the calendar provider automatically attaches a unique link upon creation.
+
+### 5. Overall Compliance Rating
+**NON-COMPLIANT**
+
+The agent contains a critical configuration error that results in a systemic privacy breach for all users. It cannot be deployed in its current state without violating data security standards enforced under the FTC Act's Unfairness doctrine.

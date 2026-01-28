@@ -1,0 +1,37 @@
+Agent: recruiting-agent-695f41b890cb9480b6fe450b
+ID: recruiting-agent-695f41b890cb9480b6fe450b
+Log file: None
+Regulation: GLBA
+============================================================
+
+Based on the provided agent definition, here is the assessment regarding the Gramm-Leach-Bliley Act (GLBA).
+
+### 1. Summary of Agent Function
+The **Recruiting Agent** is designed to function as an automated Sales Development Representative (SDR) or Recruiter. Its primary workflow involves:
+1.  Accepting user criteria for potential candidates or leads (e.g., role, location, industry).
+2.  Querying an external third-party data provider (**People Data Labs**) to retrieve professional contact information (Name, Job Title, Company, Location, Personal Email, LinkedIn URL).
+3.  Aggregating this data into a **Google Sheet**.
+4.  Optionally executing an outreach loop to send emails to these leads via **Gmail**.
+
+### 2. GLBA Applicability
+**Verdict: GLBA is NOT Applicable.**
+
+**Reasoning:**
+The Gramm-Leach-Bliley Act applies to "financial institutions" and regulates the handling of **Nonpublic Personal Information (NPI)** regarding **consumers** who obtain financial products or services primarily for personal, family, or household purposes.
+
+This agent does not fall under the purview of GLBA for the following reasons:
+1.  **Nature of Data:** The data being processed (professional history, job titles, business or personal contact info sourced from public aggregators like People Data Labs) is considered "Publicly Available Information" or professional directory data. It is not derived from a consumer providing information to obtain a financial product (e.g., a loan application, credit report, or bank account details).
+2.  **Nature of Activity:** The agent is performing B2B prospecting or HR recruiting functions. It is not involved in brokering, lending, investment advice, or insurance services for consumers.
+3.  **Source of Data:** The data is retrieved from a third-party enrichment service, not from internal banking records or consumer financial files.
+
+### 3. Specific Violations of GLBA
+**None.**
+
+As the data handled does not constitute Nonpublic Personal Information (NPI) as defined by the statute, and the agent is not engaging in financial service activities, no provisions of the GLBA (Privacy Rule or Safeguards Rule) are violated by the logic or data flow defined in this agent.
+
+### 4. Specific Recommendations for Remediation
+*   **No remediation is required for GLBA compliance.**
+*   *Operational Note:* Ensure the agent is strictly used for its intended purpose (Recruiting/Sales). If this agent were repurposed to look up existing banking customers to export their data to Google Sheets, a reassessment would be required.
+
+### 5. Overall Compliance Rating
+**COMPLIANT**

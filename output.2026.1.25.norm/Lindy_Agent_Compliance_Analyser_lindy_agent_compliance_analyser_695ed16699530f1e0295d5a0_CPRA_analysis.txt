@@ -1,0 +1,51 @@
+Agent: lindy-agent-compliance-analyser-695ed16699530f1e0295d5a0
+ID: lindy-agent-compliance-analyser-695ed16699530f1e0295d5a0
+Log file: None
+Regulation: CPRA
+============================================================
+
+**Assessment Report: Lindy Agent Compliance Analyser**
+
+**1. Summary of Agent Function**
+The agent is designed to iterate through a list of items (presumably agent definitions), convert their IDs into a GraphQL-compatible format using a JavaScript code snippet, and then execute a massive GraphQL `POST` request to the Lindy API to retrieve detailed data about the workspace, the user ("me"), and specific agent details.
+
+**2. CPRA Applicability**
+**Applicable.**
+The California Privacy Rights Act (CPRA) applies to this agent because:
+1.  **Processing of Personal Information (PI):** The agent explicitly queries and processes "Identity" fields including `name`, `email`, and `avatar` (found in fragments like `CommonLayoutSidebarLindies_Identity_2hyKer`).
+2.  **Processing of Sensitive Personal Information (SPI):** The GraphQL query requests `billingInfo`, `lastPaymentFailure`, and `creditUsage` data. While business billing data is often exempt, if this workspace belongs to a sole proprietor or individual contractor, this constitutes SPI.
+3.  **Security Mandates:** CPRA (Civil Code § 1798.100(e)) legally mandates that businesses implement reasonable security procedures to protect PI.
+
+**3. Specific CPRA Violations**
+
+**Violation A: Failure to Implement Reasonable Security Measures (Civil Code § 1798.100(e))**
+*   **Evidence:** In the `Http` action node (`695ed263d30659e475b9b9db`), the `headers` configuration contains a **hardcoded, static Session Cookie** and Authorization token.
+    *   *Value found:* `ph_phc_...; lsid=s%3A9Qhv...; lindy_anon_id=...`
+*   **Risk:** This is a critical security vulnerability. The agent is not using the authenticated context of the user running the agent; it is impersonating the specific individual (likely "Michael Feiertag," based on the workspace URL variable) whose session was captured when this agent was built.
+*   **CPRA Violation:** Hardcoding user session credentials into an automated script exposes that user's Personal Information to anyone who runs or views the agent code, violating the duty to protect PI against unauthorized access.
+
+**Violation B: Violation of Data Minimization (Civil Code § 1798.100(c))**
+*   **Evidence:** The agent's stated purpose is to "list all agents." However, the HTTP payload contains a massive GraphQL query requesting extraneous data unrelated to this purpose, including:
+    *   `lastPaymentFailure` (date and node ID)
+    *   `creditBalance` and `overagesEnabled`
+    *   `isEmailQualified`
+    *   `inAppPromoCards`
+    *   `npsSurveyProvider` (survey response history)
+*   **CPRA Violation:** CPRA mandates that data collection must be "reasonably necessary and proportionate to achieve the purposes for which the personal information was collected." Querying billing failures and survey history to generate a list of agents is a definitive violation of this principle.
+
+**Violation C: Unauthorized Cross-Context Data Access**
+*   **Evidence:** Because the cookie is hardcoded, if User A runs this agent, the agent executes the request as User B (the owner of the cookie).
+*   **CPRA Violation:** This results in the disclosure of User B's Personal Information (email, billing status, workspace contents) to User A without User B's consent or knowledge.
+
+**4. Specific Recommendations for Remediation**
+
+1.  **Immediate Credential Revocation:** The session associated with the hardcoded `lsid` cookie in the HTTP node must be invalidated immediately.
+2.  **Remove Hardcoded Secrets:** Delete the `Cookie` header from the `fetch2` action. The agent must be reconfigured to use dynamic authentication (e.g., passing the current user's bearer token or using a proper OAuth2 flow configured in the `authConfig` section, which is currently present but unused in parts of the definition).
+3.  **Implement Data Minimization:** Rewrite the GraphQL query. Remove all fragments related to `billingInfo`, `inAppPromoCards`, `referralCta`, and `npsSurveyProvider`. The query should strictly request `agentDefinitions { id, name }`.
+4.  **Variable Sanitization:** Remove the hardcoded workspace URL `michael-feiertags-workspace-2` from the variables and replace it with a dynamic variable representing the current execution context.
+
+**5. Overall Compliance Rating**
+
+**NON-COMPLIANT**
+
+This agent presents a critical security and compliance risk. The presence of hardcoded session credentials allows for session hijacking and unauthorized access to personal data, constituting a direct violation of CPRA security and data minimization statutes. Do not deploy.

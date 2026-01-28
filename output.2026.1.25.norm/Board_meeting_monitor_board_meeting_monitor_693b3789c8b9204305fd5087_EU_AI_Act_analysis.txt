@@ -1,0 +1,39 @@
+Agent: board-meeting-monitor-693b3789c8b9204305fd5087
+ID: board-meeting-monitor-693b3789c8b9204305fd5087
+Log file: None
+Regulation: EU-AI-Act
+============================================================
+
+**Assessment Report: Lindy Agent "Board meeting monitor"**
+
+**1. Summary of Agent Function**
+The agent is an automated scheduling assistant designed to monitor a specific calendar for "board meetings" scheduled for the following day that begin before 9:00 AM PT.
+*   **Triggers:** It runs twice daily (9:00 AM and 6:00 PM).
+*   **Logic:**
+    *   In the morning run, if such a meeting is found, it sends an email notification to `m@testco.com`.
+    *   In the evening run, if such a meeting is found, it sends an SMS notification to a specific phone number.
+*   **AI Usage:** The agent uses an AI model to interpret natural language queries ("Look for board meetings...") into calendar search parameters.
+
+**2. EU AI Act Applicability**
+**Applicable: Yes**
+**Classification: Minimal Risk**
+
+The EU AI Act applies to this agent because it meets the definition of an AI system (using software techniques to infer outputs). However, based on the provided definition:
+*   **Not Prohibited (Art. 5):** The agent does not use subliminal techniques, social scoring, or biometric identification.
+*   **Not High-Risk (Art. 6 / Annex III):** The agent does not function in critical sectors (biometrics, critical infrastructure, education, employment, essential private/public services, law enforcement, migration, or justice). It is a purely administrative, internal productivity tool.
+*   **Transparency (Art. 50):** While Art. 50 requires AI systems interacting with humans to disclose their nature, this agent acts primarily as a notification system rather than a conversational chatbot.
+
+**3. Specific Violations of EU AI Act**
+**None Found.**
+
+*   **Prohibited Practices:** There is no evidence in the agent definition that the system engages in prohibited manipulation or surveillance.
+*   **High-Risk Obligations:** As the system is not classified as High-Risk, it is not subject to the conformity assessments, data governance, or registration requirements mandated for High-Risk AI systems.
+*   **Transparency:** The agent includes a signature in its email configuration: `"Sent via [Lindy](https://lindy.ai)"`. This proactively satisfies transparency principles by clearly identifying the automated nature of the communication. While the SMS configuration lacks a specific signature, the context (a scheduled alert) does not simulate a human interaction in a way that would deceive the recipient, and thus does not violate Article 50.
+
+**4. Recommendations for Remediation**
+No remediation is required for EU AI Act compliance. The agent functions as a minimal-risk administrative tool.
+
+*   *Optional Best Practice:* For absolute consistency with transparency goals, you could append "Sent via Lindy AI" to the SMS body, but this is not a regulatory requirement for this specific use case under the Act.
+
+**5. Overall Compliance Rating**
+**Compliant**

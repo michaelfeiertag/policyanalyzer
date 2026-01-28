@@ -1,0 +1,51 @@
+Agent: lead-outreacher-6971943a0197c79d295d27cb
+ID: lead-outreacher-6971943a0197c79d295d27cb
+Log file: None
+Regulation: ePrivacy-Directive
+============================================================
+
+Here is the compliance assessment for the "Lead Outreacher" agent based on the provided definition.
+
+### 1. Summary of Agent Function
+The "Lead Outreacher" is an autonomous Sales Development Representative (SDR) agent. Its primary function is to execute an automated email drip campaign (cold outreach) for direct marketing purposes.
+*   **Trigger:** It monitors a specific Google Sheet for new rows (leads).
+*   **Action:** It immediately sends an initial personalized sales pitch via Gmail.
+*   **Follow-up:** It attempts to schedule two subsequent follow-up emails with 3-day delays between them (though the edge logic for the follow-ups contains routing errors, the intent to send is explicit).
+*   **Goal:** To solicit business and close deals.
+
+### 2. Applicability of ePrivacy Directive
+**The ePrivacy Directive (Directive 2002/58/EC) is Applicable.**
+
+*   **Article 13 (Unsolicited Communications):** The directive explicitly regulates the use of "electronic mail" (which includes email) for the purposes of direct marketing.
+*   **Direct Marketing:** The agent's instructions explicitly state the goal is to "perform targeted sales outreach" and "close more deals," which constitutes direct marketing.
+*   **Automated Calling/Communication Systems:** The agent operates without human intervention once the data is added to the sheet, classifying it as an automated communication system.
+
+### 3. Specific Violations of ePrivacy Directive
+Based on the agent definition, the following definitive violations are identified:
+
+**A. Violation of Article 13(1) - Lack of Prior Consent (Opt-In)**
+*   **The Issue:** The ePrivacy Directive generally prohibits sending unsolicited direct marketing emails to subscribers unless they have given their **prior consent** (Opt-In).
+*   **Evidence:** The agent triggers `onRowAdded2` in Google Sheets and immediately transitions to `First outreach email` (Gmail send action). There is no logic node, conditional check, or validation step to verify that the lead has consented to receive marketing communications. The description "reach out to new leads" implies cold outreach to individuals who have not requested contact.
+
+**B. Violation of Article 13(4) - Lack of Valid Opt-Out/Unsubscribe Mechanism**
+*   **The Issue:** When direct marketing emails are permitted (e.g., under the "Soft Opt-in" exception for existing customers), the sender constitutes a violation if they fail to provide a valid address or functional mechanism for the recipient to request that such communications cease.
+*   **Evidence:** The prompt templates for the emails (Nodes `d1`, `d5`, `d6`) contain sales copy ("Would you be open to a quick chat?", "Lmk your thoughts") but **do not** include a mandatory unsubscribe link or a statement instructing the user how to opt out (e.g., "Reply STOP to unsubscribe").
+
+### 4. Recommendations for Remediation
+To mitigate legal risk and adhere to the ePrivacy Directive, the following changes are required:
+
+1.  **Implement Consent Verification:**
+    *   **Action:** Add a logic node immediately after the Google Sheet trigger to check a "Consent Provided" column. If the column is false/empty, the flow must terminate immediately without sending an email.
+    *   **Policy:** Ensure the source of the Google Sheet data is not "cold leads" scraped from the internet, but individuals who have explicitly opted in.
+
+2.  **Mandatory Unsubscribe Mechanism:**
+    *   **Action:** Hardcode a footer into the `body` prompt of the Gmail nodes (e.g., "To stop receiving these emails, please reply with 'Unsubscribe'").
+    *   **Action:** Ideally, utilize a dedicated mailing tool rather than raw Gmail, as dedicated tools automatically handle unsubscribe headers required by compliance standards.
+
+3.  **Identify the Sender:**
+    *   **Action:** Ensure the `Subject` or `Body` clearly identifies the legal entity sending the message. The current prompt instructs the AI to "No making up signatures," which creates a risk of sending anonymous marketing if the user fails to configure a signature, violating Article 13(4).
+
+### 5. Overall Compliance Rating
+**Non-Compliant**
+
+The agent is designed to perform automated cold email outreach without consent checks or opt-out mechanisms. This is a direct violation of Article 13 of the ePrivacy Directive. Deploying this agent presents a significant regulatory risk.

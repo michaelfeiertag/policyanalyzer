@@ -1,0 +1,40 @@
+Agent: resume-screening-agent-6971956bbddcdd1d54fd8975
+ID: resume-screening-agent-6971956bbddcdd1d54fd8975
+Log file: None
+Regulation: PSD2
+============================================================
+
+Here is the compliance assessment for the "Resume Screening Agent" specifically regarding **PSD2 (Payment Services Directive 2)**.
+
+### 1. Summary of Agent Function
+The agent is designed to automate the initial screening of job applicants. Its workflow is as follows:
+1.  **Trigger:** It listens for incoming emails via Gmail.
+2.  **Process:** It retrieves a specific Job Description from a Google Doc.
+3.  **Logic:** It analyzes the text of the attached resume against the job description.
+4.  **Output:** It sends an email back to the user (Hiring Manager) classifying the candidate as "Qualified," "Unqualified," or "Borderline," with a summary of the reasoning.
+
+### 2. PSD2 Applicability
+**PSD2 is NOT applicable to this agent.**
+
+**Reasoning:**
+PSD2 (Revised Payment Services Directive) regulates payment services and payment service providers within the European Union. Its scope includes Account Information Service Providers (AISPs) and Payment Initiation Service Providers (PISPs).
+
+To fall under the scope of PSD2, an agent must:
+*   Access payment account information (e.g., bank balances, transaction history).
+*   Initiate payment transactions.
+*   Issue payment instruments.
+
+This agent exclusively processes Human Resources data (resumes) and utilizes standard communication tools (Gmail) and document storage (Google Docs). It does not interact with banking APIs, financial institutions, or payment gateways.
+
+### 3. Specific PSD2 Violations
+**No violations found.**
+
+As the agent does not perform any payment services, access financial accounts, or handle authentication for financial transactions, it cannot violate the directive.
+
+### 4. Recommendations for Remediation
+*   **No remediation required for PSD2.**
+
+### 5. Overall Compliance Rating
+**COMPLIANT**
+
+*(Note: While this agent is compliant with PSD2 because the regulation is not applicable, it handles Personally Identifiable Information (PII) via resumes. While outside the scope of this specific PSD2 review, standard data privacy controls should be maintained.)*

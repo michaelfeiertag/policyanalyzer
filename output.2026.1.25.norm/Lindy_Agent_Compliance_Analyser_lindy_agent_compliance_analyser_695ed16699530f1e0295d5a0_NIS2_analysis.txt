@@ -1,0 +1,34 @@
+Agent: lindy-agent-compliance-analyser-695ed16699530f1e0295d5a0
+ID: lindy-agent-compliance-analyser-695ed16699530f1e0295d5a0
+Log file: None
+Regulation: NIS2
+============================================================
+
+Here is the compliance assessment for the agent **Lindy Agent Compliance Analyser** (ID: `695ed16699530f1e0295d5a0`).
+
+### 1. Summary of Agent Function
+The agent is designed to iterate through a list of inputs (presumably agent IDs), convert them into base64-encoded GraphQL node IDs via a Javascript code step, and then execute a `POST` request to a GraphQL endpoint. The HTTP request retrieves an extensive amount of sensitive data, including user identity details (`me`), workspace memberships, billing information, credit usage, and full definitions of other agents.
+
+### 2. NIS2 Applicability
+**Applicable.**
+NIS2 (Directive (EU) 2022/2555) applies to this agent because the agent acts as a software component within the information systems of the enterprise. Under **Article 21 (Cybersecurity risk-management measures)**, entities are legally required to manage risks regarding the security of network and information systems. This specifically includes "supply chain security" and "basic cyber hygiene practices." As this agent automates data retrieval using authentication credentials, it is a direct component of the organization's attack surface.
+
+### 3. Specific NIS2 Violations
+**Violation Found: Failure to implement Basic Cyber Hygiene and Access Control (Article 21.2.g / Article 21.2.j)**
+
+*   **Evidence:** In the `Http` node (ID: `695ed263d30659e475b9b9db`), the `configuration` -> `headers` section contains **hardcoded, long-lived session credentials** in plain text.
+*   **Specific Data:** The `Cookie` header explicitly contains:
+    *   `ph_phc_...`: A PostHog session identifier containing a specific `distinct_id` (`693b2e83e6a088955f32f826`) and session UUIDs.
+    *   `lsid`: A Lindy Session ID (`s:9Qhv_jJ...`).
+    *   `lindy_anon_id`.
+*   **The Violation:** Storing active session cookies and authentication tokens directly in the source code/configuration of a script violates the principle of securing access to sensitive data. This allows any user with "View" access to this agent to extract these cookies, impersonate the original user, and hijack their session to access billing data, personal information, and modify workspace settings. This is a definitive breach of the requirement to secure authentication credentials.
+
+### 4. Specific Recommendations for Remediation
+1.  **Immediate Revocation:** The session tokens found in the `Cookie` header (specifically the `lsid` starting with `s:9Qhv...`) must be invalidated immediately by the identity provider to prevent active session hijacking.
+2.  **Remove Hardcoded Secrets:** Delete the hardcoded `Cookie` header from the `fetch2` action configuration.
+3.  **Implement Dynamic Authentication:** Reconfigure the agent to use the platform's native authentication injection (e.g., using the `auth` object in the node configuration) or secure secret storage variables. Credentials should never appear in the `value` field of a header configuration.
+
+### 5. Overall Compliance Rating
+**Non-Compliant**
+
+*Rationale: The presence of hardcoded, valid session cookies in plain text constitutes a critical vulnerability that bypasses access controls, directly violating the core risk management mandates of NIS2.*

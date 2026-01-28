@@ -1,0 +1,36 @@
+Agent: ai-cmo-research-agent-697194e773107647553ffb5a
+ID: ai-cmo-research-agent-697194e773107647553ffb5a
+Log file: None
+Regulation: PSD2
+============================================================
+
+**Compliance Assessment: AI CMO | Research Agent**
+
+**1. Summary of Agent Function**
+The "AI CMO | Research Agent" functions as an automated market research and strategy tool. Its primary workflow involves:
+*   **Input:** Receiving a company website URL.
+*   **Research:** Utilizing search tools (Perplexity, Google Search, Browser scraping) to gather public information regarding the company’s products, pricing models, target audience (ICP), brand tone, and competitors.
+*   **Analysis:** Using Large Language Models (LLMs) to generate buyer personas, customer journey maps, value propositions, and SWOT analyses.
+*   **Output:** Creating and populating multiple Google Docs with the synthesized research, brand guidelines, and marketing strategies.
+
+**2. PSD2 Applicability**
+**PSD2 is NOT Applicable.**
+
+The Revised Payment Services Directive (PSD2) regulates Payment Service Providers (PSPs), specifically focusing on Account Information Service Providers (AISPs) and Payment Initiation Service Providers (PISPs).
+
+*   **No Payment Initiation:** The agent does not initiate fund transfers or interact with payment gateways to move money.
+*   **No Account Access:** The agent does not access bank account interfaces (APIs) to aggregate financial data or transaction history.
+*   **No Sensitive Payment Data:** The agent processes public marketing data (web copy, pricing pages, competitor lists). It does not handle authentication credentials for financial institutions or credit card numbers.
+
+**3. Specific Violations of PSD2**
+**None Found.**
+
+As the agent operates outside the scope of payment services, it cannot violate the articles of PSD2. There is no evidence in the agent definition that it attempts to bypass Strong Customer Authentication (SCA) or access restricted financial APIs.
+
+**4. Remediation Recommendations**
+*   **No remediation required regarding PSD2.**
+
+**5. Overall Compliance Rating**
+**COMPLIANT**
+
+*Note: This rating indicates the agent creates no risk regarding the specific regulation requested (PSD2).*

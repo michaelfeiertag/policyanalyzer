@@ -1,0 +1,43 @@
+Agent: copilots_header_b71cf
+ID: copilots_header_b71cf
+Log file: None
+Regulation: FERPA
+============================================================
+
+Based on the provided Agent Definition and the instructions to rely on evidence rather than speculation, here is the FERPA compliance assessment for the "Agent Lister" agent.
+
+### 1. Summary of the Agent's Function
+The agent, titled "Agent Lister," is a conversational bot built on the Microsoft Copilot Studio (formerly Power Virtual Agents) framework. Its primary function is to act as an interface to search and summarize content from a specific Dataverse knowledge source named "Copilot."
+
+The agent utilizes standard system topics (Greeting, Start Over, Sign In, Escalate, End of Conversation) to manage conversational flow. The core logic resides in the `Conversational boosting` topic, which takes user input (`System.Activity.Text`) and executes a `SearchAndSummarizeContent` action against the connected Dataverse table to provide answers. It appears designed to help users find information about other Copilots or Agents within the system.
+
+### 2. FERPA Applicability
+**Applicability: Low / Likely Not Applicable**
+
+FERPA (Family Educational Rights and Privacy Act) applies to the protection of **Student Education Records** (grades, transcripts, schedules, disciplinary records, and student PII) held by educational institutions or agencies receiving federal funds.
+
+**Reasoning:**
+*   **Nature of Data:** The agent's metadata and knowledge source configuration (`Copilot_jSD9Af10zS6M92KBf2pHM`) suggest it is an administrative tool used to list or query technical configurations of other "Copilots" or "Agents." There is no evidence in the definition that this agent interfaces with Student Information Systems (SIS), Learning Management Systems (LMS), or databases containing student PII.
+*   **Target Audience:** The agent name "Agent Lister" implies an IT or Administrative utility, rather than a tool for accessing student records.
+
+Unless the "Copilot" Dataverse table incidentally contains unredacted student records (which cannot be determined from the definition alone), FERPA regulations regarding the privacy of education records do not apply to the function of this software asset.
+
+### 3. Specific Violations of FERPA
+**Violations Found: None**
+
+Based on the provided definition and the absence of a log file showing the transmission of student data:
+
+*   **No Unauthorized Disclosure:** There is no hardcoded logic, prompts, or variable assignments that expose student PII.
+*   **Authentication is Present:** The agent includes a `Sign in` topic (`copilots_header_b71cf.topic.Signin`) and `authenticationmode: 2`. This indicates that access to the bot is gated behind authentication. Even if the bot were hypothetically connected to education records, it enforces identity verification, which aligns with FERPA security requirements.
+*   **No Improper Storage:** The agent relies on `SearchAndSummarizeContent`. It retrieves data dynamically from a connected source (Dataverse) rather than storing inputs or outputs in a non-compliant external storage location within the agent's logic flow.
+
+### 4. Specific Recommendations for Remediation
+As no violations were identified, no code remediation is required. However, to maintain the current compliant posture:
+
+*   **Access Control Verification:** Ensure that the Dataverse table ("Copilot") connected to this agent does not contain student PII in its metadata fields (e.g., ensuring a student's name isn't listed as the "owner" of a bot in a way that is publicly searchable).
+*   **Maintain Authentication:** Do not disable the `authenticationmode: 2` setting or remove the `Sign in` topic if the agent is ever repurposed to handle sensitive data.
+
+### 5. Overall Compliance Rating
+**Rating: Compliant**
+
+The agent functions as a directory lookup tool for other software agents. It possesses robust authentication configuration and does not interact with, store, or transmit Student Education Records based on the provided code definition.

@@ -1,0 +1,47 @@
+Agent: resume-screening-agent-6971956bbddcdd1d54fd8975
+ID: resume-screening-agent-6971956bbddcdd1d54fd8975
+Log file: None
+Regulation: ISO27001
+============================================================
+
+Here is the compliance assessment for the "Resume Screening Agent" based on the provided definition and ISO 27001 standards.
+
+### 1. Summary of Agent Function
+The agent is designed to automate the initial screening of job applications. It monitors a Gmail inbox for *all* incoming messages with attachments. When triggered, it retrieves a Job Description from a specific Google Doc URL. It then analyzes the attached resume against the job description using an AI model. Based on the analysis, it categorizes the candidate (Qualified, Unqualified, or Borderline) and sends an email containing an assessment summary and recommendation to a recipient identified as "the user."
+
+### 2. Applicability of ISO 27001
+**ISO 27001 is Applicable.**
+This agent processes Personally Identifiable Information (PII) contained within resumes (names, contact details, employment history). It also handles internal business decision-making data (hiring assessments). Consequently, the Confidentiality, Integrity, and Availability (CIA) of this data fall under the scope of an Information Security Management System (ISMS). Specifically, the agent acts as an interface between external entities (applicants) and internal assets (email, decision logic), making ISO 27001 controls regarding access control, information transfer, and secure development strictly relevant.
+
+### 3. Specific Violations of ISO 27001
+
+**Violation 1: Failure of Access Control and Least Privilege (Control A.5.15, A.8.2)**
+*   **Evidence:** The trigger configuration is set to `participantsTypeFilter: "all"` and `attachmentFilter: "all"`.
+*   **Analysis:** The agent ingests *every* email with an attachment received by the connected Gmail account, regardless of sender or subject line. It does not verify if the email is actually a job application until *after* the data has been ingested and processed by the "Job application?" logic node.
+*   **Risk:** This violates the principle of Least Privilege. If the HR account receives sensitive legal documents, internal strategy files, or employee grievances with attachments, this agent will ingest and process them through the AI model. This is an unauthorized access to information outside the agent's intended scope.
+
+**Violation 2: Insecure Information Transfer / Data Leakage Risk (Control A.13.2, A.14.2)**
+*   **Evidence:** In all three output nodes (Qualified, Unqualified, Borderline), the `to` field is configured via an AI prompt: `"Send it to the user"`.
+*   **Analysis:** Relying on an AI model to interpret "the user" for routing sensitive data is a failure of deterministic security controls. In the context of an email trigger, "the user" is ambiguous and can be interpreted by the LLM as the *sender* of the original email (the candidate).
+*   **Risk:** There is a high probability of the agent sending the internal HR assessment (e.g., "Candidate lacks required years of experience," "concerns about skill gap") directly to the applicant instead of the Hiring Manager. This constitutes a breach of confidentiality regarding internal hiring deliberations.
+
+**Violation 3: Lack of Configuration Management and Integrity (Control A.8.1, A.12.1)**
+*   **Evidence:** The Job Description is retrieved from a hardcoded Google Docs URL (`https://docs.google.com/...`) inside the `Get job description` node.
+*   **Analysis:** Critical business logic (the hiring criteria) relies on an external, unmanaged link embedded directly in the code. There is no evidence of version control or integrity checking for this document.
+*   **Risk:** If the document permissions change, or the content is maliciously or accidentally altered, the agent's integrity is compromised. ISO 27001 requires the protection of the integrity of operational software and parameters.
+
+### 4. Recommendations for Remediation
+
+1.  **Restrict Ingestion Scope (Remediates Violation 1):**
+    *   Modify the Gmail trigger to listen *only* for emails with a specific subject line (e.g., "Application for [Role]") or emails routed to a specific alias/label (e.g., `jobs@company.com`). Do not process the "All Mail" stream.
+
+2.  **Hardcode Internal Recipients (Remediates Violation 2):**
+    *   Change the `to` field in the email output nodes from an AI prompt to a static, verified email address (e.g., `hiring.manager@enterprise.com`). Do not allow the AI to dynamically select the recipient for sensitive internal feedback.
+
+3.  **Secure Configuration Assets (Remediates Violation 3):**
+    *   Move the Job Description text into a secure variable within the system or fetch it from a secure, authenticated internal repository rather than a raw public/shared link.
+
+### 5. Overall Compliance Rating
+**Non-Compliant**
+
+The agent introduces immediate practical risks regarding data privacy (ingesting non-hiring emails) and data leakage (potential routing of internal assessments to external candidates). It cannot be deployed in a secure enterprise environment in its current state.

@@ -1,0 +1,36 @@
+Agent: cr668_benefits
+ID: cr668_benefits
+Log file: None
+Regulation: FERPA
+============================================================
+
+Here is the compliance assessment for the "Benefits" agent in relation to FERPA.
+
+### 1. Summary of Agent Function
+The "Benefits" agent serves as an internal HR support bot designed to answer employee questions regarding company benefits (Legal, Financial, Education, Leave, Wellbeing, Health).
+*   **Authentication:** It requires the user to sign in via OAuth to establish identity (User Principal Name).
+*   **Data Retrieval:** It connects to an external system (likely SAP SuccessFactors, based on the schema structure) to retrieve the employee's profile (Name, Country) and their dependents' details (Names, Dates of Birth, Relationship).
+*   **Processing:** It calculates the age of dependents to categorize them (Infant/Elderly) and constructs a prompt for a Generative AI model.
+*   **Output:** It queries a static knowledge base (`employee-benefits-handbook-2024-final.pdf`) to provide policy information tailored to the employee's country and family composition.
+
+### 2. FERPA Applicability
+**FERPA is NOT Applicable to this agent.**
+
+*   **Reasoning:** FERPA (Family Educational Rights and Privacy Act) protects the privacy of **Education Records** maintained by educational agencies or institutions.
+*   **Data Nature:** The data processed by this agent (Schema `cr668_benefits.topic.FetchPersonIDfromUPN`) is strictly **Employment Data** and **HR Benefits Data** (e.g., `PerPersonRelationship`, `assignmentUUID`, `benefitsEligibilityStartDate`).
+*   **Regulatory Exemption:** Even if this enterprise is an educational institution (e.g., a University), FERPA regulations explicitly exclude "records that are made and maintained in the normal course of business which relate exclusively to such person in that person's capacity as an employee" (34 CFR § 99.3).
+*   **Education Benefits Intent:** The agent includes an intent for "What education benefits are available...". However, the log and definition show this retrieves **corporate policy information** (tuition reimbursement eligibility) from a handbook, not a student's academic transcript or institutional financial aid records.
+
+### 3. Specific Violations of FERPA
+**No FERPA violations are found.**
+
+*   The agent does not access, store, or transmit "Education Records" (grades, transcripts, student discipline records, or class schedules).
+*   The agent interacts solely with HR/Employment databases and static policy documents.
+
+### 4. Specific Recommendations for Remediation
+*   **No remediation is required regarding FERPA.**
+
+### 5. Overall Compliance Rating
+**COMPLIANT**
+
+*(Note: This rating is based strictly on FERPA. While the agent handles other sensitive PII such as names, dates of birth, and family relationships of dependents, these fall under HR/Employment privacy standards, not FERPA.)*

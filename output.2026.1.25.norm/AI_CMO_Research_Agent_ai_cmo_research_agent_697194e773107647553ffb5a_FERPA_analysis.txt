@@ -1,0 +1,39 @@
+Agent: ai-cmo-research-agent-697194e773107647553ffb5a
+ID: ai-cmo-research-agent-697194e773107647553ffb5a
+Log file: None
+Regulation: FERPA
+============================================================
+
+Here is the assessment regarding FERPA compliance for the "AI CMO | Research Agent".
+
+### 1. Summary of Agent Function
+The "AI CMO | Research Agent" is a marketing intelligence automation tool. Its primary workflow involves:
+1.  **Ingestion:** Accepting a company website URL from the user.
+2.  **Research:** Using Perplexity AI and browser scraping tools to analyze the website, identify competitors, and determine the industry context.
+3.  **Generation:** Using Large Language Models (LLMs) to generate synthetic marketing assets, including Ideal Customer Profiles (ICPs), fictional buyer personas, value propositions, and brand guidelines.
+4.  **Output:** Creating and saving these reports into Google Docs.
+
+### 2. FERPA Applicability
+**FERPA is likely NOT applicable to this agent.**
+
+**Reasoning:**
+The Family Educational Rights and Privacy Act (FERPA) protects the privacy of student education records maintained by educational agencies and institutions. For FERPA to apply, the agent must:
+1.  Be used by a covered educational institution.
+2.  Access, process, or store "education records" (documents containing information directly related to a student).
+
+This agent is designed for **commercial marketing research**. It operates on **publicly available web data** (company URLs, competitor sites) and generates **synthetic/fictional data** (marketing personas). It implies no connection to Student Information Systems (SIS), Learning Management Systems (LMS), or databases containing student grades, transcripts, or disciplinary records. Even if an educational institution used this agent to analyze their own public website, public-facing website copy is generally considered "directory information" or institutional marketing material, not protected education records.
+
+### 3. Specific FERPA Violations
+**No violations found.**
+
+*   **No Access to Protected Records:** The agent's inputs are strictly limited to a website URL provided by the user. There are no integrations defined in the JSON that connect to student record databases.
+*   **Synthetic vs. Actual Data:** The node `697194e773107647553ffb7b` ("Customer Profile x Buyer Personas Development") instructs the AI to "develop three customer personas." In a marketing context, these are fictional archetypes (e.g., "Persona 1: The Budget-Conscious Student"), not retrieval of actual student PII.
+*   **Public Scope:** The `Perplexity` and `Browser` tools are configured to search the open web, which does not constitute a violation of student privacy rights under FERPA.
+
+### 4. Recommendations for Remediation
+No remediation is required for FERPA compliance.
+
+*   *Optional Best Practice:* If this agent is deployed within a University environment, ensure the input URL provided by the user does not point to an unsecured directory listing of student data. However, this is a user-input hygiene issue, not an inherent flaw in the agent's code.
+
+### 5. Overall Compliance Rating
+**COMPLIANT**

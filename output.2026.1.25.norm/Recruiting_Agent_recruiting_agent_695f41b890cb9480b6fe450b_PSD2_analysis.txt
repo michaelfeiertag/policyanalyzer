@@ -1,0 +1,44 @@
+Agent: recruiting-agent-695f41b890cb9480b6fe450b
+ID: recruiting-agent-695f41b890cb9480b6fe450b
+Log file: None
+Regulation: PSD2
+============================================================
+
+Based on the review of the provided [AGENT_DEFINITION] and the context of the Payment Services Directive 2 (PSD2), here is the compliance assessment.
+
+### 1. Summary of Agent Function
+The "Recruiting Agent" is designed to automate sales development and recruiting workflows. Its primary functions include:
+*   **Lead Generation:** Searching for people and companies using the *People Data Labs* integration based on criteria such as job title, location, and industry.
+*   **Data Organization:** Creating and populating Google Sheets with lead data (names, emails, LinkedIn URLs, etc.).
+*   **Outreach:** Optionally sending emails to identified leads via a Gmail integration using a loop structure.
+
+### 2. PSD2 Applicability
+**PSD2 is NOT applicable to this agent.**
+
+**Reasoning:**
+PSD2 (Revised Payment Services Directive) regulates payment services and payment service providers within the European Union. Its scope covers Account Information Services (AIS), Payment Initiation Services (PIS), and the security of electronic payments (Strong Customer Authentication).
+
+To fall under the scope of PSD2, an agent must:
+1.  Access payment account information (e.g., bank balances, transaction history).
+2.  Initiate payment transactions.
+3.  Act as a Third Party Provider (TPP) interacting with financial institutions.
+
+This agent interacts exclusively with:
+*   **People Data Labs:** For public/enriched contact data (recruiting info).
+*   **Google Sheets:** For document storage.
+*   **Gmail:** For communication.
+
+There are no integrations with banking APIs, payment gateways (like Stripe or PayPal), or financial ledgers. Therefore, the regulation does not apply to the agent's current defined scope.
+
+### 3. Specific Violations of PSD2
+**No violations found.**
+
+As the agent does not process payments, access banking credentials, or retrieve financial transaction data, it cannot violate PSD2 provisions regarding Strong Customer Authentication (SCA), secure communication, or unauthorized access to payment accounts.
+
+### 4. Specific Recommendations for Remediation
+*   **No remediation required** regarding PSD2.
+
+### 5. Overall Compliance Rating
+**Compliant**
+
+*Note: While this agent handles Personally Identifiable Information (PII) which may trigger other regulatory frameworks (e.g., GDPR), it is fully compliant with PSD2 as it falls completely outside the regulation's scope.*

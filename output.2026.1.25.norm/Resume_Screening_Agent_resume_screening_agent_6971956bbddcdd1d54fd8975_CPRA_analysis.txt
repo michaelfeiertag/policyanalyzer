@@ -1,0 +1,41 @@
+Agent: resume-screening-agent-6971956bbddcdd1d54fd8975
+ID: resume-screening-agent-6971956bbddcdd1d54fd8975
+Log file: None
+Regulation: CPRA
+============================================================
+
+Based on the provided Agent Definition, here is the CPRA security and compliance assessment. Note that while the prompt mentions a sample log, none was provided in the text block; this assessment is based strictly on the logical flow and configuration defined in the JSON.
+
+### 1. Summary of Agent Function
+The "Resume Screening Agent" is an automated recruitment tool designed to filter job applications.
+*   **Input:** It monitors a connected Gmail account for **all** incoming messages with attachments.
+*   **Processing:** It reads a specific Google Doc containing a Job Description. It then uses an AI model to compare the content of attached resumes against the Job Description.
+*   **Decisioning:** It classifies candidates into three categories: "Qualified," "Unqualified," or "Borderline."
+*   **Output:** It sends an email to a user (likely HR/Hiring Manager) with the classification and a summary of pros/cons.
+
+### 2. CPRA Applicability
+**Yes, CPRA is fully applicable.**
+1.  **Scope of Data (PI):** The agent processes resumes which contain "Personal Information" as defined by CPRA (identifiers, education, employment history, and contact details).
+2.  **Context (Employment):** As of January 1, 2023, the exemption for applicant and employee data under CCPA/CPRA has expired. Applicant data is now fully subject to CPRA privacy rights.
+3.  **Automated Decision-Making (Profiling):** The agent performs "profiling" by evaluating personal aspects (skills, experience) to analyze or predict the applicant's performance or eligibility for a job.
+
+### 3. Specific CPRA Violations
+The following definitive violations are identified based on the agent's configuration:
+
+**A. Violation of Data Minimization (Cal. Civ. Code § 1798.100(c))**
+*   **Evidence:** The Gmail trigger (Node `6971956bbddcdd1d54fd897c`) is configured with `"attachmentFilter": "all"` and `"participantsTypeFilter": "all"`.
+*   **The Violation:** The agent ingests and processes *every* email and attachment received by the inbox to determine if it is a resume. This means the AI is processing Personal Information from non-applicants (e.g., vendors, internal communications, unrelated inquiries) that is not "reasonably necessary and proportionate" to the hiring purpose. Ingesting unrelated PII to filter for resumes violates the data minimization principle.
+
+**B. Unregulated Automated Decision-Making / Profiling (Cal. Civ. Code § 1798.185(a)(16))**
+*   **Evidence:** The logic nodes (Edges `6971956bbddcdd1d54fd8982` to `6971956bbddcdd1d54fd8984`) automatically categorize a candidate as "Unqualified" and draft a rejection summary based solely on the AI's inference.
+*   **The Violation:** CPRA regulations require businesses to provide notice and "meaningful information about the logic involved" in automated decision-making, as well as opt-out rights for profiling that produces legal or similarly significant effects (such as employment eligibility). This agent makes definitive eligibility determinations ("Unqualified") without a forced "Human-in-the-Loop" (HITL) validation step before the determination is crystallized in the email to HR. The agent lacks the logging infrastructure required to fulfill an "Access to Logic" request if a rejected candidate challenges the automated decision.
+
+### 4. Recommendations for Remediation
+1.  **Restrict Data Ingestion:** Change the Gmail trigger configuration. Do not filter "all." Instead, require a specific subject line (e.g., "Application for [Role]") or use a dedicated alias/label so the agent *only* processes data explicitly submitted for this purpose.
+2.  **Implement Human-in-the-Loop:** Modify the agent instructions. Instead of classifying candidates as "Unqualified," the agent should provide a "Preliminary Match Score" and explicitly state in the output email: *"This is an AI-generated summary. Human review is required before disqualification."*
+3.  **Audit Logging:** The agent currently processes data transiently (Input -> AI -> Email). To comply with Subject Access Requests (SARs), the agent must log *who* was processed and the *result* to a structured file (e.g., a Google Sheet). Without this, you cannot confirm to a user whether their data was processed or deleted.
+
+### 5. Overall Compliance Rating
+**Non-Compliant**
+
+The agent introduces significant risk by indiscriminately processing inbox data (violating minimization) and performing automated employment profiling without the necessary governance or audit trails required by CPRA.
