@@ -1,526 +1,526 @@
-"Agent Name","Agent Function","Policy","Applicable Y/N","Compliant?","File Name"
-Agent Lister,Generative AI chatbot for Q&A and intent recognition,ADA,Y,Partially Compliant,"Agent_Lister_copilots_header_b71cf_ADA_analysis.txt"
-Agent Lister,Generative AI-enabled chatbot with authentication and retrieval,CCPA,Y,Compliant,"Agent_Lister_copilots_header_b71cf_CCPA_analysis.txt"
-Agent Lister,Conversational agent with authentication and knowledge retrieval,COPPA,N,Compliant,"Agent_Lister_copilots_header_b71cf_COPPA_analysis.txt"
-Agent Lister,Generative AI chatbot for information retrieval and support,CPRA,Y,Non-Compliant,"Agent_Lister_copilots_header_b71cf_CPRA_analysis.txt"
-Agent Lister,Assists users in searching for other agents,DORA,Y,Compliant,"Agent_Lister_copilots_header_b71cf_DORA_analysis.txt"
-Agent Lister,Standard Generative AI chatbot with knowledge retrieval,ECPA,Y,Compliant,"Agent_Lister_copilots_header_b71cf_ECPA_analysis.txt"
-Agent Lister,Generative AI chatbot for information retrieval and conversations,ePrivacy-Directive,Y,Compliant,"Agent_Lister_copilots_header_b71cf_ePrivacy_Directive_analysis.txt"
-copilots_header_b71cf,Generative AI chatbot for information retrieval,EU-AI-Act,Y,Non-Compliant,"Agent_Lister_copilots_header_b71cf_EU_AI_Act_analysis.txt"
-Agent Lister,General conversational interaction and information retrieval,FCRA,N,Compliant,"Agent_Lister_copilots_header_b71cf_FCRA_analysis.txt"
-Agent Lister,Search and summarize Copilot content from Dataverse,FERPA,N,Compliant,"Agent_Lister_copilots_header_b71cf_FERPA_analysis.txt"
-Agent Lister,Assists users by answering questions via conversational boosting,FTC-Act,Y,Compliant,"Agent_Lister_copilots_header_b71cf_FTC_Act_analysis.txt"
-Agent Lister,Assists users by retrieving information from Dataverse,GDPR,Y,Compliant,"Agent_Lister_copilots_header_b71cf_GDPR_analysis.txt"
-Agent Lister,answers queries by searching and summarizing content,GLBA,Y,Compliant,"Agent_Lister_copilots_header_b71cf_GLBA_analysis.txt"
-Agent Lister,Search and summarize Dataverse knowledge content,HIPAA,N,Compliant,"Agent_Lister_copilots_header_b71cf_HIPAA_analysis.txt"
-Agent Lister,Answers user queries by retrieving information from Dataverse,ISO27001,Y,Compliant,"Agent_Lister_copilots_header_b71cf_ISO27001_analysis.txt"
-Agent Lister,Generative Q&A using Dataverse with authentication,NIS2,Y,Compliant,"Agent_Lister_copilots_header_b71cf_NIS2_analysis.txt"
-Agent Lister,Searching and summarizing content from enterprise data,NIST-AI-RMF,Y,Non-Compliant,"Agent_Lister_copilots_header_b71cf_NIST_AI_RMF_analysis.txt"
-Agent Lister,"Information retrieval bot using Conversational boosting",PCI-DSS,N,Compliant,"Agent_Lister_copilots_header_b71cf_PCI_DSS_analysis.txt"
-Agent Lister,Conversational AI bot handling dialogue and information retrieval,PSD2,N,Compliant,"Agent_Lister_copilots_header_b71cf_PSD2_analysis.txt"
-Agent Lister,Retrieval Augmented Generation from Dataverse knowledge source,SOC2,Y,Compliant,"Agent_Lister_copilots_header_b71cf_SOC2_analysis.txt"
-Agent Lister,Search/Information Retrieval for directory/agents,SOX,N,Compliant,"Agent_Lister_copilots_header_b71cf_SOX_analysis.txt"
-Agent Monitor,Backend automation for logging and auditing purposes,ADA,N,Compliant,"Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_ADA_analysis.txt"
-Agent Monitor,Internal auditing and logging tool,CCPA,Y,Compliant,"Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_CCPA_analysis.txt"
-agent-monitor-693b3fc7e12822592e50aff0,Backend automation utility for internal logging and auditing,COPPA,N,Compliant,"Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_COPPA_analysis.txt"
-Agent Monitor,Automated logging utility for task completion monitoring,CPRA,Y,Compliant,"Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_CPRA_analysis.txt"
-Agent Monitor,tracks activity of three specific agents,DORA,Y,Non-Compliant,"Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_DORA_analysis.txt"
-Agent Monitor,automated logging utility for three monitored agents,ECPA,Y,Compliant,"Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_ECPA_analysis.txt"
-Agent Monitor,Internal auditing and logging tool,ePrivacy-Directive,N,Compliant,"Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_ePrivacy_Directive_analysis.txt"
-Agent Monitor,Internal process automation for observability and logging,EU-AI-Act,Y,Compliant,"Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_EU_AI_Act_analysis.txt"
-Agent Monitor,logs activity from other agents,FCRA,N,Compliant,"Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_FCRA_analysis.txt"
-Agent Monitor,logs activity from three specific agents,FERPA,N,Compliant,"Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_FERPA_analysis.txt"
-Agent Monitor,Logs task completion details to Google Sheet,FTC-Act,N,Compliant,"Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_FTC_Act_analysis.txt"
-Agent Monitor,Automated logging utility for three Lindy agents,GDPR,N,Compliant,"Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_GDPR_analysis.txt"
-Agent Monitor,tracks activity of three upstream agents,GLBA,N,Compliant,"Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_GLBA_analysis.txt"
-Agent Monitor,automated logging utility,HIPAA,N,Compliant,"Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_HIPAA_analysis.txt"
-Agent Monitor,Automated monitoring and logging daemon,ISO27001,Y,Non-Compliant,"Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_ISO27001_analysis.txt"
-Agent Monitor,logs and audits agent task completions,NIS2,Y,Compliant,"Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_NIS2_analysis.txt"
-Agent Monitor,Automated observability agent for logging success events,NIST-AI-RMF,Y,Compliant,"Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_NIST_AI_RMF_analysis.txt"
-Agent Monitor,Observes upstream agents and logs task details,PCI-DSS,N,Compliant,"Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_PCI_DSS_analysis.txt"
-Agent Monitor,Administrative logging workflow,PSD2,N,Compliant,"Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_PSD2_analysis.txt"
-Agent Monitor,automated logging and auditing tool,SOC2,Y,Compliant,"Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_SOC2_analysis.txt"
-Agent Monitor,Operational logger for completed agent tasks,SOX,N,Compliant,"Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_SOX_analysis.txt"
-AI CMO | Research Agent,Automated marketing intelligence and document generation,ADA,Y,Compliant,"AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_ADA_analysis.txt"
-AI CMO Research Agent,Performs market research based on company URL,CCPA,N,Compliant,"AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_CCPA_analysis.txt"
-ai-cmo-research-agent-697194e773107647553ffb5a,Automated marketing strategist analyzing websites and competitors,COPPA,N,Compliant,"AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_COPPA_analysis.txt"
-"AI CMO | Research Agent",Market research and competitor analysis automation,CPRA,Y,Compliant,"AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_CPRA_analysis.txt"
-AI CMO Research Agent,Automated CMO researcher conducting market analysis,DORA,Y,Non-Compliant,"AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_DORA_analysis.txt"
-AI CMO | Research Agent,Automated market research analyst,ECPA,N,Compliant,"AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_ECPA_analysis.txt"
-AI CMO | Research Agent,Automated market intelligence and marketing asset generation,ePrivacy-Directive,N,Compliant,"AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_ePrivacy_Directive_analysis.txt"
-ai-cmo-research-agent-697194e773107647553ffb5a,Business intelligence and marketing automation tool,EU-AI-Act,Y,Compliant,"AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_EU_AI_Act_analysis.txt"
-AI CMO | Research Agent,Automated market research and competitive analysis tool,FCRA,N,Compliant,"AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_FCRA_analysis.txt"
-ai-cmo-research-agent-697194e773107647553ffb5a,Marketing intelligence automation tool,FERPA,N,Compliant,"AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_FERPA_analysis.txt"
-AI CMO Research Agent,Internal business intelligence and strategy automation,FTC-Act,Y,Compliant,"AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_FTC_Act_analysis.txt"
-AI CMO | Research Agent,Performs market research and generates business intelligence reports,GDPR,Y,Compliant,"AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_GDPR_analysis.txt"
-AI CMO Research Agent,Conducts B2B market research and competitor analysis,GLBA,N,Compliant,"AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_GLBA_analysis.txt"
-AI CMO Research Agent,Automated marketing strategist using public company data,HIPAA,N,Compliant,"AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_HIPAA_analysis.txt"
-ai-cmo-research-agent-697194e773107647553ffb5a,Market research automation creating strategic business intelligence,ISO27001,Y,Non-Compliant,"AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_ISO27001_analysis.txt"
-AI CMO | Research Agent,Automated Chief Marketing Officer assistant,NIS2,Y,Compliant,"AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_NIS2_analysis.txt"
-AI CMO | Research Agent,Automates market research and strategic planning,NIST-AI-RMF,Y,Non-Compliant,"AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_NIST_AI_RMF_analysis.txt"
-AI CMO | Research Agent,Automated CMO researcher generating marketing assets,PCI-DSS,N,Compliant,"AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_PCI_DSS_analysis.txt"
-AI CMO | Research Agent,Automated market research and strategy tool,PSD2,N,Compliant,"AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_PSD2_analysis.txt"
-AI CMO | Research Agent,Automated marketing researcher and strategy document generator,SOC2,Y,Non-Compliant,"AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_SOC2_analysis.txt"
-"AI CMO | Research Agent",Marketing and business intelligence automation tool,SOX,N,Compliant,"AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_SOX_analysis.txt"
-cr668_benefits,"Answers employee inquiries regarding legal, financial, education, health benefits",ADA,Y,Non-Compliant,"Benefits_cr668_benefits_ADA_analysis.txt"
-cr668_benefits,"Assists employees with benefits inquiries via chatbot",CCPA,Y,Non-Compliant,"Benefits_cr668_benefits_CCPA_analysis.txt"
-cr668_benefits, Assists employees with HR-related benefit inquiries, COPPA, N, Compliant,"Benefits_cr668_benefits_COPPA_analysis.txt"
-cr668_benefits, Answers employee questions about legal and financial benefits, CPRA, Y, Non-Compliant,"Benefits_cr668_benefits_CPRA_analysis.txt"
-Benefits,HR support bot for employee benefits questions,DORA,Y,Partially Compliant,"Benefits_cr668_benefits_DORA_analysis.txt"
-cr668_benefits,Answers employee inquiries regarding legal financial education health benefits,ECPA,Y,Compliant,"Benefits_cr668_benefits_ECPA_analysis.txt"
-Benefits,Assists employees with HR-related inquiries,ePrivacy-Directive,Y,Compliant,"Benefits_cr668_benefits_ePrivacy_Directive_analysis.txt"
-cr668_benefits,Assists employees with employment benefits information,EU-AI-Act,Y,Partially Compliant,"Benefits_cr668_benefits_EU_AI_Act_analysis.txt"
-cr668_benefits,Assists employees in understanding their company benefits,FCRA,N,Compliant,"Benefits_cr668_benefits_FCRA_analysis.txt"
-cr668_benefits,HR support bot for employee benefits questions,FERPA,N,Compliant,"Benefits_cr668_benefits_FERPA_analysis.txt"
-cr668_benefits,Assists employees in understanding their employment benefits,FTC-Act,Y,Compliant,"Benefits_cr668_benefits_FTC_Act_analysis.txt"
-cr668_benefits,Employee benefits support bot answering benefits questions,GDPR,Y,Non-Compliant,"Benefits_cr668_benefits_GDPR_analysis.txt"
-Benefits,Internal HR assistant for employees,GLBA,N,Compliant,"Benefits_cr668_benefits_GLBA_analysis.txt"
-cr668_benefits,Automated HR assistant for employee benefits queries,HIPAA,Y,Non-Compliant,"Benefits_cr668_benefits_HIPAA_analysis.txt"
-Benefits,Answers employee benefits inquiries using authentication,ISO27001,Y,Non-Compliant,"Benefits_cr668_benefits_ISO27001_analysis.txt"
-"Benefits","Assists employees with legal financial education health benefits",NIS2,Y,Non-Compliant,"Benefits_cr668_benefits_NIS2_analysis.txt"
-cr668_benefits,"Internal HR bot answering employee benefits questions",NIST-AI-RMF,Y,Non-Compliant,"Benefits_cr668_benefits_NIST_AI_RMF_analysis.txt"
-Benefits,HR support bot answering employee benefit queries,PCI-DSS,N,Compliant,"Benefits_cr668_benefits_PCI_DSS_analysis.txt"
-Benefits,Internal HR support bot for employee benefits information,PSD2,N,Compliant,"Benefits_cr668_benefits_PSD2_analysis.txt"
-cr668_benefits,"Answers employee inquiries regarding legal, financial, education, health benefits",SOC2,Y,Non-Compliant,"Benefits_cr668_benefits_SOC2_analysis.txt"
-Benefits,Answers employee questions about benefits and integrations,SOX,Y,Non-Compliant,"Benefits_cr668_benefits_SOX_analysis.txt"
-Board meeting monitor,Monitors board meetings and sends notifications,ADA,N,Compliant,"Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_ADA_analysis.txt"
-Board Meeting Monitor,Queries calendar and sends meeting notifications,CCPA,N,Compliant,"Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_CCPA_analysis.txt"
-Board meeting monitor,Tracks corporate schedules and sends notifications,COPPA,N,Compliant,"Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_COPPA_analysis.txt"
-Board meeting monitor,Automated scheduling assistant for board meetings,CPRA,Y,Compliant,"Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_CPRA_analysis.txt"
-Board meeting monitor,Automated scheduling assistant for board meetings,DORA,Y,Compliant,"Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_DORA_analysis.txt"
-Board meeting monitor,Monitors calendar for board meetings and sends notifications,ECPA,Y,Compliant,"Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_ECPA_analysis.txt"
-Board meeting monitor,monitors calendar for board meetings,ePrivacy-Directive,Y,Compliant,"Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_ePrivacy_Directive_analysis.txt"
-Board meeting monitor,Monitors calendar and sends meeting notifications,EU-AI-Act,Y,Compliant,"Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_EU_AI_Act_analysis.txt"
-Board meeting monitor,Automated scheduling assistant for board meetings,FCRA,N,Compliant,"Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_FCRA_analysis.txt"
-Board meeting monitor,Queries calendar for early board meetings,FERPA,N,Compliant,"Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_FERPA_analysis.txt"
-Board meeting monitor,Monitor calendar and send notifications,FTC-Act,N,Compliant,"Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_FTC_Act_analysis.txt"
-Board meeting monitor,Automated scheduler for board meeting notifications,GDPR,N,Compliant,"Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_GDPR_analysis.txt"
-Board meeting monitor,Monitors board meetings and sends notifications,GLBA,N,Compliant,"Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_GLBA_analysis.txt"
-Board meeting monitor,Monitors calendar for daily board meetings,HIPAA,N,Compliant,"Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_HIPAA_analysis.txt"
-Board meeting monitor,Monitors corporate calendar for sensitive events,ISO27001,Y,Non-Compliant,"Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_ISO27001_analysis.txt"
-Board meeting monitor,Identifies Board of Directors meetings and sends notifications,NIS2,Y,Compliant,"Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_NIS2_analysis.txt"
-Board meeting monitor,Searches calendar for board meetings and sends notifications,NIST-AI-RMF,Y,Non-Compliant,"Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_NIST_AI_RMF_analysis.txt"
-board-meeting-monitor-693b3789c8b9204305fd5087,triggers daily and monitors calendar for board meetings,PCI-DSS,N,Compliant,"Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_PCI_DSS_analysis.txt"
-Board meeting monitor,Monitors calendar for early board meetings,PSD2,N,Compliant,"Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_PSD2_analysis.txt"
-Board meeting monitor,Monitors board meetings and sends daily summaries,SOC2,Y,Non-Compliant,"Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_SOC2_analysis.txt"
-Board meeting monitor,Monitors board meetings and sends notifications,SOX,N,Compliant,"Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_SOX_analysis.txt"
-Brand Monitor,Search internet for brand mentions and reviews,ADA,Y,Compliant,"Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_ADA_analysis.txt"
-Brand Monitor,Market research assistant for brand online presence,CCPA,Y,Compliant,"Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_CCPA_analysis.txt"
-Brand Monitor,tracks online sentiment and presence for business brands,COPPA,N,Compliant,"Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_COPPA_analysis.txt"
-Brand Monitor,Monitors brand mentions and sentiment online,CPRA,N,Compliant,"Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_CPRA_analysis.txt"
-Brand Monitor,Monitors brand sentiment across social media and web,DORA,Y,Compliant,"Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_DORA_analysis.txt"
-Brand Monitor,Monitors brand mentions and sentiment across web sources,ECPA,Y,Compliant,"Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_ECPA_analysis.txt"
-Brand Monitor,Accepts brand name and searches internet for mentions,ePrivacy-Directive,N,Compliant,"Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_ePrivacy_Directive_analysis.txt"
-Brand Monitor,Automated research assistant for brand monitoring,EU-AI-Act,Y,Compliant,"Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_EU_AI_Act_analysis.txt"
-Brand Monitor,Tracks and analyzes online brand presence,FCRA,N,Compliant,"Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_FCRA_analysis.txt"
-Brand Monitor,tracks brand online presence and sentiment,FERPA,N,Compliant,"Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_FERPA_analysis.txt"
-Brand Monitor,Performs web search for brand sentiment analysis,FTC-Act,Y,Compliant,"Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_FTC_Act_analysis.txt"
-Brand Monitor,Monitors brand mentions across social media and web,GDPR,Y,Compliant,"Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_GDPR_analysis.txt"
-Brand Monitor,tracks company online reputation and sentiment,GLBA,N,Compliant,"Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_GLBA_analysis.txt"
-Brand Monitor,Performs public sentiment analysis for brands,HIPAA,N,Compliant,"Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_HIPAA_analysis.txt"
-Brand Monitor,Monitors brand mentions and sentiment online,ISO27001,Y,Compliant,"Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_ISO27001_analysis.txt"
-Brand Monitor,Searches internet for brand mentions and reviews,NIS2,Y,Compliant,"Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_NIS2_analysis.txt"
-Brand Monitor,Market intelligence assistant for brand mentions,NIST-AI-RMF,Y,Compliant,"Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_NIST_AI_RMF_analysis.txt"
-Brand Monitor,accepts brand name and searches internet mentions,PCI-DSS,N,Compliant,"Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_PCI_DSS_analysis.txt"
-Brand Monitor,Performs OSINT brand monitoring and sentiment analysis,PSD2,N,Compliant,"Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_PSD2_analysis.txt"
-Brand Monitor,Monitors brand mentions and reviews online,SOC2,Y,Compliant,"Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_SOC2_analysis.txt"
-Brand Monitor,Monitors brand sentiment from public internet sources,SOX,N,Compliant,"Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_SOX_analysis.txt"
-Customer Support Email Responder,monitors Gmail and drafts email responses,ADA,Y,Compliant,"Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_ADA_analysis.txt"
-Customer Support Email Responder,Automates drafting of customer support email responses,CCPA,Y,Compliant,"Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_CCPA_analysis.txt"
-Customer Support Email Responder,Monitors Gmail and drafts customer support responses,COPPA,N,Compliant,"Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_COPPA_analysis.txt"
-Customer Support Email Responder,Processes customer emails and generates draft responses,CPRA,Y,Compliant,"Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_CPRA_analysis.txt"
-Customer Support Email Responder,monitors Gmail and drafts customer support responses,DORA,Y,Compliant,"Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_DORA_analysis.txt"
-Customer Support Email Responder,Monitors Gmail inbox and generates automated responses,ECPA,Y,Compliant,"Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_ECPA_analysis.txt"
-Customer Support Email Responder,Monitor Gmail and draft support email responses,ePrivacy-Directive,Y,Compliant,"Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_ePrivacy_Directive_analysis.txt"
-Customer Support Email Responder,Monitors Gmail and drafts email responses using knowledge base,EU-AI-Act,Y,Compliant,"Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_EU_AI_Act_analysis.txt"
-Customer Support Email Responder,Handles incoming Gmail messages with automated responses,FCRA,N,Compliant,"Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_FCRA_analysis.txt"
-Customer Support Email Responder,Handles incoming emails via Gmail using knowledge base,FERPA,N,Compliant,"Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_FERPA_analysis.txt"
-Customer Support Email Responder,Drafts customer support email responses from knowledge base,FTC-Act,Y,Compliant,"Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_FTC_Act_analysis.txt"
-Customer Support Email Responder,Monitors Gmail and drafts customer replies using AI,GDPR,Y,Compliant,"Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_GDPR_analysis.txt"
-Customer Support Email Responder,Monitors Gmail inbox and drafts email responses,GLBA,Y,Compliant,"Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_GLBA_analysis.txt"
-Customer Support Email Responder,monitors Gmail and drafts responses using knowledge base,HIPAA,Y,Compliant,"Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_HIPAA_analysis.txt"
-Customer Support Email Responder,monitors Gmail and creates draft responses using KB,ISO27001,Y,Compliant,"Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_ISO27001_analysis.txt"
-Customer Support Email Responder,Monitors Gmail inbox and drafts responses using knowledge base,NIS2,Y,Compliant,"Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_NIS2_analysis.txt"
-Customer Support Email Responder,responds to customer emails using knowledge base,NIST-AI-RMF,Y,Compliant,"Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_NIST_AI_RMF_analysis.txt"
-Customer Support Email Responder,Monitor Gmail and draft responses using knowledge base,PCI-DSS,N,Compliant,"Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_PCI_DSS_analysis.txt"
-Customer Support Email Responder,Streamlines customer service via automated email responses,PSD2,N,Compliant,"Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_PSD2_analysis.txt"
-Customer Support Email Responder,monitors Gmail and drafts replies using Knowledge Base,SOC2,Y,Compliant,"Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_SOC2_analysis.txt"
-Customer Support Email Responder,Automates drafting responses to customer support emails,SOX,N,Compliant,"Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_SOX_analysis.txt"
-Email Follow-up Reminder,Monitors sent emails and drafts follow-up reminders,ADA,Y,Compliant,"Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_ADA_analysis.txt"
-Email Follow-up Reminder,Monitors Gmail and drafts follow-up emails automatically,CCPA,Y,Compliant,"Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_CCPA_analysis.txt"
-Email Follow-up Reminder,Automates email follow-up reminders for unanswered messages,COPPA,N,Compliant,"Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_COPPA_analysis.txt"
-email-follow-up-reminder-697193e459a8d688e24a5b67,Automated productivity assistant integrated with Gmail,CPRA,Y,Compliant,"Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_CPRA_analysis.txt"
-Email Follow-up Reminder,Monitors Gmail and drafts follow-up emails,DORA,Y,Partially Compliant,"Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_DORA_analysis.txt"
-Email Follow-up Reminder,Monitors Gmail and creates follow-up draft reminders,ECPA,Y,Compliant,"Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_ECPA_analysis.txt"
-Email Follow-up Reminder,Monitors sent emails and creates follow-up drafts,ePrivacy-Directive,Y,Compliant,"Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_ePrivacy_Directive_analysis.txt"
-Email Follow-up Reminder,Monitors Gmail and generates follow-up draft emails,EU-AI-Act,Y,Compliant,"Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_EU_AI_Act_analysis.txt"
-Email Follow-up Reminder,Monitors emails and creates follow-up reminders,FCRA,N,Compliant,"Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_FCRA_analysis.txt"
-Email Follow-up Reminder,Monitors Gmail and creates follow-up draft emails,FERPA,Y,Compliant,"Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_FERPA_analysis.txt"
-Email Follow-up Reminder,Monitors sent emails and drafts follow-up reminders,FTC-Act,Y,Compliant,"Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_FTC_Act_analysis.txt"
-Email Follow-up Reminder,Monitors sent emails and creates follow-up drafts,GDPR,Y,Compliant,"Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_GDPR_analysis.txt"
-Email Follow-up Reminder,Automates email follow-up process and drafts reminders,GLBA,Y,Compliant,"Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_GLBA_analysis.txt"
-Email Follow-up Reminder,Analyzes sent emails and creates follow-up drafts,HIPAA,Y,Compliant,"Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_HIPAA_analysis.txt"
-"Email Follow-up Reminder","monitors outgoing Gmail and drafts follow-up reminders","ISO27001","Y","Non-Compliant","Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_ISO27001_analysis.txt"
-Email Follow-up Reminder,Monitors Gmail and creates follow-up drafts,NIS2,Y,Compliant,"Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_NIS2_analysis.txt"
-Email Follow-up Reminder,Monitors sent emails and drafts follow-up reminders,NIST-AI-RMF,Y,Compliant,"Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_NIST_AI_RMF_analysis.txt"
-Email Follow-up Reminder,Monitor emails and draft follow-up reminders,PCI-DSS,N,Compliant,"Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_PCI_DSS_analysis.txt"
-Email Follow-up Reminder,Monitors Gmail and creates follow-up draft emails,PSD2,N,Compliant,"Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_PSD2_analysis.txt"
-Email Follow-up Reminder,Monitors emails and generates follow-up reminders,SOC2,Y,Compliant,"Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_SOC2_analysis.txt"
-Email Follow-up Reminder,Automated email follow-up draft generation,SOX,N,Compliant,"Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_SOX_analysis.txt"
-Email Triager,Monitors Gmail and categorizes emails with labels,ADA,Y,Compliant,"Email_Triager_email_triager_697196b1971478a22c30ccbe_ADA_analysis.txt"
-Email Triager,Monitors Gmail and categorizes incoming emails automatically,CCPA,Y,Partially Compliant,"Email_Triager_email_triager_697196b1971478a22c30ccbe_CCPA_analysis.txt"
-Email Triager,Monitors Gmail inbox and categorizes emails automatically,COPPA,N,Compliant,"Email_Triager_email_triager_697196b1971478a22c30ccbe_COPPA_analysis.txt"
-Email Triager,Monitor inbox and categorize emails automatically,CPRA,Y,Compliant,"Email_Triager_email_triager_697196b1971478a22c30ccbe_CPRA_analysis.txt"
-Email Triager,Categorizes and responds to emails automatically,DORA,Y,Compliant,"Email_Triager_email_triager_697196b1971478a22c30ccbe_DORA_analysis.txt"
-Email Triager,Monitors and categorizes incoming Gmail messages,ECPA,Y,Compliant,"Email_Triager_email_triager_697196b1971478a22c30ccbe_ECPA_analysis.txt"
-Email Triager,Automated email management and classification,ePrivacy-Directive,Y,Compliant,"Email_Triager_email_triager_697196b1971478a22c30ccbe_ePrivacy_Directive_analysis.txt"
-Email Triager,Analyzes and categorizes incoming emails automatically,EU-AI-Act,Y,Partially Compliant,"Email_Triager_email_triager_697196b1971478a22c30ccbe_EU_AI_Act_analysis.txt"
-Email Triager,Monitors Gmail and categorizes incoming messages,FCRA,N,Compliant,"Email_Triager_email_triager_697196b1971478a22c30ccbe_FCRA_analysis.txt"
-Email Triager,Monitors and categorizes Gmail messages using LLM,FERPA,Y,Compliant,"Email_Triager_email_triager_697196b1971478a22c30ccbe_FERPA_analysis.txt"
-Email Triager,Monitors Gmail and categorizes incoming emails automatically,FTC-Act,Y,Compliant,"Email_Triager_email_triager_697196b1971478a22c30ccbe_FTC_Act_analysis.txt"
-Email Triager,Monitors Gmail inbox and categorizes incoming messages,GDPR,Y,Partially Compliant,"Email_Triager_email_triager_697196b1971478a22c30ccbe_GDPR_analysis.txt"
-Email Triager,Categorizes and responds to Gmail messages,GLBA,Y,Compliant,"Email_Triager_email_triager_697196b1971478a22c30ccbe_GLBA_analysis.txt"
-Email Triager,Monitors Gmail and categorizes incoming email messages,HIPAA,Y,Non-Compliant,"Email_Triager_email_triager_697196b1971478a22c30ccbe_HIPAA_analysis.txt"
-Email Triager,Monitors Gmail and auto-replies to customer FAQs,ISO27001,Y,Non-Compliant,"Email_Triager_email_triager_697196b1971478a22c30ccbe_ISO27001_analysis.txt"
-Email Triager,Classifies emails and sends automated responses,NIS2,Y,Non-Compliant,"Email_Triager_email_triager_697196b1971478a22c30ccbe_NIS2_analysis.txt"
-Email Triager,Classifies emails and sends automated FAQ responses,NIST-AI-RMF,Y,Non-Compliant,"Email_Triager_email_triager_697196b1971478a22c30ccbe_NIST_AI_RMF_analysis.txt"
-Email Triager,Monitors Gmail and categorizes incoming emails,PCI-DSS,N,Compliant,"Email_Triager_email_triager_697196b1971478a22c30ccbe_PCI_DSS_analysis.txt"
-Email Triager,Manages Gmail inbox categorization and automated responses,PSD2,N,Compliant,"Email_Triager_email_triager_697196b1971478a22c30ccbe_PSD2_analysis.txt"
-Email Triager,Monitors Gmail inbox and auto-responds to customer FAQs,SOC2,Y,Non-Compliant,"Email_Triager_email_triager_697196b1971478a22c30ccbe_SOC2_analysis.txt"
-Email Triager,Monitors Gmail inbox and categorizes incoming emails,SOX,N,Compliant,"Email_Triager_email_triager_697196b1971478a22c30ccbe_SOX_analysis.txt"
-Financial Insights,Retrieves financial information from internal and external sources,ADA,Y,Non-Compliant,"Financial_Insights_cr668_financialInsights_ADA_analysis.txt"
-Agent Financial Insights,Searches and summarizes internal financial documents,CCPA,Y,Compliant,"Financial_Insights_cr668_financialInsights_CCPA_analysis.txt"
-Financial Insights,Queries and summarizes complex financial data,COPPA,N,Compliant,"Financial_Insights_cr668_financialInsights_COPPA_analysis.txt"
-Financial Insights,Analyzes financial documents and searches public data,CPRA,Y,Partially Compliant,"Financial_Insights_cr668_financialInsights_CPRA_analysis.txt"
-Financial Insights,Assists financial professionals with information retrieval,DORA,Y,Compliant,"Financial_Insights_cr668_financialInsights_DORA_analysis.txt"
-"Financial Insights","cr668_financialInsights","assists enterprise users with financial questions","ECPA","Y","Compliant","Financial_Insights_cr668_financialInsights_ECPA_analysis.txt"
-Agent Financial Insights,Assists users with financial queries via conversational bot,ePrivacy-Directive,Y,Compliant,"Financial_Insights_cr668_financialInsights_ePrivacy_Directive_analysis.txt"
-Financial Insights,Searches documents and answers financial queries with RAG,EU-AI-Act,Y,Compliant,"Financial_Insights_cr668_financialInsights_EU_AI_Act_analysis.txt"
-Financial Insights,Query financial documents and provide market analysis,FCRA,N,Compliant,"Financial_Insights_cr668_financialInsights_FCRA_analysis.txt"
-cr668_financialInsights,Searches and summarizes financial documents and SEC data,FERPA,N,Compliant,"Financial_Insights_cr668_financialInsights_FERPA_analysis.txt"
-Financial Insights,retrieves and summarizes financial documents and filings,FTC-Act,Y,Compliant,"Financial_Insights_cr668_financialInsights_FTC_Act_analysis.txt"
-cr668_financialInsights, Assists with financial document search and summaries, GDPR, Y, Compliant,"Financial_Insights_cr668_financialInsights_GDPR_analysis.txt"
-Financial Insights,Retrieves financial data from repositories and SEC filings,GLBA,Y,Compliant,"Financial_Insights_cr668_financialInsights_GLBA_analysis.txt"
-cr668_financialInsights, Query and summarize financial documentation, HIPAA, N, Compliant,"Financial_Insights_cr668_financialInsights_HIPAA_analysis.txt"
-cr668_financialInsights,Retrieves and summarizes financial information,ISO27001,Y,Partially Compliant,"Financial_Insights_cr668_financialInsights_ISO27001_analysis.txt"
-Financial Insights,Financial assistant retrieving organizational and regulatory information,NIS2,Y,Compliant,"Financial_Insights_cr668_financialInsights_NIS2_analysis.txt"
-cr668_financialInsights,Assists financial professionals with information retrieval and queries,NIST-AI-RMF,Y,Partially Compliant,"Financial_Insights_cr668_financialInsights_NIST_AI_RMF_analysis.txt"
-"Financial Insights","Retrieves and summarizes financial reports and SEC data",PCI-DSS,N,Compliant,"Financial_Insights_cr668_financialInsights_PCI_DSS_analysis.txt"
-cr668_financialInsights,Assists financial professionals with document and data retrieval,PSD2,N,Compliant,"Financial_Insights_cr668_financialInsights_PSD2_analysis.txt"
-cr668_financialInsights,Retrieves and summarizes financial information,SOC2,Y,Compliant,"Financial_Insights_cr668_financialInsights_SOC2_analysis.txt"
-cr668_financialInsights,Financial retrieval and summarization for professionals,SOX,Y,Compliant,"Financial_Insights_cr668_financialInsights_SOX_analysis.txt"
-Lead Outreacher,Automated SDR executing sequential email drip campaigns,ADA,Y,Compliant,"Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_ADA_analysis.txt"
-"Lead Outreacher",Automated SDR agent sending personalized cold outreach emails,CCPA,Y,Non-Compliant,"Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_CCPA_analysis.txt"
-Lead Outreacher,B2B sales email drip campaign automation,COPPA,N,Compliant,"Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_COPPA_analysis.txt"
-Lead Outreacher,Drafts personalized cold outreach emails from spreadsheet leads,CPRA,Y,Compliant,"Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_CPRA_analysis.txt"
-Lead Outreacher,Automated SDR executing sequential email outreach campaigns,DORA,Y,Compliant,"Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_DORA_analysis.txt"
-Lead Outreacher,Executes automated cold-email marketing campaigns,ECPA,Y,Compliant,"Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_ECPA_analysis.txt"
-Lead Outreacher,Executes automated email drip campaigns for direct marketing,ePrivacy-Directive,Y,Non-Compliant,"Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_ePrivacy_Directive_analysis.txt"
-lead-outreacher-6971943a0197c79d295d27cb,Autonomous SDR executing personalized email drip campaigns,EU-AI-Act,Y,Non-Compliant,"Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_EU_AI_Act_analysis.txt"
-Lead Outreacher,Executes cold email drip campaigns for leads,FCRA,N,Compliant,"Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_FCRA_analysis.txt"
-Lead Outreacher,Generates personalized sales emails for B2B outreach,FERPA,N,Compliant,"Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_FERPA_analysis.txt"
-lead-outreacher-6971943a0197c79d295d27cb,Executes drip email marketing campaigns for sales,FTC-Act,Y,Non-Compliant,"Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_FTC_Act_analysis.txt"
-Lead Outreacher,Automated email drip campaign for leads,GDPR,Y,Non-Compliant,"Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_GDPR_analysis.txt"
-Lead Outreacher,Monitors Google Sheet and sends personalized sales emails,GLBA,N,Compliant,"Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_GLBA_analysis.txt"
-Lead Outreacher,Automated B2B sales outreach and drip campaigns,HIPAA,N,Compliant,"Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_HIPAA_analysis.txt"
-Lead Outreacher,Automated SDR that monitors sheets and sends outreach emails,ISO27001,Y,Non-Compliant,"Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_ISO27001_analysis.txt"
-Lead Outreacher,Executes multi-stage email drip campaigns,NIS2,Y,Compliant,"Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_NIS2_analysis.txt"
-lead-outreacher-6971943a0197c79d295d27cb,Executes cold-email marketing campaigns to leads,NIST-AI-RMF,Y,Non-Compliant,"Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_NIST_AI_RMF_analysis.txt"
-Lead Outreacher,Executes outbound cold email campaigns,PCI-DSS,N,Compliant,"Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_PCI_DSS_analysis.txt"
-Lead Outreacher,Automated sales development representative sending outreach emails,PSD2,N,Compliant,"Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_PSD2_analysis.txt"
-Lead Outreacher,Automated SDR for cold email outreach,SOC2,Y,Non-Compliant,"Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_SOC2_analysis.txt"
-Lead Outreacher,Automated SDR executing cold email marketing campaigns,SOX,N,Compliant,"Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_SOX_analysis.txt"
-Lindy Agent Compliance Analyser,Automates retrieval of agent configuration and metadata,ADA,N,Compliant,"Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_ADA_analysis.txt"
-Lindy Agent Compliance Analyser,Iterates agent IDs and executes GraphQL requests,CCPA,Y,Non-Compliant,"Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_CCPA_analysis.txt"
-Lindy Agent Compliance Analyser,Lists all agents in user's Lindy workspace,COPPA,N,Compliant,"Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_COPPA_analysis.txt"
-Lindy Agent Compliance Analyser,Analyzes agent compliance with regulations,CPRA,Y,Non-Compliant,"Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_CPRA_analysis.txt"
-Lindy Agent Compliance Analyser,Iterates through items and queries GraphQL API,DORA,Y,Non-Compliant,"Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_DORA_analysis.txt"
-"Lindy Agent Compliance Analyser","Iterates through Agent IDs retrieving configuration data","ECPA",Y,Non-Compliant,"Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_ECPA_analysis.txt"
-Lindy Agent Compliance Analyser,Iterates through items and queries Lindy API,ePrivacy-Directive,Y,Compliant,"Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_ePrivacy_Directive_analysis.txt"
-Lindy Agent Compliance Analyser,Lists and analyzes agents within Lindy workspace,EU-AI-Act,Y,Compliant,"Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_EU_AI_Act_analysis.txt"
-Lindy Agent Compliance Analyser,Introspects user workspace and retrieves agent metadata,FCRA,N,Compliant,"Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_FCRA_analysis.txt"
-Lindy Agent Compliance Analyser,System introspection and workspace data retrieval tool,FERPA,N,Compliant,"Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_FERPA_analysis.txt"
-Lindy Agent Compliance Analyser,Iterates through agent IDs and extracts data,FTC-Act,Y,Non-Compliant,"Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_FTC_Act_analysis.txt"
-lindy-agent-compliance-analyser-695ed16699530f1e0295d5a0,Analyzes agent compliance with security regulations,GDPR,Y,Non-Compliant,"Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_GDPR_analysis.txt"
-Lindy Agent Compliance Analyser,Iterates through agent IDs and queries account details,GLBA,Y,Non-Compliant,"Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_GLBA_analysis.txt"
-"Lindy Agent Compliance Analyser",Iterates through items and extracts agent data,HIPAA,Y,Non-Compliant,"Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_HIPAA_analysis.txt"
-Lindy Agent Compliance Analyser,Iterates through agent list and retrieves workspace details,ISO27001,Y,Non-Compliant,"Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_ISO27001_analysis.txt"
-Lindy Agent Compliance Analyser,Iterates inputs and retrieves sensitive data via GraphQL,NIS2,Y,Non-Compliant,"Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_NIS2_analysis.txt"
-Lindy Agent Compliance Analyser,Convert IDs to GraphQL and fetch API data,NIST-AI-RMF,Y,Non-Compliant,"Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_NIST_AI_RMF_analysis.txt"
-Lindy Agent Compliance Analyser,Looping retrieval mechanism for agent metadata analysis,PCI-DSS,N,Compliant,"Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_PCI_DSS_analysis.txt"
-Lindy Agent Compliance Analyser,Encodes IDs and retrieves workspace metadata via GraphQL,PSD2,N,Compliant,"Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_PSD2_analysis.txt"
-Lindy Agent Compliance Analyser,Iterates through items and retrieves agent data,SOC2,Y,Non-Compliant,"Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_SOC2_analysis.txt"
-lindy-agent-compliance-analyser-695ed16699530f1e0295d5a0,Analyzes agent configurations and compliance through GraphQL queries,SOX,Y,Non-Compliant,"Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_SOX_analysis.txt"
-Agent Lister,Retrieves agents from API and updates Google Sheet,ADA,N,Compliant,"Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_ADA_analysis.txt"
-Agent Lister,Updates Google Sheets with agent metadata hourly,CCPA,N,Compliant,"Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_CCPA_analysis.txt"
-Agent Lister,automates inventory management within Lindy workspace,COPPA,N,Compliant,"Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_COPPA_analysis.txt"
-Lindy Agent Lister,Lists agent metadata on hourly schedule,CPRA,N,Compliant,"Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_CPRA_analysis.txt"
-Agent Lister,maintains inventory of AI agents within workspace,DORA,Y,Compliant,"Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_DORA_analysis.txt"
-Agent Lister,queries Lindy API to list agents hourly,ECPA,Y,Compliant,"Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_ECPA_analysis.txt"
-Lindy Agent Lister,Internal administrative automation tool,ePrivacy-Directive,N,Compliant,"Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_ePrivacy_Directive_analysis.txt"
-Agent Lister,administrative automation tool for IT asset management,EU-AI-Act,Y,Compliant,"Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_EU_AI_Act_analysis.txt"
-Agent Lister,Maintains inventory of software agents within workspace,FCRA,N,Compliant,"Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_FCRA_analysis.txt"
-Agent Lister,Updates Google Sheet with agent metadata hourly,FERPA,N,Compliant,"Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_FERPA_analysis.txt"
-Agent Lister,Retrieves and updates agent inventory data hourly,FTC-Act,Y,Compliant,"Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_FTC_Act_analysis.txt"
-Agent Lister,performs inventory of Lindy workspace agents,GDPR,N,Compliant,"Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_GDPR_analysis.txt"
-Lindy Agent Lister,Updates agent list in Google Sheets hourly,GLBA,N,Compliant,"Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_GLBA_analysis.txt"
-Agent Lister,maintains inventory of agents within Lindy workspace,HIPAA,N,Compliant,"Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_HIPAA_analysis.txt"
-Agent Lister,maintains inventory of agents within workspace,ISO27001,Y,Compliant,"Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_ISO27001_analysis.txt"
-Agent Lister,Administrative utility agent for Lindy workspace inventory,NIS2,Y,Compliant,"Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_NIS2_analysis.txt"
-"Lindy Agent Lister",Query API and update Google Sheet with agents,NIST-AI-RMF,Y,Non-Compliant,"Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_NIST_AI_RMF_analysis.txt"
-Agent Lister,Retrieves and lists all agents in workspace,PCI-DSS,N,Compliant,"Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_PCI_DSS_analysis.txt"
-Agent Lister,Administrative automation tool designed to inventory internal workspace configurations,PSD2,N,Compliant,"Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_PSD2_analysis.txt"
-Agent Lister,automated reporting tool for agent metadata,SOC2,Y,Compliant,"Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_SOC2_analysis.txt"
-Agent Lister,Retrieves and updates agent list in workspace,SOX,N,Compliant,"Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_SOX_analysis.txt"
-Meeting Scheduler,Automated Executive Assistant for scheduling meetings,ADA,Y,Non-Compliant,"Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_ADA_analysis.txt"
-Meeting Scheduler,Coordinates meeting times between user and participants,CCPA,Y,Compliant,"Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_CCPA_analysis.txt"
-Meeting Scheduler,manages calendar coordination,COPPA,N,Compliant,"Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_COPPA_analysis.txt"
-meeting-scheduler-697192e92908dc843c114766,automated executive assistant for scheduling meetings,CPRA,Y,Compliant,"Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_CPRA_analysis.txt"
-Meeting Scheduler,Automated executive assistant for email scheduling,DORA,Y,Non-Compliant,"Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_DORA_analysis.txt"
-Meeting Scheduler,Coordinates meeting times between user and parties,ECPA,Y,Compliant,"Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_ECPA_analysis.txt"
-Meeting Scheduler,Automated scheduling via email coordination,ePrivacy-Directive,Y,Compliant,"Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_ePrivacy_Directive_analysis.txt"
-Meeting Scheduler,manages calendar coordination,EU-AI-Act,Y,Compliant,"Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_EU_AI_Act_analysis.txt"
-meeting-scheduler-697192e92908dc843c114766,Automated executive assistant for calendar and email scheduling,FCRA,N,Compliant,"Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_FCRA_analysis.txt"
-Meeting Scheduler,Automated executive assistant for scheduling meetings,FERPA,Y,Compliant,"Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_FERPA_analysis.txt"
-Meeting Scheduler,Executive Assistant scheduling meetings via email,FTC-Act,Y,Non-Compliant,"Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_FTC_Act_analysis.txt"
-Meeting Scheduler,Automated scheduling via email with calendar integration,GDPR,Y,Non-Compliant,"Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_GDPR_analysis.txt"
-Meeting Scheduler,Automated scheduling via email with calendar integration,GLBA,Y,Non-Compliant,"Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_GLBA_analysis.txt"
-Meeting Scheduler,Automated executive assistant scheduling meetings,HIPAA,Y,Non-Compliant,"Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_HIPAA_analysis.txt"
-"Meeting Scheduler","Automated Executive Assistant for email scheduling requests","ISO27001","Y","Non-Compliant","Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_ISO27001_analysis.txt"
-Meeting Scheduler,Acts as automated Executive Assistant for scheduling,NIS2,Y,Non-Compliant,"Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_NIS2_analysis.txt"
-Meeting Scheduler,manages calendar coordination via email,NIST-AI-RMF,Y,Non-Compliant,"Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_NIST_AI_RMF_analysis.txt"
-meeting-scheduler-697192e92908dc843c114766,coordinates calendar events via email,PCI-DSS,N,Compliant,"Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_PCI_DSS_analysis.txt"
-Meeting Scheduler,Automated Executive Assistant for calendar management,PSD2,N,Compliant,"Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_PSD2_analysis.txt"
-Meeting Scheduler,Acts as automated executive assistant for scheduling,SOC2,Y,Non-Compliant,"Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_SOC2_analysis.txt"
-Meeting Scheduler,manages user calendars and scheduling meetings,SOX,N,Compliant,"Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_SOX_analysis.txt"
-Monitor All Agents,Backend automation workflow monitoring tasks hourly,ADA,N,Compliant,"Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_ADA_analysis.txt"
-monitor-all-agents-69710cc80b3927ebfdf55f20,Internal surveillance and logging tool,CCPA,Y,Non-Compliant,"Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_CCPA_analysis.txt"
-Monitor All Agents,Internal administrative utility monitoring system tasks,COPPA,N,Compliant,"Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_COPPA_analysis.txt"
-Monitor All Agents,Internal audit and logging utility for agent tasks,CPRA,Y,Compliant,"Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_CPRA_analysis.txt"
-Monitor All Agents,Centralized monitoring and logging of agent activities,DORA,Y,Non-Compliant,"Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_DORA_analysis.txt"
-Monitor All Agents,Automated internal surveillance and logging tool,ECPA,Y,Compliant,"Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_ECPA_analysis.txt"
-Monitor All Agents,Automated surveillance and logging tool,ePrivacy-Directive,Y,Non-Compliant,"Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_ePrivacy_Directive_analysis.txt"
-Monitor All Agents,Automated administrative logger for AI agent tasks,EU-AI-Act,Y,Compliant,"Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_EU_AI_Act_analysis.txt"
-Monitor All Agents,Internal system monitoring and logging tool,FCRA,N,Compliant,"Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_FCRA_analysis.txt"
-Monitor All Agents,Administrative logging and monitoring system,FERPA,N,Compliant,"Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_FERPA_analysis.txt"
-Monitor All Agents,Internal administrative auditing tool,FTC-Act,N,Compliant,"Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_FTC_Act_analysis.txt"
-Monitor All Agents,Bulk data scraper and logger for agents,GDPR,Y,Non-Compliant,"Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_GDPR_analysis.txt"
-Monitor All Agents,Automated activity logger for agent tasks,GLBA,Y,Non-Compliant,"Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_GLBA_analysis.txt"
-Monitor All Agents,Automated logger monitoring agent tasks hourly,HIPAA,Y,Non-Compliant,"Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_HIPAA_analysis.txt"
-Monitor All Agents,Centralized surveillance and logging tool,ISO27001,Y,Non-Compliant,"Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_ISO27001_analysis.txt"
-Monitor All Agents,Centralized logging and monitoring utility,NIS2,Y,Non-Compliant,"Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_NIS2_analysis.txt"
-monitor-all-agents-69710cc80b3927ebfdf55f20,Automated recurring logging system for agent monitoring,NIST-AI-RMF,Y,Partially Compliant,"Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_NIST_AI_RMF_analysis.txt"
-monitor-all-agents-69710cc80b3927ebfdf55f20,Recurring audit utility monitoring multiple agents via spreadsheets,PCI-DSS,N,Compliant,"Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_PCI_DSS_analysis.txt"
-Monitor All Agents,Internal operational monitoring and logging,PSD2,N,Compliant,"Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_PSD2_analysis.txt"
-Monitor All Agents,Aggregates agent task history into centralized logging,SOC2,Y,Non-Compliant,"Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_SOC2_analysis.txt"
-Monitor All Agents,Automated internal monitoring and logging system,SOX,Y,Non-Compliant,"Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_SOX_analysis.txt"
-Personal Computer Assistant,Controls computer sessions and sends Instagram DMs,ADA,Y,Compliant,"Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_ADA_analysis.txt"
-"personal-computer-assistant-697194cf64cff41a8f386a07","Personal Computer Assistant","CCPA","Y","Compliant","Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_CCPA_analysis.txt"
-Personal Computer Assistant,Computer automation and productivity tasks,COPPA,N,Compliant,"Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_COPPA_analysis.txt"
-Personal Computer Assistant,Desktop automation via computer control,CPRA,Y,Compliant,"Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_CPRA_analysis.txt"
-Personal Computer Assistant,Takes control of user's operating system interface,DORA,N,Compliant,"Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_DORA_analysis.txt"
-Personal Computer Assistant,Desktop automation for Instagram direct messaging,ECPA,Y,Compliant,"Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_ECPA_analysis.txt"
-"Personal Computer Assistant","Desktop automation agent controlling user's terminal equipment","ePrivacy-Directive","Y","Compliant","Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_ePrivacy_Directive_analysis.txt"
-Personal Computer Assistant,Execute computer control and productivity tasks,EU-AI-Act,Y,Compliant,"Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_EU_AI_Act_analysis.txt"
-Personal Computer Assistant,General-purpose automation agent for computer control,FCRA,N,Compliant,"Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_FCRA_analysis.txt"
-Personal Computer Assistant,Controls computer sessions and device management,FERPA,N,Compliant,"Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_FERPA_analysis.txt"
-Personal Computer Assistant,intelligent digital companion for enhanced productivity,FTC-Act,Y,Non-Compliant,"Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_FTC_Act_analysis.txt"
-Personal Computer Assistant,Digital companion with computer and messaging access,GDPR,Y,Compliant,"Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_GDPR_analysis.txt"
-Personal Computer Assistant,Controls computer interface and sends Instagram DMs,GLBA,N,Compliant,"Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_GLBA_analysis.txt"
-Personal Computer Assistant,Desktop automation for Instagram messaging,HIPAA,N,Compliant,"Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_HIPAA_analysis.txt"
-Personal Computer Assistant,Initiates remote computer control and Instagram messaging,ISO27001,Y,Compliant,"Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_ISO27001_analysis.txt"
-Personal Computer Assistant,Initiates remote control automation session,NIS2,Y,Compliant,"Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_NIS2_analysis.txt"
-Personal Computer Assistant,Controls computer to send Instagram DMs,NIST-AI-RMF,Y,Non-Compliant,"Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_NIST_AI_RMF_analysis.txt"
-Personal Computer Assistant,Desktop automation for Instagram messaging,PCI-DSS,N,Compliant,"Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_PCI_DSS_analysis.txt"
-Personal Computer Assistant,General-purpose desktop automation tool,PSD2,N,Compliant,"Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_PSD2_analysis.txt"
-Personal Computer Assistant,Desktop automation session initiation,SOC2,Y,Compliant,"Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_SOC2_analysis.txt"
-Personal Computer Assistant,Initiates computer control for Instagram messaging,SOX,N,Compliant,"Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_SOX_analysis.txt"
-cr668_agent,Answers general questions using Pippi Longstocking persona,ADA,Y,Compliant,"Pippi_cr668_agent_ADA_analysis.txt"
-Pippi,Generative AI chatbot with Pippi Longstocking persona,CCPA,Y,Compliant,"Pippi_cr668_agent_CCPA_analysis.txt"
-Pippi,Generative AI chatbot for answering general questions,COPPA,N,Compliant,"Pippi_cr668_agent_COPPA_analysis.txt"
-cr668_agent,Answers general questions as Pippi Longstocking,CPRA,Y,Non-Compliant,"Pippi_cr668_agent_CPRA_analysis.txt"
-cr668_agent,General questions chatbot with Pippi Longstocking persona,DORA,Y,Compliant,"Pippi_cr668_agent_DORA_analysis.txt"
-Pippi,Conversational bot answering queries using Pippi Longstocking persona,ECPA,Y,Compliant,"Pippi_cr668_agent_ECPA_analysis.txt"
-cr668_agent,"Conversational bot answering questions using Pippi Longstocking persona",ePrivacy-Directive,Y,Compliant,"Pippi_cr668_agent_ePrivacy_Directive_analysis.txt"
-Pippi,Generative AI chatbot with fictional character persona,EU-AI-Act,Y,Compliant,"Pippi_cr668_agent_EU_AI_Act_analysis.txt"
-Pippi,Entertainment chatbot answering questions using fictional persona,FCRA,N,Compliant,"Pippi_cr668_agent_FCRA_analysis.txt"
-cr668_agent,Generative AI chatbot with Pippi Longstocking persona,FERPA,N,Compliant,"Pippi_cr668_agent_FERPA_analysis.txt"
-cr668_agent, Generative AI chatbot answering general questions, FTC-Act, Y, Compliant,"Pippi_cr668_agent_FTC_Act_analysis.txt"
-cr668_agent,Answers questions as Pippi Longstocking character,GDPR,Y,Compliant,"Pippi_cr668_agent_GDPR_analysis.txt"
-"Pippi (cr668_agent)","Answers general questions as Pippi Longstocking character","GLBA","N","Compliant","Pippi_cr668_agent_GLBA_analysis.txt"
-cr668_agent,Answers questions as Pippi Longstocking character,HIPAA,N,Compliant,"Pippi_cr668_agent_HIPAA_analysis.txt"
-Pippi,Generative AI chatbot for Microsoft Teams and Copilot,ISO27001,Y,Compliant,"Pippi_cr668_agent_ISO27001_analysis.txt"
-cr668_agent,Generative AI chatbot answering questions as Pippi,NIS2,Y,Compliant,"Pippi_cr668_agent_NIS2_analysis.txt"
-Pippi,Generative AI chatbot with Pippi Longstocking persona,NIST-AI-RMF,Y,Compliant,"Pippi_cr668_agent_NIST_AI_RMF_analysis.txt"
-cr668_agent,Generative AI chatbot answering questions as Pippi,PCI-DSS,N,Compliant,"Pippi_cr668_agent_PCI_DSS_analysis.txt"
-Pippi,Answers general questions as Pippi Longstocking character,PSD2,N,Compliant,"Pippi_cr668_agent_PSD2_analysis.txt"
-Pippi,Persona-based conversational interface for general questions,SOC2,Y,Compliant,"Pippi_cr668_agent_SOC2_analysis.txt"
-Pippi,Answers questions as Pippi Longstocking character,SOX,N,Compliant,"Pippi_cr668_agent_SOX_analysis.txt"
-Recruiting Agent,Automated sourcing tool to find job candidates,ADA,Y,Compliant,"Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_ADA_analysis.txt"
-Recruiting Agent,Automated prospecting tool for lead generation,CCPA,Y,Non-Compliant,"Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_CCPA_analysis.txt"
-Recruiting Agent,SDR Lead Generator for professional recruiting,COPPA,N,Compliant,"Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_COPPA_analysis.txt"
-Recruiting Agent,SDR automation tool for lead generation,CPRA,Y,Non-Compliant,"Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_CPRA_analysis.txt"
-Agent Recruiting,Assists with HR and talent acquisition tasks,DORA,Y,Compliant,"Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_DORA_analysis.txt"
-Recruiting Agent,Automates outbound sales and recruiting workflows,ECPA,Y,Compliant,"Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_ECPA_analysis.txt"
-Recruiting Agent,Acts as SDR generating leads and sending outreach emails,ePrivacy-Directive,Y,Non-Compliant,"Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_ePrivacy_Directive_analysis.txt"
-Recruiting Agent,Sources and contacts potential job candidates or leads,EU-AI-Act,Y,Non-Compliant,"Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_EU_AI_Act_analysis.txt"
-Recruiting Agent,Automated sourcing tool for identifying employment candidates,FCRA,N,Compliant,"Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_FCRA_analysis.txt"
-recruiting-agent-695f41b890cb9480b6fe450b,Acts as Sales Development Representative for lead generation,FERPA,N,Compliant,"Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_FERPA_analysis.txt"
-recruiting-agent-695f41b890cb9480b6fe450b,Generates and organizes sales/recruiting leads with outreach,FTC-Act,Y,Compliant,"Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_FTC_Act_analysis.txt"
-Recruiting Agent,Automated Sales Development Representative for candidate outreach,GDPR,Y,Non-Compliant,"Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_GDPR_analysis.txt"
-recruiting-agent-695f41b890cb9480b6fe450b,Automated SDR querying external data for recruiting,GLBA,N,Compliant,"Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_GLBA_analysis.txt"
-Recruiting Agent,Sales Development Representative and lead generation,HIPAA,N,Compliant,"Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_HIPAA_analysis.txt"
-Recruiting Agent,Automates lead generation and outreach for recruiting,ISO27001,Y,Compliant,"Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_ISO27001_analysis.txt"
-Recruiting Agent,Identifies job candidates and facilitates cold outreach,NIS2,Y,Compliant,"Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_NIS2_analysis.txt"
-Recruiting Agent,Automates candidate sourcing and facilitates automated outreach,NIST-AI-RMF,Y,Non-Compliant,"Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_NIST_AI_RMF_analysis.txt"
-Recruiting Agent,Functions as Sales Development Representative or recruiter,PCI-DSS,N,Compliant,"Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_PCI_DSS_analysis.txt"
-Recruiting Agent,Automates sales development and recruiting workflows,PSD2,N,Compliant,"Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_PSD2_analysis.txt"
-Recruiting Agent,Automated SDR tool for candidate outreach,SOC2,Y,Non-Compliant,"Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_SOC2_analysis.txt"
-recruiting-agent-695f41b890cb9480b6fe450b,Automated SDR for lead identification and outreach,SOX,N,Compliant,"Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_SOX_analysis.txt"
-Resume Screening Agent,Filters job applications and categorizes candidates,ADA,Y,Non-Compliant,"Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_ADA_analysis.txt"
-Resume Screening Agent,Monitors Gmail for resumes and screens candidates,CCPA,Y,Non-Compliant,"Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_CCPA_analysis.txt"
-Resume Screening Agent,filters job applications,COPPA,N,Compliant,"Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_COPPA_analysis.txt"
-Resume Screening Agent,Automated recruitment tool filtering job applications,CPRA,Y,Non-Compliant,"Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_CPRA_analysis.txt"
-Resume Screening Agent,Automated HR resume screening and candidate evaluation,DORA,Y,Compliant,"Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_DORA_analysis.txt"
-Resume Screening Agent,Monitors Gmail and analyzes resume attachments,ECPA,Y,Compliant,"Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_ECPA_analysis.txt"
-Resume Screening Agent,Automates recruitment review process,ePrivacy-Directive,Y,Compliant,"Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_ePrivacy_Directive_analysis.txt"
-Resume Screening Agent,Screens job applicants and recommends hiring decisions,EU-AI-Act,Y,Non-Compliant,"Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_EU_AI_Act_analysis.txt"
-Resume Screening Agent,Screens resumes against job requirements using LLM,FCRA,N,Compliant,"Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_FCRA_analysis.txt"
-Resume Screening Agent,Automated HR tool for hiring process,FERPA,N,Compliant,"Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_FERPA_analysis.txt"
-resume-screening-agent-6971956bbddcdd1d54fd8975,Automates resume screening and applicant qualification assessment,FTC-Act,Y,Non-Compliant,"Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_FTC_Act_analysis.txt"
-Resume Screening Agent,Monitors emails and screens resumes against job requirements,GDPR,Y,Non-Compliant,"Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_GDPR_analysis.txt"
-Resume Screening Agent,Automates recruitment review process,GLBA,N,Compliant,"Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_GLBA_analysis.txt"
-Resume Screening Agent,Processes resumes against job descriptions for hiring,HIPAA,N,Compliant,"Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_HIPAA_analysis.txt"
-Resume Screening Agent,Automates initial screening of job applications,ISO27001,Y,Non-Compliant,"Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_ISO27001_analysis.txt"
-resume-screening-agent-6971956bbddcdd1d54fd8975,Monitors Gmail and screens resumes using AI,NIS2,Y,Non-Compliant,"Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_NIS2_analysis.txt"
-"Resume Screening Agent","Automated recruitment tool that filters job applications","NIST-AI-RMF","Y","Non-Compliant","Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_NIST_AI_RMF_analysis.txt"
-Resume Screening Agent,Streamlines hiring by analyzing resumes against job descriptions,PCI-DSS,N,Compliant,"Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_PCI_DSS_analysis.txt"
-Resume Screening Agent,Automates initial screening of job applicants,PSD2,N,Compliant,"Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_PSD2_analysis.txt"
-Resume Screening Agent,Automates initial screening of job applications,SOC2,Y,Non-Compliant,"Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_SOC2_analysis.txt"
-Resume Screening Agent,Filters job applications against criteria,SOX,N,Compliant,"Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_SOX_analysis.txt"
-RudeResponder,Automated email response to marketing messages,ADA,Y,Compliant,"RudeResponder_6161a903_f5faf01184066045bd0121e4_ADA_analysis.txt"
-RudeResponder,Monitors emails and sends automated rude replies,CCPA,Y,Compliant,"RudeResponder_6161a903_f5faf01184066045bd0121e4_CCPA_analysis.txt"
-RudeResponder,Monitors Office 365 inbox and replies to marketing emails,COPPA,N,Compliant,"RudeResponder_6161a903_f5faf01184066045bd0121e4_COPPA_analysis.txt"
-RudeResponder,Monitors inbox and sends automated marketing replies,CPRA,Y,Compliant,"RudeResponder_6161a903_f5faf01184066045bd0121e4_CPRA_analysis.txt"
-RudeResponder,Filters incoming emails and sends automated replies,DORA,Y,Compliant,"RudeResponder_6161a903_f5faf01184066045bd0121e4_DORA_analysis.txt"
-RudeResponder,Automatically replies rudely to marketing emails,ECPA,Y,Compliant,"RudeResponder_6161a903_f5faf01184066045bd0121e4_ECPA_analysis.txt"
-RudeResponder,Sends automated replies to marketing emails,ePrivacy-Directive,Y,Compliant,"RudeResponder_6161a903_f5faf01184066045bd0121e4_ePrivacy_Directive_analysis.txt"
-RudeResponder,Automated email responses for marketing messages,EU-AI-Act,N,Compliant,"RudeResponder_6161a903_f5faf01184066045bd0121e4_EU_AI_Act_analysis.txt"
-RudeResponder,Monitors email inbox and auto-replies to marketing,FCRA,N,Compliant,"RudeResponder_6161a903_f5faf01184066045bd0121e4_FCRA_analysis.txt"
-RudeResponder,Filter and auto-respond to unsolicited marketing emails,FERPA,N,Compliant,"RudeResponder_6161a903_f5faf01184066045bd0121e4_FERPA_analysis.txt"
-RudeResponder,Automates email replies within Office 365 environment,FTC-Act,N,Compliant,"RudeResponder_6161a903_f5faf01184066045bd0121e4_FTC_Act_analysis.txt"
-RudeResponder,Monitors inbox and sends automated marketing replies,GDPR,Y,Compliant,"RudeResponder_6161a903_f5faf01184066045bd0121e4_GDPR_analysis.txt"
-RudeResponder,Replies to marketing emails with rejection messages,GLBA,N,Compliant,"RudeResponder_6161a903_f5faf01184066045bd0121e4_GLBA_analysis.txt"
-RudeResponder,Monitors inbox and replies to marketing emails,HIPAA,Y,Compliant,"RudeResponder_6161a903_f5faf01184066045bd0121e4_HIPAA_analysis.txt"
-RudeResponder,Monitors inbox and replies to marketing emails,ISO27001,Y,Compliant,"RudeResponder_6161a903_f5faf01184066045bd0121e4_ISO27001_analysis.txt"
-RudeResponder,Automated rejection of marketing emails,NIS2,Y,Compliant,"RudeResponder_6161a903_f5faf01184066045bd0121e4_NIS2_analysis.txt"
-RudeResponder,Monitors inbox and sends automated marketing replies,NIST-AI-RMF,N,Compliant,"RudeResponder_6161a903_f5faf01184066045bd0121e4_NIST_AI_RMF_analysis.txt"
-RudeResponder,Automated email responder for marketing messages,PCI-DSS,N,Compliant,"RudeResponder_6161a903_f5faf01184066045bd0121e4_PCI_DSS_analysis.txt"
-RudeResponder,Automatically replies to marketing emails with negative message,PSD2,N,Compliant,"RudeResponder_6161a903_f5faf01184066045bd0121e4_PSD2_analysis.txt"
-RudeResponder,Automated email response for marketing messages,SOC2,Y,Compliant,"RudeResponder_6161a903_f5faf01184066045bd0121e4_SOC2_analysis.txt"
-RudeResponder,Automatically replies to marketing emails,SOX,N,Compliant,"RudeResponder_6161a903_f5faf01184066045bd0121e4_SOX_analysis.txt"
-sales-meeting-recorder-69719238668ab8405ca91e3c,Records and transcribes sales meetings with external attendees,ADA,Y,Compliant,"Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_ADA_analysis.txt"
-sales-meeting-recorder-69719238668ab8405ca91e3c,"Records sales meetings with external attendees automatically",CCPA,Y,Non-Compliant,"Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_CCPA_analysis.txt"
-Sales Meeting Recorder,Records and transcribes B2B sales meetings,COPPA,N,Compliant,"Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_COPPA_analysis.txt"
-Sales Meeting Recorder,Automates documentation of sales calls,CPRA,Y,Non-Compliant,"Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_CPRA_analysis.txt"
-Sales Meeting Recorder,Automates documentation of sales interactions,DORA,Y,Non-Compliant,"Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_DORA_analysis.txt"
-Sales Meeting Recorder,Joins meetings records audio transcribes and saves notes,ECPA,Y,Partially Compliant,"Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_ECPA_analysis.txt"
-Sales Meeting Recorder,Records and transcribes sales meetings automatically,ePrivacy-Directive,Y,Non-Compliant,"Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_ePrivacy_Directive_analysis.txt"
-Sales Meeting Recorder,Records and transcribes sales meetings automatically,EU-AI-Act,Y,Partially Compliant,"Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_EU_AI_Act_analysis.txt"
-Sales Meeting Recorder,Records and transcribes sales meetings with prospects,FCRA,N,Compliant,"Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_FCRA_analysis.txt"
-Sales Meeting Recorder,Records and transcribes sales meetings with external attendees,FERPA,N,Compliant,"Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_FERPA_analysis.txt"
-Sales Meeting Recorder,Records and transcribes sales meetings automatically,FTC-Act,Y,Partially Compliant,"Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_FTC_Act_analysis.txt"
-"Sales Meeting Recorder",Records and transcribes meetings with external attendees,GDPR,Y,Non-Compliant,"Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_GDPR_analysis.txt"
-Sales Meeting Recorder,Records and transcribes sales meetings with external parties,GLBA,Y,Compliant,"Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_GLBA_analysis.txt"
-Sales Meeting Recorder,Records and transcribes sales meetings automatically,HIPAA,N,Compliant,"Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_HIPAA_analysis.txt"
-Sales Meeting Recorder,Records and transcribes sales calls and meetings,ISO27001,Y,Non-Compliant,"Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_ISO27001_analysis.txt"
-Sales Meeting Recorder,Monitors calendar and records external meetings,NIS2,Y,Partially Compliant,"Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_NIS2_analysis.txt"
-Sales Meeting Recorder,Records and transcribes external sales meetings,NIST-AI-RMF,Y,Partially Compliant,"Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_NIST_AI_RMF_analysis.txt"
-Sales Meeting Recorder,Records and transcribes sales meetings automatically,PCI-DSS,N,Compliant,"Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_PCI_DSS_analysis.txt"
-Sales Meeting Recorder,Automates sales call recording and follow-up tasks,PSD2,N,Compliant,"Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_PSD2_analysis.txt"
-Sales Meeting Recorder,Automates documentation of sales meetings,SOC2,Y,Compliant,"Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_SOC2_analysis.txt"
-Sales Meeting Recorder,Automates documentation of sales prospecting calls,SOX,N,Compliant,"Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_SOX_analysis.txt"
-SEO Blog Writer,Authors search-engine-optimized blog articles with structured content,ADA,Y,Compliant,"SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_ADA_analysis.txt"
-SEO Blog Writer,Draft long-form search-engine-optimized articles,CCPA,N,Compliant,"SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_CCPA_analysis.txt"
-SEO Blog Writer,Generates search-engine-optimized marketing content,COPPA,N,Compliant,"SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_COPPA_analysis.txt"
-SEO Blog Writer,Generates search-engine-optimized marketing content,CPRA,Y,Compliant,"SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_CPRA_analysis.txt"
-SEO Blog Writer,generates search-engine-optimized blog articles,DORA,N,Compliant,"SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_DORA_analysis.txt"
-SEO Blog Writer,Produces search-engine-optimized articles,ECPA,N,Compliant,"SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_ECPA_analysis.txt"
-seo-blog-writer-6971952e930a41d9e2623ea7,Generates SEO blog content from topics and websites,ePrivacy-Directive,N,Compliant,"SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_ePrivacy_Directive_analysis.txt"
-SEO Blog Writer,Generates SEO blog content for marketing teams,EU-AI-Act,Y,Compliant,"SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_EU_AI_Act_analysis.txt"
-SEO Blog Writer,generates search-engine-optimized content,FCRA,N,Compliant,"SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_FCRA_analysis.txt"
-SEO Blog Writer,Generate search-engine-optimized marketing content,FERPA,N,Compliant,"SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_FERPA_analysis.txt"
-SEO Blog Writer,Automates SEO content marketing and blog creation,FTC-Act,Y,Compliant,"SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_FTC_Act_analysis.txt"
-SEO Blog Writer,Automated content generation for SEO-optimized blog posts,GDPR,N,Compliant,"SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_GDPR_analysis.txt"
-SEO Blog Writer,Generate marketing content,GLBA,N,Compliant,"SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_GLBA_analysis.txt"
-seo-blog-writer-6971952e930a41d9e2623ea7,Generates search-engine-optimized long-form marketing content,HIPAA,N,Compliant,"SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_HIPAA_analysis.txt"
-seo-blog-writer-6971952e930a41d9e2623ea7,Generates SEO blog posts using external AI,ISO27001,Y,Compliant,"SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_ISO27001_analysis.txt"
-SEO Blog Writer,generates search-engine-optimized blog articles,NIS2,N,Compliant,"SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_NIS2_analysis.txt"
-SEO Blog Writer,Produces search-engine-optimized content,NIST-AI-RMF,Y,Compliant,"SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_NIST_AI_RMF_analysis.txt"
-SEO Blog Writer,Creates search-engine-optimized articles and content,PCI-DSS,N,Compliant,"SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_PCI_DSS_analysis.txt"
-SEO Blog Writer,Produces search-engine-optimized marketing articles,PSD2,N,Compliant,"SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_PSD2_analysis.txt"
-SEO Blog Writer,Automated content generation for search-engine-optimized articles,SOC2,N,Compliant,"SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_SOC2_analysis.txt"
-SEO Blog Writer,Generates search-engine-optimized blog articles and content,SOX,N,Compliant,"SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_SOX_analysis.txt"
-cr668_voice,Telephony-based retail bot for store info and sales,ADA,Y,Non-Compliant,"Voice_cr668_voice_ADA_analysis.txt"
-cr668_voice,Telephony retail and support bot for authentication and sales,CCPA,Y,Non-Compliant,"Voice_cr668_voice_CCPA_analysis.txt"
-cr668_voice,Telephony customer service bot for computer store,COPPA,N,Compliant,"Voice_cr668_voice_COPPA_analysis.txt"
-cr668_voice,"Telephony retail sales bot with customer service functions",CPRA,Y,Non-Compliant,"Voice_cr668_voice_CPRA_analysis.txt"
-Voice,Handles customer service interactions via telephony,DORA,Y,Non-Compliant,"Voice_cr668_voice_DORA_analysis.txt"
-Agent cr668_voice,Telephony-based IVR voice bot for retail context,ECPA,Y,Non-Compliant,"Voice_cr668_voice_ECPA_analysis.txt"
-Voice,voice-enabled telephony bot for customer service inquiries,ePrivacy-Directive,Y,Compliant,"Voice_cr668_voice_ePrivacy_Directive_analysis.txt"
-cr668_voice,Telephony-based customer service and sales bot,EU-AI-Act,Y,Non-Compliant,"Voice_cr668_voice_EU_AI_Act_analysis.txt"
-cr668_voice,Telephony customer service and sales bot,FCRA,N,Compliant,"Voice_cr668_voice_FCRA_analysis.txt"
-Voice,Telephony-based retail and sales bot,FERPA,N,Compliant,"Voice_cr668_voice_FERPA_analysis.txt"
-Voice (cr668_voice),Telephony bot for retail sales interactions,FTC-Act,Y,Non-Compliant,"Voice_cr668_voice_FTC_Act_analysis.txt"
-Voice,voice-enabled retail customer service bot,GDPR,Y,Compliant,"Voice_cr668_voice_GDPR_analysis.txt"
-cr668_voice,Voice-enabled customer service bot for retail sales,GLBA,N,Compliant,"Voice_cr668_voice_GLBA_analysis.txt"
-Voice,voice-enabled retail and demonstration bot,HIPAA,N,Compliant,"Voice_cr668_voice_HIPAA_analysis.txt"
-Voice,telephony-enabled conversational bot for retail environment,ISO27001,Y,Non-Compliant,"Voice_cr668_voice_ISO27001_analysis.txt"
-Voice,Telephony customer service and sales bot,NIS2,Y,Non-Compliant,"Voice_cr668_voice_NIS2_analysis.txt"
-cr668_voice,"Telephony sales agent for Copilot Studio with customer service",NIST-AI-RMF,Y,Non-Compliant,"Voice_cr668_voice_NIST_AI_RMF_analysis.txt"
-cr668_voice,Telephony retail bot for store info and sales,PCI-DSS,N,Compliant,"Voice_cr668_voice_PCI_DSS_analysis.txt"
-Voice,Customer service bot for retail product inquiries,PSD2,N,Compliant,"Voice_cr668_voice_PSD2_analysis.txt"
-Voice,Telephony-based commerce and customer service bot,SOC2,Y,Non-Compliant,"Voice_cr668_voice_SOC2_analysis.txt"
-cr668_voice,Customer service and sales interface,SOX,Y,Non-Compliant,"Voice_cr668_voice_SOX_analysis.txt"
-voice-of-the-customer-6971937b668ab8405ca92ffc,Automate extraction of customer feedback from meetings,ADA,Y,Compliant,"Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_ADA_analysis.txt"
-"Voice of the Customer","Automates extraction of customer feedback from meetings",CCPA,Y,Non-Compliant,"Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_CCPA_analysis.txt"
-voice-of-the-customer-6971937b668ab8405ca92ffc,Records meetings and extracts customer feedback quotes,COPPA,N,Compliant,"Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_COPPA_analysis.txt"
-"Voice of the Customer",Joins meetings and extracts customer quotes via email,CPRA,Y,Non-Compliant,"Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_CPRA_analysis.txt"
-Voice of the Customer,Automates capture of customer interactions,DORA,Y,Non-Compliant,"Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_DORA_analysis.txt"
-voice-of-the-customer-6971937b668ab8405ca92ffc,Automates collection of customer feedback from meetings,ECPA,Y,Compliant,"Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_ECPA_analysis.txt"
-Voice of the Customer,Records and transcribes customer meeting calls,ePrivacy-Directive,Y,Non-Compliant,"Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_ePrivacy_Directive_analysis.txt"
-Voice of the Customer,Automated meeting assistant for customer call recording,EU-AI-Act,Y,Compliant,"Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_EU_AI_Act_analysis.txt"
-Voice of the Customer,Automates collection of qualitative customer feedback,FCRA,N,Compliant,"Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_FCRA_analysis.txt"
-voice-of-the-customer-6971937b668ab8405ca92ffc,Automates collection of product feedback from customer calls,FERPA,N,Compliant,"Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_FERPA_analysis.txt"
-voice-of-the-customer-6971937b668ab8405ca92ffc,Records and transcribes customer meeting conversations,FTC-Act,Y,Non-Compliant,"Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_FTC_Act_analysis.txt"
-"Voice of the Customer","Detects calendar events and records customer conversations","GDPR","Y","Non-Compliant","Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_GDPR_analysis.txt"
-Voice of the Customer,Records and analyzes customer meeting transcripts,GLBA,Y,Non-Compliant,"Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_GLBA_analysis.txt"
-Voice of the Customer,Records meetings and extracts product feedback quotes,HIPAA,N,Compliant,"Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_HIPAA_analysis.txt"
-Voice of the Customer,Triggers on calendar events and processes meeting recordings,ISO27001,Y,Non-Compliant,"Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_ISO27001_analysis.txt"
-"Voice of the Customer","Automates extraction of customer feedback from meetings","NIS2","Y","Partially Compliant","Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_NIS2_analysis.txt"
-Voice of the Customer,automates collection of customer feedback,NIST-AI-RMF,Y,Non-Compliant,"Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_NIST_AI_RMF_analysis.txt"
-voice-of-the-customer-6971937b668ab8405ca92ffc,Automated meeting assistant for customer feedback extraction,PCI-DSS,N,Compliant,"Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_PCI_DSS_analysis.txt"
-Voice of the Customer,Captures qualitative customer feedback from meetings,PSD2,N,Compliant,"Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_PSD2_analysis.txt"
-voice-of-the-customer-6971937b668ab8405ca92ffc,Records and transcribes customer meetings via calendar events,SOC2,Y,Non-Compliant,"Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_SOC2_analysis.txt"
-voice-of-the-customer-6971937b668ab8405ca92ffc,Monitors calendar and extracts customer feedback quotes,SOX,N,Compliant,"Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_SOX_analysis.txt"
-cr668_websiteQA,Website Q&A bot answering user queries,ADA,Y,Non-Compliant,"Website_Q&A_cr668_websiteQA_ADA_analysis.txt"
-Website Q&A,Generative AI chatbot answering questions via website search,CCPA,Y,Non-Compliant,"Website_Q&A_cr668_websiteQA_CCPA_analysis.txt"
-cr668_websiteQA,Answer queries by searching Microsoft website content,COPPA,N,Compliant,"Website_Q&A_cr668_websiteQA_COPPA_analysis.txt"
-cr668_websiteQA,Answers questions by searching Microsoft website,CPRA,Y,Compliant,"Website_Q&A_cr668_websiteQA_CPRA_analysis.txt"
-cr668_websiteQA,Website Q&A chatbot using semantic search,DORA,Y,Non-Compliant,"Website_Q&A_cr668_websiteQA_DORA_analysis.txt"
-cr668_websiteQA,Answers queries by searching Microsoft website,ECPA,Y,Compliant,"Website_Q&A_cr668_websiteQA_ECPA_analysis.txt"
-cr668_websiteQA, Website Q&A chatbot for microsoft.com queries, ePrivacy-Directive, Y, Compliant,"Website_Q&A_cr668_websiteQA_ePrivacy_Directive_analysis.txt"
-cr668_websiteQA, Website Q&A chatbot using knowledge base, EU-AI-Act, Y, Compliant,"Website_Q&A_cr668_websiteQA_EU_AI_Act_analysis.txt"
-cr668_websiteQA,Answers general user inquiries from public website,FCRA,N,Compliant,"Website_Q&A_cr668_websiteQA_FCRA_analysis.txt"
-cr668_websiteQA,Answers user inquiries using website semantic search,FERPA,N,Compliant,"Website_Q&A_cr668_websiteQA_FERPA_analysis.txt"
-cr668_websiteQA,Answer user queries from website knowledge source,FTC-Act,Y,Compliant,"Website_Q&A_cr668_websiteQA_FTC_Act_analysis.txt"
-cr668_websiteQA,Answers user questions by indexing Microsoft.com content,GDPR,Y,Compliant,"Website_Q&A_cr668_websiteQA_GDPR_analysis.txt"
-cr668_websiteQA,Answers user queries using generative AI search,GLBA,Y,Compliant,"Website_Q&A_cr668_websiteQA_GLBA_analysis.txt"
-cr668_websiteQA, Answers user queries from public website content, HIPAA, N, Compliant,"Website_Q&A_cr668_websiteQA_HIPAA_analysis.txt"
-cr668_websiteQA,Answer questions using AI from website data,ISO27001,Y,Non-Compliant,"Website_Q&A_cr668_websiteQA_ISO27001_analysis.txt"
-cr668_websiteQA,Website Q&A bot using AI,NIS2,Y,Non-Compliant,"Website_Q&A_cr668_websiteQA_NIS2_analysis.txt"
-cr668_websiteQA, Answers queries by searching and summarizing website content, NIST-AI-RMF, Y, Non-Compliant,"Website_Q&A_cr668_websiteQA_NIST_AI_RMF_analysis.txt"
-cr668_websiteQA,Generative AI chatbot answering user questions,PCI-DSS,N,Compliant,"Website_Q&A_cr668_websiteQA_PCI_DSS_analysis.txt"
-cr668_websiteQA,Answer user queries by indexing website content,PSD2,N,Compliant,"Website_Q&A_cr668_websiteQA_PSD2_analysis.txt"
-cr668_websiteQA,Website Q&A chatbot for querying public knowledge,SOC2,Y,Compliant,"Website_Q&A_cr668_websiteQA_SOC2_analysis.txt"
-Website Q&A,Answers questions by summarizing public website content,SOX,N,Compliant,"Website_Q&A_cr668_websiteQA_SOX_analysis.txt"
+Agent Name,Agent Function,Policy,Applicable Y/N,Compliant?,File Name
+Agent Lister,Generative AI chatbot for Q&A and intent recognition,ADA,Y,Partially Compliant,Agent_Lister_copilots_header_b71cf_ADA_analysis.txt
+Agent Lister,Generative AI-enabled chatbot with authentication and retrieval,CCPA,Y,Compliant,Agent_Lister_copilots_header_b71cf_CCPA_analysis.txt
+Agent Lister,Conversational agent with authentication and knowledge retrieval,COPPA,N,Compliant,Agent_Lister_copilots_header_b71cf_COPPA_analysis.txt
+Agent Lister,Generative AI chatbot for information retrieval and support,CPRA,Y,Non-Compliant,Agent_Lister_copilots_header_b71cf_CPRA_analysis.txt
+Agent Lister,Assists users in searching for other agents,DORA,Y,Compliant,Agent_Lister_copilots_header_b71cf_DORA_analysis.txt
+Agent Lister,Standard Generative AI chatbot with knowledge retrieval,ECPA,Y,Compliant,Agent_Lister_copilots_header_b71cf_ECPA_analysis.txt
+Agent Lister,Generative AI chatbot for information retrieval and conversations,ePrivacy-Directive,Y,Compliant,Agent_Lister_copilots_header_b71cf_ePrivacy_Directive_analysis.txt
+Agent Lister,Generative AI chatbot for information retrieval,EU-AI-Act,Y,Non-Compliant,Agent_Lister_copilots_header_b71cf_EU_AI_Act_analysis.txt
+Agent Lister,General conversational interaction and information retrieval,FCRA,N,Compliant,Agent_Lister_copilots_header_b71cf_FCRA_analysis.txt
+Agent Lister,Search and summarize Copilot content from Dataverse,FERPA,N,Compliant,Agent_Lister_copilots_header_b71cf_FERPA_analysis.txt
+Agent Lister,Assists users by answering questions via conversational boosting,FTC-Act,Y,Compliant,Agent_Lister_copilots_header_b71cf_FTC_Act_analysis.txt
+Agent Lister,Assists users by retrieving information from Dataverse,GDPR,Y,Compliant,Agent_Lister_copilots_header_b71cf_GDPR_analysis.txt
+Agent Lister,answers queries by searching and summarizing content,GLBA,Y,Compliant,Agent_Lister_copilots_header_b71cf_GLBA_analysis.txt
+Agent Lister,Search and summarize Dataverse knowledge content,HIPAA,N,Compliant,Agent_Lister_copilots_header_b71cf_HIPAA_analysis.txt
+Agent Lister,Answers user queries by retrieving information from Dataverse,ISO27001,Y,Compliant,Agent_Lister_copilots_header_b71cf_ISO27001_analysis.txt
+Agent Lister,Generative Q&A using Dataverse with authentication,NIS2,Y,Compliant,Agent_Lister_copilots_header_b71cf_NIS2_analysis.txt
+Agent Lister,Searching and summarizing content from enterprise data,NIST-AI-RMF,Y,Non-Compliant,Agent_Lister_copilots_header_b71cf_NIST_AI_RMF_analysis.txt
+Agent Lister,Information retrieval bot using Conversational boosting,PCI-DSS,N,Compliant,Agent_Lister_copilots_header_b71cf_PCI_DSS_analysis.txt
+Agent Lister,Conversational AI bot handling dialogue and information retrieval,PSD2,N,Compliant,Agent_Lister_copilots_header_b71cf_PSD2_analysis.txt
+Agent Lister,Retrieval Augmented Generation from Dataverse knowledge source,SOC2,Y,Compliant,Agent_Lister_copilots_header_b71cf_SOC2_analysis.txt
+Agent Lister,Search/Information Retrieval for directory/agents,SOX,N,Compliant,Agent_Lister_copilots_header_b71cf_SOX_analysis.txt
+Agent Monitor,Backend automation for logging and auditing purposes,ADA,N,Compliant,Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_ADA_analysis.txt
+Agent Monitor,Internal auditing and logging tool,CCPA,Y,Compliant,Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_CCPA_analysis.txt
+Agent Monitor,Backend automation utility for internal logging and auditing,COPPA,N,Compliant,Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_COPPA_analysis.txt
+Agent Monitor,Automated logging utility for task completion monitoring,CPRA,Y,Compliant,Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_CPRA_analysis.txt
+Agent Monitor,tracks activity of three specific agents,DORA,Y,Non-Compliant,Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_DORA_analysis.txt
+Agent Monitor,automated logging utility for three monitored agents,ECPA,Y,Compliant,Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_ECPA_analysis.txt
+Agent Monitor,Internal auditing and logging tool,ePrivacy-Directive,N,Compliant,Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_ePrivacy_Directive_analysis.txt
+Agent Monitor,Internal process automation for observability and logging,EU-AI-Act,Y,Compliant,Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_EU_AI_Act_analysis.txt
+Agent Monitor,logs activity from other agents,FCRA,N,Compliant,Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_FCRA_analysis.txt
+Agent Monitor,logs activity from three specific agents,FERPA,N,Compliant,Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_FERPA_analysis.txt
+Agent Monitor,Logs task completion details to Google Sheet,FTC-Act,N,Compliant,Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_FTC_Act_analysis.txt
+Agent Monitor,Automated logging utility for three Lindy agents,GDPR,N,Compliant,Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_GDPR_analysis.txt
+Agent Monitor,tracks activity of three upstream agents,GLBA,N,Compliant,Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_GLBA_analysis.txt
+Agent Monitor,automated logging utility,HIPAA,N,Compliant,Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_HIPAA_analysis.txt
+Agent Monitor,Automated monitoring and logging daemon,ISO27001,Y,Non-Compliant,Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_ISO27001_analysis.txt
+Agent Monitor,logs and audits agent task completions,NIS2,Y,Compliant,Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_NIS2_analysis.txt
+Agent Monitor,Automated observability agent for logging success events,NIST-AI-RMF,Y,Compliant,Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_NIST_AI_RMF_analysis.txt
+Agent Monitor,Observes upstream agents and logs task details,PCI-DSS,N,Compliant,Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_PCI_DSS_analysis.txt
+Agent Monitor,Administrative logging workflow,PSD2,N,Compliant,Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_PSD2_analysis.txt
+Agent Monitor,automated logging and auditing tool,SOC2,Y,Compliant,Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_SOC2_analysis.txt
+Agent Monitor,Operational logger for completed agent tasks,SOX,N,Compliant,Agent_Monitor_agent_monitor_693b3fc7e12822592e50aff0_SOX_analysis.txt
+AI CMO | Research Agent,Automated marketing intelligence and document generation,ADA,Y,Compliant,AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_ADA_analysis.txt
+AI CMO | Research Agent,Performs market research based on company URL,CCPA,N,Compliant,AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_CCPA_analysis.txt
+AI CMO | Research Agent,Automated marketing strategist analyzing websites and competitors,COPPA,N,Compliant,AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_COPPA_analysis.txt
+AI CMO | Research Agent,Market research and competitor analysis automation,CPRA,Y,Compliant,AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_CPRA_analysis.txt
+AI CMO | Research Agent,Automated CMO researcher conducting market analysis,DORA,Y,Non-Compliant,AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_DORA_analysis.txt
+AI CMO | Research Agent,Automated market research analyst,ECPA,N,Compliant,AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_ECPA_analysis.txt
+AI CMO | Research Agent,Automated market intelligence and marketing asset generation,ePrivacy-Directive,N,Compliant,AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_ePrivacy_Directive_analysis.txt
+AI CMO | Research Agent,Business intelligence and marketing automation tool,EU-AI-Act,Y,Compliant,AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_EU_AI_Act_analysis.txt
+AI CMO | Research Agent,Automated market research and competitive analysis tool,FCRA,N,Compliant,AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_FCRA_analysis.txt
+AI CMO | Research Agent,Marketing intelligence automation tool,FERPA,N,Compliant,AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_FERPA_analysis.txt
+AI CMO | Research Agent,Internal business intelligence and strategy automation,FTC-Act,Y,Compliant,AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_FTC_Act_analysis.txt
+AI CMO | Research Agent,Performs market research and generates business intelligence reports,GDPR,Y,Compliant,AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_GDPR_analysis.txt
+AI CMO | Research Agent,Conducts B2B market research and competitor analysis,GLBA,N,Compliant,AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_GLBA_analysis.txt
+AI CMO | Research Agent,Automated marketing strategist using public company data,HIPAA,N,Compliant,AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_HIPAA_analysis.txt
+AI CMO | Research Agent,Market research automation creating strategic business intelligence,ISO27001,Y,Non-Compliant,AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_ISO27001_analysis.txt
+AI CMO | Research Agent,Automated Chief Marketing Officer assistant,NIS2,Y,Compliant,AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_NIS2_analysis.txt
+AI CMO | Research Agent,Automates market research and strategic planning,NIST-AI-RMF,Y,Non-Compliant,AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_NIST_AI_RMF_analysis.txt
+AI CMO | Research Agent,Automated CMO researcher generating marketing assets,PCI-DSS,N,Compliant,AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_PCI_DSS_analysis.txt
+AI CMO | Research Agent,Automated market research and strategy tool,PSD2,N,Compliant,AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_PSD2_analysis.txt
+AI CMO | Research Agent,Automated marketing researcher and strategy document generator,SOC2,Y,Non-Compliant,AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_SOC2_analysis.txt
+AI CMO | Research Agent,Marketing and business intelligence automation tool,SOX,N,Compliant,AI_CMO_Research_Agent_ai_cmo_research_agent_697194e773107647553ffb5a_SOX_analysis.txt
+Benefits,"Answers employee inquiries regarding legal, financial, education, health benefits",ADA,Y,Non-Compliant,Benefits_cr668_benefits_ADA_analysis.txt
+Benefits,Assists employees with benefits inquiries via chatbot,CCPA,Y,Non-Compliant,Benefits_cr668_benefits_CCPA_analysis.txt
+Benefits,Assists employees with HR-related benefit inquiries,COPPA,N,Compliant,Benefits_cr668_benefits_COPPA_analysis.txt
+Benefits,Answers employee questions about legal and financial benefits,CPRA,Y,Non-Compliant,Benefits_cr668_benefits_CPRA_analysis.txt
+Benefits,HR support bot for employee benefits questions,DORA,Y,Partially Compliant,Benefits_cr668_benefits_DORA_analysis.txt
+Benefits,Answers employee inquiries regarding legal financial education health benefits,ECPA,Y,Compliant,Benefits_cr668_benefits_ECPA_analysis.txt
+Benefits,Assists employees with HR-related inquiries,ePrivacy-Directive,Y,Compliant,Benefits_cr668_benefits_ePrivacy_Directive_analysis.txt
+Benefits,Assists employees with employment benefits information,EU-AI-Act,Y,Partially Compliant,Benefits_cr668_benefits_EU_AI_Act_analysis.txt
+Benefits,Assists employees in understanding their company benefits,FCRA,N,Compliant,Benefits_cr668_benefits_FCRA_analysis.txt
+Benefits,HR support bot for employee benefits questions,FERPA,N,Compliant,Benefits_cr668_benefits_FERPA_analysis.txt
+Benefits,Assists employees in understanding their employment benefits,FTC-Act,Y,Compliant,Benefits_cr668_benefits_FTC_Act_analysis.txt
+Benefits,Employee benefits support bot answering benefits questions,GDPR,Y,Non-Compliant,Benefits_cr668_benefits_GDPR_analysis.txt
+Benefits,Internal HR assistant for employees,GLBA,N,Compliant,Benefits_cr668_benefits_GLBA_analysis.txt
+Benefits,Automated HR assistant for employee benefits queries,HIPAA,Y,Non-Compliant,Benefits_cr668_benefits_HIPAA_analysis.txt
+Benefits,Answers employee benefits inquiries using authentication,ISO27001,Y,Non-Compliant,Benefits_cr668_benefits_ISO27001_analysis.txt
+Benefits,Assists employees with legal financial education health benefits,NIS2,Y,Non-Compliant,Benefits_cr668_benefits_NIS2_analysis.txt
+Benefits,Internal HR bot answering employee benefits questions,NIST-AI-RMF,Y,Non-Compliant,Benefits_cr668_benefits_NIST_AI_RMF_analysis.txt
+Benefits,HR support bot answering employee benefit queries,PCI-DSS,N,Compliant,Benefits_cr668_benefits_PCI_DSS_analysis.txt
+Benefits,Internal HR support bot for employee benefits information,PSD2,N,Compliant,Benefits_cr668_benefits_PSD2_analysis.txt
+Benefits,"Answers employee inquiries regarding legal, financial, education, health benefits",SOC2,Y,Non-Compliant,Benefits_cr668_benefits_SOC2_analysis.txt
+Benefits,Answers employee questions about benefits and integrations,SOX,Y,Non-Compliant,Benefits_cr668_benefits_SOX_analysis.txt
+Board meeting monitor,Monitors board meetings and sends notifications,ADA,N,Compliant,Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_ADA_analysis.txt
+Board meeting monitor,Queries calendar and sends meeting notifications,CCPA,N,Compliant,Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_CCPA_analysis.txt
+Board meeting monitor,Tracks corporate schedules and sends notifications,COPPA,N,Compliant,Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_COPPA_analysis.txt
+Board meeting monitor,Automated scheduling assistant for board meetings,CPRA,Y,Compliant,Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_CPRA_analysis.txt
+Board meeting monitor,Automated scheduling assistant for board meetings,DORA,Y,Compliant,Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_DORA_analysis.txt
+Board meeting monitor,Monitors calendar for board meetings and sends notifications,ECPA,Y,Compliant,Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_ECPA_analysis.txt
+Board meeting monitor,monitors calendar for board meetings,ePrivacy-Directive,Y,Compliant,Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_ePrivacy_Directive_analysis.txt
+Board meeting monitor,Monitors calendar and sends meeting notifications,EU-AI-Act,Y,Compliant,Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_EU_AI_Act_analysis.txt
+Board meeting monitor,Automated scheduling assistant for board meetings,FCRA,N,Compliant,Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_FCRA_analysis.txt
+Board meeting monitor,Queries calendar for early board meetings,FERPA,N,Compliant,Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_FERPA_analysis.txt
+Board meeting monitor,Monitor calendar and send notifications,FTC-Act,N,Compliant,Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_FTC_Act_analysis.txt
+Board meeting monitor,Automated scheduler for board meeting notifications,GDPR,N,Compliant,Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_GDPR_analysis.txt
+Board meeting monitor,Monitors board meetings and sends notifications,GLBA,N,Compliant,Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_GLBA_analysis.txt
+Board meeting monitor,Monitors calendar for daily board meetings,HIPAA,N,Compliant,Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_HIPAA_analysis.txt
+Board meeting monitor,Monitors corporate calendar for sensitive events,ISO27001,Y,Non-Compliant,Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_ISO27001_analysis.txt
+Board meeting monitor,Identifies Board of Directors meetings and sends notifications,NIS2,Y,Compliant,Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_NIS2_analysis.txt
+Board meeting monitor,Searches calendar for board meetings and sends notifications,NIST-AI-RMF,Y,Non-Compliant,Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_NIST_AI_RMF_analysis.txt
+Board meeting monitor,triggers daily and monitors calendar for board meetings,PCI-DSS,N,Compliant,Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_PCI_DSS_analysis.txt
+Board meeting monitor,Monitors calendar for early board meetings,PSD2,N,Compliant,Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_PSD2_analysis.txt
+Board meeting monitor,Monitors board meetings and sends daily summaries,SOC2,Y,Non-Compliant,Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_SOC2_analysis.txt
+Board meeting monitor,Monitors board meetings and sends notifications,SOX,N,Compliant,Board_meeting_monitor_board_meeting_monitor_693b3789c8b9204305fd5087_SOX_analysis.txt
+Brand Monitor,Search internet for brand mentions and reviews,ADA,Y,Compliant,Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_ADA_analysis.txt
+Brand Monitor,Market research assistant for brand online presence,CCPA,Y,Compliant,Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_CCPA_analysis.txt
+Brand Monitor,tracks online sentiment and presence for business brands,COPPA,N,Compliant,Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_COPPA_analysis.txt
+Brand Monitor,Monitors brand mentions and sentiment online,CPRA,N,Compliant,Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_CPRA_analysis.txt
+Brand Monitor,Monitors brand sentiment across social media and web,DORA,Y,Compliant,Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_DORA_analysis.txt
+Brand Monitor,Monitors brand mentions and sentiment across web sources,ECPA,Y,Compliant,Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_ECPA_analysis.txt
+Brand Monitor,Accepts brand name and searches internet for mentions,ePrivacy-Directive,N,Compliant,Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_ePrivacy_Directive_analysis.txt
+Brand Monitor,Automated research assistant for brand monitoring,EU-AI-Act,Y,Compliant,Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_EU_AI_Act_analysis.txt
+Brand Monitor,Tracks and analyzes online brand presence,FCRA,N,Compliant,Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_FCRA_analysis.txt
+Brand Monitor,tracks brand online presence and sentiment,FERPA,N,Compliant,Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_FERPA_analysis.txt
+Brand Monitor,Performs web search for brand sentiment analysis,FTC-Act,Y,Compliant,Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_FTC_Act_analysis.txt
+Brand Monitor,Monitors brand mentions across social media and web,GDPR,Y,Compliant,Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_GDPR_analysis.txt
+Brand Monitor,tracks company online reputation and sentiment,GLBA,N,Compliant,Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_GLBA_analysis.txt
+Brand Monitor,Performs public sentiment analysis for brands,HIPAA,N,Compliant,Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_HIPAA_analysis.txt
+Brand Monitor,Monitors brand mentions and sentiment online,ISO27001,Y,Compliant,Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_ISO27001_analysis.txt
+Brand Monitor,Searches internet for brand mentions and reviews,NIS2,Y,Compliant,Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_NIS2_analysis.txt
+Brand Monitor,Market intelligence assistant for brand mentions,NIST-AI-RMF,Y,Compliant,Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_NIST_AI_RMF_analysis.txt
+Brand Monitor,accepts brand name and searches internet mentions,PCI-DSS,N,Compliant,Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_PCI_DSS_analysis.txt
+Brand Monitor,Performs OSINT brand monitoring and sentiment analysis,PSD2,N,Compliant,Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_PSD2_analysis.txt
+Brand Monitor,Monitors brand mentions and reviews online,SOC2,Y,Compliant,Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_SOC2_analysis.txt
+Brand Monitor,Monitors brand sentiment from public internet sources,SOX,N,Compliant,Brand_Monitor_brand_monitor_695d7c0b17d213e56045761c_SOX_analysis.txt
+Customer Support Email Responder,monitors Gmail and drafts email responses,ADA,Y,Compliant,Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_ADA_analysis.txt
+Customer Support Email Responder,Automates drafting of customer support email responses,CCPA,Y,Compliant,Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_CCPA_analysis.txt
+Customer Support Email Responder,Monitors Gmail and drafts customer support responses,COPPA,N,Compliant,Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_COPPA_analysis.txt
+Customer Support Email Responder,Processes customer emails and generates draft responses,CPRA,Y,Compliant,Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_CPRA_analysis.txt
+Customer Support Email Responder,monitors Gmail and drafts customer support responses,DORA,Y,Compliant,Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_DORA_analysis.txt
+Customer Support Email Responder,Monitors Gmail inbox and generates automated responses,ECPA,Y,Compliant,Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_ECPA_analysis.txt
+Customer Support Email Responder,Monitor Gmail and draft support email responses,ePrivacy-Directive,Y,Compliant,Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_ePrivacy_Directive_analysis.txt
+Customer Support Email Responder,Monitors Gmail and drafts email responses using knowledge base,EU-AI-Act,Y,Compliant,Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_EU_AI_Act_analysis.txt
+Customer Support Email Responder,Handles incoming Gmail messages with automated responses,FCRA,N,Compliant,Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_FCRA_analysis.txt
+Customer Support Email Responder,Handles incoming emails via Gmail using knowledge base,FERPA,N,Compliant,Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_FERPA_analysis.txt
+Customer Support Email Responder,Drafts customer support email responses from knowledge base,FTC-Act,Y,Compliant,Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_FTC_Act_analysis.txt
+Customer Support Email Responder,Monitors Gmail and drafts customer replies using AI,GDPR,Y,Compliant,Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_GDPR_analysis.txt
+Customer Support Email Responder,Monitors Gmail inbox and drafts email responses,GLBA,Y,Compliant,Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_GLBA_analysis.txt
+Customer Support Email Responder,monitors Gmail and drafts responses using knowledge base,HIPAA,Y,Compliant,Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_HIPAA_analysis.txt
+Customer Support Email Responder,monitors Gmail and creates draft responses using KB,ISO27001,Y,Compliant,Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_ISO27001_analysis.txt
+Customer Support Email Responder,Monitors Gmail inbox and drafts responses using knowledge base,NIS2,Y,Compliant,Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_NIS2_analysis.txt
+Customer Support Email Responder,responds to customer emails using knowledge base,NIST-AI-RMF,Y,Compliant,Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_NIST_AI_RMF_analysis.txt
+Customer Support Email Responder,Monitor Gmail and draft responses using knowledge base,PCI-DSS,N,Compliant,Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_PCI_DSS_analysis.txt
+Customer Support Email Responder,Streamlines customer service via automated email responses,PSD2,N,Compliant,Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_PSD2_analysis.txt
+Customer Support Email Responder,monitors Gmail and drafts replies using Knowledge Base,SOC2,Y,Compliant,Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_SOC2_analysis.txt
+Customer Support Email Responder,Automates drafting responses to customer support emails,SOX,N,Compliant,Customer_Support_Email_Responder_customer_support_email_responder_69719727f262d5cfac0c3eba_SOX_analysis.txt
+Email Follow-up Reminder,Monitors sent emails and drafts follow-up reminders,ADA,Y,Compliant,Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_ADA_analysis.txt
+Email Follow-up Reminder,Monitors Gmail and drafts follow-up emails automatically,CCPA,Y,Compliant,Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_CCPA_analysis.txt
+Email Follow-up Reminder,Automates email follow-up reminders for unanswered messages,COPPA,N,Compliant,Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_COPPA_analysis.txt
+Email Follow-up Reminder,Automated productivity assistant integrated with Gmail,CPRA,Y,Compliant,Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_CPRA_analysis.txt
+Email Follow-up Reminder,Monitors Gmail and drafts follow-up emails,DORA,Y,Partially Compliant,Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_DORA_analysis.txt
+Email Follow-up Reminder,Monitors Gmail and creates follow-up draft reminders,ECPA,Y,Compliant,Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_ECPA_analysis.txt
+Email Follow-up Reminder,Monitors sent emails and creates follow-up drafts,ePrivacy-Directive,Y,Compliant,Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_ePrivacy_Directive_analysis.txt
+Email Follow-up Reminder,Monitors Gmail and generates follow-up draft emails,EU-AI-Act,Y,Compliant,Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_EU_AI_Act_analysis.txt
+Email Follow-up Reminder,Monitors emails and creates follow-up reminders,FCRA,N,Compliant,Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_FCRA_analysis.txt
+Email Follow-up Reminder,Monitors Gmail and creates follow-up draft emails,FERPA,Y,Compliant,Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_FERPA_analysis.txt
+Email Follow-up Reminder,Monitors sent emails and drafts follow-up reminders,FTC-Act,Y,Compliant,Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_FTC_Act_analysis.txt
+Email Follow-up Reminder,Monitors sent emails and creates follow-up drafts,GDPR,Y,Compliant,Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_GDPR_analysis.txt
+Email Follow-up Reminder,Automates email follow-up process and drafts reminders,GLBA,Y,Compliant,Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_GLBA_analysis.txt
+Email Follow-up Reminder,Analyzes sent emails and creates follow-up drafts,HIPAA,Y,Compliant,Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_HIPAA_analysis.txt
+Email Follow-up Reminder,monitors outgoing Gmail and drafts follow-up reminders,ISO27001,Y,Non-Compliant,Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_ISO27001_analysis.txt
+Email Follow-up Reminder,Monitors Gmail and creates follow-up drafts,NIS2,Y,Compliant,Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_NIS2_analysis.txt
+Email Follow-up Reminder,Monitors sent emails and drafts follow-up reminders,NIST-AI-RMF,Y,Compliant,Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_NIST_AI_RMF_analysis.txt
+Email Follow-up Reminder,Monitor emails and draft follow-up reminders,PCI-DSS,N,Compliant,Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_PCI_DSS_analysis.txt
+Email Follow-up Reminder,Monitors Gmail and creates follow-up draft emails,PSD2,N,Compliant,Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_PSD2_analysis.txt
+Email Follow-up Reminder,Monitors emails and generates follow-up reminders,SOC2,Y,Compliant,Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_SOC2_analysis.txt
+Email Follow-up Reminder,Automated email follow-up draft generation,SOX,N,Compliant,Email_Follow-up_Reminder_email_follow_up_reminder_697193e459a8d688e24a5b67_SOX_analysis.txt
+Email Triager,Monitors Gmail and categorizes emails with labels,ADA,Y,Compliant,Email_Triager_email_triager_697196b1971478a22c30ccbe_ADA_analysis.txt
+Email Triager,Monitors Gmail and categorizes incoming emails automatically,CCPA,Y,Partially Compliant,Email_Triager_email_triager_697196b1971478a22c30ccbe_CCPA_analysis.txt
+Email Triager,Monitors Gmail inbox and categorizes emails automatically,COPPA,N,Compliant,Email_Triager_email_triager_697196b1971478a22c30ccbe_COPPA_analysis.txt
+Email Triager,Monitor inbox and categorize emails automatically,CPRA,Y,Compliant,Email_Triager_email_triager_697196b1971478a22c30ccbe_CPRA_analysis.txt
+Email Triager,Categorizes and responds to emails automatically,DORA,Y,Compliant,Email_Triager_email_triager_697196b1971478a22c30ccbe_DORA_analysis.txt
+Email Triager,Monitors and categorizes incoming Gmail messages,ECPA,Y,Compliant,Email_Triager_email_triager_697196b1971478a22c30ccbe_ECPA_analysis.txt
+Email Triager,Automated email management and classification,ePrivacy-Directive,Y,Compliant,Email_Triager_email_triager_697196b1971478a22c30ccbe_ePrivacy_Directive_analysis.txt
+Email Triager,Analyzes and categorizes incoming emails automatically,EU-AI-Act,Y,Partially Compliant,Email_Triager_email_triager_697196b1971478a22c30ccbe_EU_AI_Act_analysis.txt
+Email Triager,Monitors Gmail and categorizes incoming messages,FCRA,N,Compliant,Email_Triager_email_triager_697196b1971478a22c30ccbe_FCRA_analysis.txt
+Email Triager,Monitors and categorizes Gmail messages using LLM,FERPA,Y,Compliant,Email_Triager_email_triager_697196b1971478a22c30ccbe_FERPA_analysis.txt
+Email Triager,Monitors Gmail and categorizes incoming emails automatically,FTC-Act,Y,Compliant,Email_Triager_email_triager_697196b1971478a22c30ccbe_FTC_Act_analysis.txt
+Email Triager,Monitors Gmail inbox and categorizes incoming messages,GDPR,Y,Partially Compliant,Email_Triager_email_triager_697196b1971478a22c30ccbe_GDPR_analysis.txt
+Email Triager,Categorizes and responds to Gmail messages,GLBA,Y,Compliant,Email_Triager_email_triager_697196b1971478a22c30ccbe_GLBA_analysis.txt
+Email Triager,Monitors Gmail and categorizes incoming email messages,HIPAA,Y,Non-Compliant,Email_Triager_email_triager_697196b1971478a22c30ccbe_HIPAA_analysis.txt
+Email Triager,Monitors Gmail and auto-replies to customer FAQs,ISO27001,Y,Non-Compliant,Email_Triager_email_triager_697196b1971478a22c30ccbe_ISO27001_analysis.txt
+Email Triager,Classifies emails and sends automated responses,NIS2,Y,Non-Compliant,Email_Triager_email_triager_697196b1971478a22c30ccbe_NIS2_analysis.txt
+Email Triager,Classifies emails and sends automated FAQ responses,NIST-AI-RMF,Y,Non-Compliant,Email_Triager_email_triager_697196b1971478a22c30ccbe_NIST_AI_RMF_analysis.txt
+Email Triager,Monitors Gmail and categorizes incoming emails,PCI-DSS,N,Compliant,Email_Triager_email_triager_697196b1971478a22c30ccbe_PCI_DSS_analysis.txt
+Email Triager,Manages Gmail inbox categorization and automated responses,PSD2,N,Compliant,Email_Triager_email_triager_697196b1971478a22c30ccbe_PSD2_analysis.txt
+Email Triager,Monitors Gmail inbox and auto-responds to customer FAQs,SOC2,Y,Non-Compliant,Email_Triager_email_triager_697196b1971478a22c30ccbe_SOC2_analysis.txt
+Email Triager,Monitors Gmail inbox and categorizes incoming emails,SOX,N,Compliant,Email_Triager_email_triager_697196b1971478a22c30ccbe_SOX_analysis.txt
+Financial Insights,Retrieves financial information from internal and external sources,ADA,Y,Non-Compliant,Financial_Insights_cr668_financialInsights_ADA_analysis.txt
+Financial Insights,Searches and summarizes internal financial documents,CCPA,Y,Compliant,Financial_Insights_cr668_financialInsights_CCPA_analysis.txt
+Financial Insights,Queries and summarizes complex financial data,COPPA,N,Compliant,Financial_Insights_cr668_financialInsights_COPPA_analysis.txt
+Financial Insights,Analyzes financial documents and searches public data,CPRA,Y,Partially Compliant,Financial_Insights_cr668_financialInsights_CPRA_analysis.txt
+Financial Insights,Assists financial professionals with information retrieval,DORA,Y,Compliant,Financial_Insights_cr668_financialInsights_DORA_analysis.txt
+Financial Insights,assists enterprise users with financial questions,ECPA,Y,Compliant,Financial_Insights_cr668_financialInsights_ECPA_analysis.txt
+Financial Insights,Assists users with financial queries via conversational bot,ePrivacy-Directive,Y,Compliant,Financial_Insights_cr668_financialInsights_ePrivacy_Directive_analysis.txt
+Financial Insights,Searches documents and answers financial queries with RAG,EU-AI-Act,Y,Compliant,Financial_Insights_cr668_financialInsights_EU_AI_Act_analysis.txt
+Financial Insights,Query financial documents and provide market analysis,FCRA,N,Compliant,Financial_Insights_cr668_financialInsights_FCRA_analysis.txt
+Financial Insights,Searches and summarizes financial documents and SEC data,FERPA,N,Compliant,Financial_Insights_cr668_financialInsights_FERPA_analysis.txt
+Financial Insights,retrieves and summarizes financial documents and filings,FTC-Act,Y,Compliant,Financial_Insights_cr668_financialInsights_FTC_Act_analysis.txt
+Financial Insights,Assists with financial document search and summaries,GDPR,Y,Compliant,Financial_Insights_cr668_financialInsights_GDPR_analysis.txt
+Financial Insights,Retrieves financial data from repositories and SEC filings,GLBA,Y,Compliant,Financial_Insights_cr668_financialInsights_GLBA_analysis.txt
+Financial Insights,Query and summarize financial documentation,HIPAA,N,Compliant,Financial_Insights_cr668_financialInsights_HIPAA_analysis.txt
+Financial Insights,Retrieves and summarizes financial information,ISO27001,Y,Partially Compliant,Financial_Insights_cr668_financialInsights_ISO27001_analysis.txt
+Financial Insights,Financial assistant retrieving organizational and regulatory information,NIS2,Y,Compliant,Financial_Insights_cr668_financialInsights_NIS2_analysis.txt
+Financial Insights,Assists financial professionals with information retrieval and queries,NIST-AI-RMF,Y,Partially Compliant,Financial_Insights_cr668_financialInsights_NIST_AI_RMF_analysis.txt
+Financial Insights,Retrieves and summarizes financial reports and SEC data,PCI-DSS,N,Compliant,Financial_Insights_cr668_financialInsights_PCI_DSS_analysis.txt
+Financial Insights,Assists financial professionals with document and data retrieval,PSD2,N,Compliant,Financial_Insights_cr668_financialInsights_PSD2_analysis.txt
+Financial Insights,Retrieves and summarizes financial information,SOC2,Y,Compliant,Financial_Insights_cr668_financialInsights_SOC2_analysis.txt
+Financial Insights,Financial retrieval and summarization for professionals,SOX,Y,Compliant,Financial_Insights_cr668_financialInsights_SOX_analysis.txt
+Lead Outreacher,Automated SDR executing sequential email drip campaigns,ADA,Y,Compliant,Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_ADA_analysis.txt
+Lead Outreacher,Automated SDR agent sending personalized cold outreach emails,CCPA,Y,Non-Compliant,Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_CCPA_analysis.txt
+Lead Outreacher,B2B sales email drip campaign automation,COPPA,N,Compliant,Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_COPPA_analysis.txt
+Lead Outreacher,Drafts personalized cold outreach emails from spreadsheet leads,CPRA,Y,Compliant,Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_CPRA_analysis.txt
+Lead Outreacher,Automated SDR executing sequential email outreach campaigns,DORA,Y,Compliant,Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_DORA_analysis.txt
+Lead Outreacher,Executes automated cold-email marketing campaigns,ECPA,Y,Compliant,Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_ECPA_analysis.txt
+Lead Outreacher,Executes automated email drip campaigns for direct marketing,ePrivacy-Directive,Y,Non-Compliant,Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_ePrivacy_Directive_analysis.txt
+Lead Outreacher,Autonomous SDR executing personalized email drip campaigns,EU-AI-Act,Y,Non-Compliant,Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_EU_AI_Act_analysis.txt
+Lead Outreacher,Executes cold email drip campaigns for leads,FCRA,N,Compliant,Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_FCRA_analysis.txt
+Lead Outreacher,Generates personalized sales emails for B2B outreach,FERPA,N,Compliant,Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_FERPA_analysis.txt
+Lead Outreacher,Executes drip email marketing campaigns for sales,FTC-Act,Y,Non-Compliant,Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_FTC_Act_analysis.txt
+Lead Outreacher,Automated email drip campaign for leads,GDPR,Y,Non-Compliant,Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_GDPR_analysis.txt
+Lead Outreacher,Monitors Google Sheet and sends personalized sales emails,GLBA,N,Compliant,Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_GLBA_analysis.txt
+Lead Outreacher,Automated B2B sales outreach and drip campaigns,HIPAA,N,Compliant,Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_HIPAA_analysis.txt
+Lead Outreacher,Automated SDR that monitors sheets and sends outreach emails,ISO27001,Y,Non-Compliant,Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_ISO27001_analysis.txt
+Lead Outreacher,Executes multi-stage email drip campaigns,NIS2,Y,Compliant,Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_NIS2_analysis.txt
+Lead Outreacher,Executes cold-email marketing campaigns to leads,NIST-AI-RMF,Y,Non-Compliant,Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_NIST_AI_RMF_analysis.txt
+Lead Outreacher,Executes outbound cold email campaigns,PCI-DSS,N,Compliant,Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_PCI_DSS_analysis.txt
+Lead Outreacher,Automated sales development representative sending outreach emails,PSD2,N,Compliant,Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_PSD2_analysis.txt
+Lead Outreacher,Automated SDR for cold email outreach,SOC2,Y,Non-Compliant,Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_SOC2_analysis.txt
+Lead Outreacher,Automated SDR executing cold email marketing campaigns,SOX,N,Compliant,Lead_Outreacher_lead_outreacher_6971943a0197c79d295d27cb_SOX_analysis.txt
+Lindy Agent Compliance Analyser,Automates retrieval of agent configuration and metadata,ADA,N,Compliant,Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_ADA_analysis.txt
+Lindy Agent Compliance Analyser,Iterates agent IDs and executes GraphQL requests,CCPA,Y,Non-Compliant,Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_CCPA_analysis.txt
+Lindy Agent Compliance Analyser,Lists all agents in user's Lindy workspace,COPPA,N,Compliant,Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_COPPA_analysis.txt
+Lindy Agent Compliance Analyser,Analyzes agent compliance with regulations,CPRA,Y,Non-Compliant,Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_CPRA_analysis.txt
+Lindy Agent Compliance Analyser,Iterates through items and queries GraphQL API,DORA,Y,Non-Compliant,Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_DORA_analysis.txt
+Lindy Agent Compliance Analyser,Iterates through Agent IDs retrieving configuration data,ECPA,Y,Non-Compliant,Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_ECPA_analysis.txt
+Lindy Agent Compliance Analyser,Iterates through items and queries Lindy API,ePrivacy-Directive,Y,Compliant,Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_ePrivacy_Directive_analysis.txt
+Lindy Agent Compliance Analyser,Lists and analyzes agents within Lindy workspace,EU-AI-Act,Y,Compliant,Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_EU_AI_Act_analysis.txt
+Lindy Agent Compliance Analyser,Introspects user workspace and retrieves agent metadata,FCRA,N,Compliant,Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_FCRA_analysis.txt
+Lindy Agent Compliance Analyser,System introspection and workspace data retrieval tool,FERPA,N,Compliant,Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_FERPA_analysis.txt
+Lindy Agent Compliance Analyser,Iterates through agent IDs and extracts data,FTC-Act,Y,Non-Compliant,Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_FTC_Act_analysis.txt
+Lindy Agent Compliance Analyser,Analyzes agent compliance with security regulations,GDPR,Y,Non-Compliant,Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_GDPR_analysis.txt
+Lindy Agent Compliance Analyser,Iterates through agent IDs and queries account details,GLBA,Y,Non-Compliant,Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_GLBA_analysis.txt
+Lindy Agent Compliance Analyser,Iterates through items and extracts agent data,HIPAA,Y,Non-Compliant,Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_HIPAA_analysis.txt
+Lindy Agent Compliance Analyser,Iterates through agent list and retrieves workspace details,ISO27001,Y,Non-Compliant,Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_ISO27001_analysis.txt
+Lindy Agent Compliance Analyser,Iterates inputs and retrieves sensitive data via GraphQL,NIS2,Y,Non-Compliant,Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_NIS2_analysis.txt
+Lindy Agent Compliance Analyser,Convert IDs to GraphQL and fetch API data,NIST-AI-RMF,Y,Non-Compliant,Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_NIST_AI_RMF_analysis.txt
+Lindy Agent Compliance Analyser,Looping retrieval mechanism for agent metadata analysis,PCI-DSS,N,Compliant,Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_PCI_DSS_analysis.txt
+Lindy Agent Compliance Analyser,Encodes IDs and retrieves workspace metadata via GraphQL,PSD2,N,Compliant,Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_PSD2_analysis.txt
+Lindy Agent Compliance Analyser,Iterates through items and retrieves agent data,SOC2,Y,Non-Compliant,Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_SOC2_analysis.txt
+Lindy Agent Compliance Analyser,Analyzes agent configurations and compliance through GraphQL queries,SOX,Y,Non-Compliant,Lindy_Agent_Compliance_Analyser_lindy_agent_compliance_analyser_695ed16699530f1e0295d5a0_SOX_analysis.txt
+Agent Lister,Retrieves agents from API and updates Google Sheet,ADA,N,Compliant,Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_ADA_analysis.txt
+Agent Lister,Updates Google Sheets with agent metadata hourly,CCPA,N,Compliant,Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_CCPA_analysis.txt
+Agent Lister,automates inventory management within Lindy workspace,COPPA,N,Compliant,Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_COPPA_analysis.txt
+Agent Lister,Lists agent metadata on hourly schedule,CPRA,N,Compliant,Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_CPRA_analysis.txt
+Agent Lister,maintains inventory of AI agents within workspace,DORA,Y,Compliant,Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_DORA_analysis.txt
+Agent Lister,queries Lindy API to list agents hourly,ECPA,Y,Compliant,Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_ECPA_analysis.txt
+Agent Lister,Internal administrative automation tool,ePrivacy-Directive,N,Compliant,Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_ePrivacy_Directive_analysis.txt
+Agent Lister,administrative automation tool for IT asset management,EU-AI-Act,Y,Compliant,Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_EU_AI_Act_analysis.txt
+Agent Lister,Maintains inventory of software agents within workspace,FCRA,N,Compliant,Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_FCRA_analysis.txt
+Agent Lister,Updates Google Sheet with agent metadata hourly,FERPA,N,Compliant,Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_FERPA_analysis.txt
+Agent Lister,Retrieves and updates agent inventory data hourly,FTC-Act,Y,Compliant,Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_FTC_Act_analysis.txt
+Agent Lister,performs inventory of Lindy workspace agents,GDPR,N,Compliant,Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_GDPR_analysis.txt
+Agent Lister,Updates agent list in Google Sheets hourly,GLBA,N,Compliant,Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_GLBA_analysis.txt
+Agent Lister,maintains inventory of agents within Lindy workspace,HIPAA,N,Compliant,Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_HIPAA_analysis.txt
+Agent Lister,maintains inventory of agents within workspace,ISO27001,Y,Compliant,Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_ISO27001_analysis.txt
+Agent Lister,Administrative utility agent for Lindy workspace inventory,NIS2,Y,Compliant,Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_NIS2_analysis.txt
+Agent Lister,Query API and update Google Sheet with agents,NIST-AI-RMF,Y,Non-Compliant,Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_NIST_AI_RMF_analysis.txt
+Agent Lister,Retrieves and lists all agents in workspace,PCI-DSS,N,Compliant,Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_PCI_DSS_analysis.txt
+Agent Lister,Administrative automation tool designed to inventory internal workspace configurations,PSD2,N,Compliant,Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_PSD2_analysis.txt
+Agent Lister,automated reporting tool for agent metadata,SOC2,Y,Compliant,Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_SOC2_analysis.txt
+Agent Lister,Retrieves and updates agent list in workspace,SOX,N,Compliant,Lindy_Agent_Lister_lindy_agent_lister_693c78bb39099082df392692_SOX_analysis.txt
+Meeting Scheduler,Automated Executive Assistant for scheduling meetings,ADA,Y,Non-Compliant,Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_ADA_analysis.txt
+Meeting Scheduler,Coordinates meeting times between user and participants,CCPA,Y,Compliant,Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_CCPA_analysis.txt
+Meeting Scheduler,manages calendar coordination,COPPA,N,Compliant,Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_COPPA_analysis.txt
+Meeting Scheduler,automated executive assistant for scheduling meetings,CPRA,Y,Compliant,Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_CPRA_analysis.txt
+Meeting Scheduler,Automated executive assistant for email scheduling,DORA,Y,Non-Compliant,Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_DORA_analysis.txt
+Meeting Scheduler,Coordinates meeting times between user and parties,ECPA,Y,Compliant,Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_ECPA_analysis.txt
+Meeting Scheduler,Automated scheduling via email coordination,ePrivacy-Directive,Y,Compliant,Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_ePrivacy_Directive_analysis.txt
+Meeting Scheduler,manages calendar coordination,EU-AI-Act,Y,Compliant,Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_EU_AI_Act_analysis.txt
+Meeting Scheduler,Automated executive assistant for calendar and email scheduling,FCRA,N,Compliant,Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_FCRA_analysis.txt
+Meeting Scheduler,Automated executive assistant for scheduling meetings,FERPA,Y,Compliant,Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_FERPA_analysis.txt
+Meeting Scheduler,Executive Assistant scheduling meetings via email,FTC-Act,Y,Non-Compliant,Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_FTC_Act_analysis.txt
+Meeting Scheduler,Automated scheduling via email with calendar integration,GDPR,Y,Non-Compliant,Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_GDPR_analysis.txt
+Meeting Scheduler,Automated scheduling via email with calendar integration,GLBA,Y,Non-Compliant,Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_GLBA_analysis.txt
+Meeting Scheduler,Automated executive assistant scheduling meetings,HIPAA,Y,Non-Compliant,Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_HIPAA_analysis.txt
+Meeting Scheduler,Automated Executive Assistant for email scheduling requests,ISO27001,Y,Non-Compliant,Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_ISO27001_analysis.txt
+Meeting Scheduler,Acts as automated Executive Assistant for scheduling,NIS2,Y,Non-Compliant,Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_NIS2_analysis.txt
+Meeting Scheduler,manages calendar coordination via email,NIST-AI-RMF,Y,Non-Compliant,Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_NIST_AI_RMF_analysis.txt
+Meeting Scheduler,coordinates calendar events via email,PCI-DSS,N,Compliant,Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_PCI_DSS_analysis.txt
+Meeting Scheduler,Automated Executive Assistant for calendar management,PSD2,N,Compliant,Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_PSD2_analysis.txt
+Meeting Scheduler,Acts as automated executive assistant for scheduling,SOC2,Y,Non-Compliant,Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_SOC2_analysis.txt
+Meeting Scheduler,manages user calendars and scheduling meetings,SOX,N,Compliant,Meeting_Scheduler_meeting_scheduler_697192e92908dc843c114766_SOX_analysis.txt
+Monitor All Agents,Backend automation workflow monitoring tasks hourly,ADA,N,Compliant,Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_ADA_analysis.txt
+Monitor All Agents,Internal surveillance and logging tool,CCPA,Y,Non-Compliant,Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_CCPA_analysis.txt
+Monitor All Agents,Internal administrative utility monitoring system tasks,COPPA,N,Compliant,Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_COPPA_analysis.txt
+Monitor All Agents,Internal audit and logging utility for agent tasks,CPRA,Y,Compliant,Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_CPRA_analysis.txt
+Monitor All Agents,Centralized monitoring and logging of agent activities,DORA,Y,Non-Compliant,Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_DORA_analysis.txt
+Monitor All Agents,Automated internal surveillance and logging tool,ECPA,Y,Compliant,Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_ECPA_analysis.txt
+Monitor All Agents,Automated surveillance and logging tool,ePrivacy-Directive,Y,Non-Compliant,Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_ePrivacy_Directive_analysis.txt
+Monitor All Agents,Automated administrative logger for AI agent tasks,EU-AI-Act,Y,Compliant,Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_EU_AI_Act_analysis.txt
+Monitor All Agents,Internal system monitoring and logging tool,FCRA,N,Compliant,Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_FCRA_analysis.txt
+Monitor All Agents,Administrative logging and monitoring system,FERPA,N,Compliant,Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_FERPA_analysis.txt
+Monitor All Agents,Internal administrative auditing tool,FTC-Act,N,Compliant,Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_FTC_Act_analysis.txt
+Monitor All Agents,Bulk data scraper and logger for agents,GDPR,Y,Non-Compliant,Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_GDPR_analysis.txt
+Monitor All Agents,Automated activity logger for agent tasks,GLBA,Y,Non-Compliant,Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_GLBA_analysis.txt
+Monitor All Agents,Automated logger monitoring agent tasks hourly,HIPAA,Y,Non-Compliant,Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_HIPAA_analysis.txt
+Monitor All Agents,Centralized surveillance and logging tool,ISO27001,Y,Non-Compliant,Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_ISO27001_analysis.txt
+Monitor All Agents,Centralized logging and monitoring utility,NIS2,Y,Non-Compliant,Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_NIS2_analysis.txt
+Monitor All Agents,Automated recurring logging system for agent monitoring,NIST-AI-RMF,Y,Partially Compliant,Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_NIST_AI_RMF_analysis.txt
+Monitor All Agents,Recurring audit utility monitoring multiple agents via spreadsheets,PCI-DSS,N,Compliant,Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_PCI_DSS_analysis.txt
+Monitor All Agents,Internal operational monitoring and logging,PSD2,N,Compliant,Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_PSD2_analysis.txt
+Monitor All Agents,Aggregates agent task history into centralized logging,SOC2,Y,Non-Compliant,Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_SOC2_analysis.txt
+Monitor All Agents,Automated internal monitoring and logging system,SOX,Y,Non-Compliant,Monitor_All_Agents_monitor_all_agents_69710cc80b3927ebfdf55f20_SOX_analysis.txt
+Personal Computer Assistant,Controls computer sessions and sends Instagram DMs,ADA,Y,Compliant,Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_ADA_analysis.txt
+Personal Computer Assistant,Personal Computer Assistant,CCPA,Y,Compliant,Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_CCPA_analysis.txt
+Personal Computer Assistant,Computer automation and productivity tasks,COPPA,N,Compliant,Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_COPPA_analysis.txt
+Personal Computer Assistant,Desktop automation via computer control,CPRA,Y,Compliant,Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_CPRA_analysis.txt
+Personal Computer Assistant,Takes control of user's operating system interface,DORA,N,Compliant,Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_DORA_analysis.txt
+Personal Computer Assistant,Desktop automation for Instagram direct messaging,ECPA,Y,Compliant,Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_ECPA_analysis.txt
+Personal Computer Assistant,Desktop automation agent controlling user's terminal equipment,ePrivacy-Directive,Y,Compliant,Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_ePrivacy_Directive_analysis.txt
+Personal Computer Assistant,Execute computer control and productivity tasks,EU-AI-Act,Y,Compliant,Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_EU_AI_Act_analysis.txt
+Personal Computer Assistant,General-purpose automation agent for computer control,FCRA,N,Compliant,Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_FCRA_analysis.txt
+Personal Computer Assistant,Controls computer sessions and device management,FERPA,N,Compliant,Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_FERPA_analysis.txt
+Personal Computer Assistant,intelligent digital companion for enhanced productivity,FTC-Act,Y,Non-Compliant,Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_FTC_Act_analysis.txt
+Personal Computer Assistant,Digital companion with computer and messaging access,GDPR,Y,Compliant,Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_GDPR_analysis.txt
+Personal Computer Assistant,Controls computer interface and sends Instagram DMs,GLBA,N,Compliant,Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_GLBA_analysis.txt
+Personal Computer Assistant,Desktop automation for Instagram messaging,HIPAA,N,Compliant,Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_HIPAA_analysis.txt
+Personal Computer Assistant,Initiates remote computer control and Instagram messaging,ISO27001,Y,Compliant,Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_ISO27001_analysis.txt
+Personal Computer Assistant,Initiates remote control automation session,NIS2,Y,Compliant,Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_NIS2_analysis.txt
+Personal Computer Assistant,Controls computer to send Instagram DMs,NIST-AI-RMF,Y,Non-Compliant,Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_NIST_AI_RMF_analysis.txt
+Personal Computer Assistant,Desktop automation for Instagram messaging,PCI-DSS,N,Compliant,Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_PCI_DSS_analysis.txt
+Personal Computer Assistant,General-purpose desktop automation tool,PSD2,N,Compliant,Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_PSD2_analysis.txt
+Personal Computer Assistant,Desktop automation session initiation,SOC2,Y,Compliant,Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_SOC2_analysis.txt
+Personal Computer Assistant,Initiates computer control for Instagram messaging,SOX,N,Compliant,Personal_Computer_Assistant_personal_computer_assistant_697194cf64cff41a8f386a07_SOX_analysis.txt
+Pippi,Answers general questions using Pippi Longstocking persona,ADA,Y,Compliant,Pippi_cr668_agent_ADA_analysis.txt
+Pippi,Generative AI chatbot with Pippi Longstocking persona,CCPA,Y,Compliant,Pippi_cr668_agent_CCPA_analysis.txt
+Pippi,Generative AI chatbot for answering general questions,COPPA,N,Compliant,Pippi_cr668_agent_COPPA_analysis.txt
+Pippi,Answers general questions as Pippi Longstocking,CPRA,Y,Non-Compliant,Pippi_cr668_agent_CPRA_analysis.txt
+Pippi,General questions chatbot with Pippi Longstocking persona,DORA,Y,Compliant,Pippi_cr668_agent_DORA_analysis.txt
+Pippi,Conversational bot answering queries using Pippi Longstocking persona,ECPA,Y,Compliant,Pippi_cr668_agent_ECPA_analysis.txt
+Pippi,Conversational bot answering questions using Pippi Longstocking persona,ePrivacy-Directive,Y,Compliant,Pippi_cr668_agent_ePrivacy_Directive_analysis.txt
+Pippi,Generative AI chatbot with fictional character persona,EU-AI-Act,Y,Compliant,Pippi_cr668_agent_EU_AI_Act_analysis.txt
+Pippi,Entertainment chatbot answering questions using fictional persona,FCRA,N,Compliant,Pippi_cr668_agent_FCRA_analysis.txt
+Pippi,Generative AI chatbot with Pippi Longstocking persona,FERPA,N,Compliant,Pippi_cr668_agent_FERPA_analysis.txt
+Pippi,Generative AI chatbot answering general questions,FTC-Act,Y,Compliant,Pippi_cr668_agent_FTC_Act_analysis.txt
+Pippi,Answers questions as Pippi Longstocking character,GDPR,Y,Compliant,Pippi_cr668_agent_GDPR_analysis.txt
+Pippi,Answers general questions as Pippi Longstocking character,GLBA,N,Compliant,Pippi_cr668_agent_GLBA_analysis.txt
+Pippi,Answers questions as Pippi Longstocking character,HIPAA,N,Compliant,Pippi_cr668_agent_HIPAA_analysis.txt
+Pippi,Generative AI chatbot for Microsoft Teams and Copilot,ISO27001,Y,Compliant,Pippi_cr668_agent_ISO27001_analysis.txt
+Pippi,Generative AI chatbot answering questions as Pippi,NIS2,Y,Compliant,Pippi_cr668_agent_NIS2_analysis.txt
+Pippi,Generative AI chatbot with Pippi Longstocking persona,NIST-AI-RMF,Y,Compliant,Pippi_cr668_agent_NIST_AI_RMF_analysis.txt
+Pippi,Generative AI chatbot answering questions as Pippi,PCI-DSS,N,Compliant,Pippi_cr668_agent_PCI_DSS_analysis.txt
+Pippi,Answers general questions as Pippi Longstocking character,PSD2,N,Compliant,Pippi_cr668_agent_PSD2_analysis.txt
+Pippi,Persona-based conversational interface for general questions,SOC2,Y,Compliant,Pippi_cr668_agent_SOC2_analysis.txt
+Pippi,Answers questions as Pippi Longstocking character,SOX,N,Compliant,Pippi_cr668_agent_SOX_analysis.txt
+Recruiting Agent,Automated sourcing tool to find job candidates,ADA,Y,Compliant,Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_ADA_analysis.txt
+Recruiting Agent,Automated prospecting tool for lead generation,CCPA,Y,Non-Compliant,Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_CCPA_analysis.txt
+Recruiting Agent,SDR Lead Generator for professional recruiting,COPPA,N,Compliant,Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_COPPA_analysis.txt
+Recruiting Agent,SDR automation tool for lead generation,CPRA,Y,Non-Compliant,Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_CPRA_analysis.txt
+Recruiting Agent,Assists with HR and talent acquisition tasks,DORA,Y,Compliant,Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_DORA_analysis.txt
+Recruiting Agent,Automates outbound sales and recruiting workflows,ECPA,Y,Compliant,Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_ECPA_analysis.txt
+Recruiting Agent,Acts as SDR generating leads and sending outreach emails,ePrivacy-Directive,Y,Non-Compliant,Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_ePrivacy_Directive_analysis.txt
+Recruiting Agent,Sources and contacts potential job candidates or leads,EU-AI-Act,Y,Non-Compliant,Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_EU_AI_Act_analysis.txt
+Recruiting Agent,Automated sourcing tool for identifying employment candidates,FCRA,N,Compliant,Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_FCRA_analysis.txt
+Recruiting Agent,Acts as Sales Development Representative for lead generation,FERPA,N,Compliant,Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_FERPA_analysis.txt
+Recruiting Agent,Generates and organizes sales/recruiting leads with outreach,FTC-Act,Y,Compliant,Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_FTC_Act_analysis.txt
+Recruiting Agent,Automated Sales Development Representative for candidate outreach,GDPR,Y,Non-Compliant,Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_GDPR_analysis.txt
+Recruiting Agent,Automated SDR querying external data for recruiting,GLBA,N,Compliant,Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_GLBA_analysis.txt
+Recruiting Agent,Sales Development Representative and lead generation,HIPAA,N,Compliant,Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_HIPAA_analysis.txt
+Recruiting Agent,Automates lead generation and outreach for recruiting,ISO27001,Y,Compliant,Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_ISO27001_analysis.txt
+Recruiting Agent,Identifies job candidates and facilitates cold outreach,NIS2,Y,Compliant,Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_NIS2_analysis.txt
+Recruiting Agent,Automates candidate sourcing and facilitates automated outreach,NIST-AI-RMF,Y,Non-Compliant,Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_NIST_AI_RMF_analysis.txt
+Recruiting Agent,Functions as Sales Development Representative or recruiter,PCI-DSS,N,Compliant,Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_PCI_DSS_analysis.txt
+Recruiting Agent,Automates sales development and recruiting workflows,PSD2,N,Compliant,Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_PSD2_analysis.txt
+Recruiting Agent,Automated SDR tool for candidate outreach,SOC2,Y,Non-Compliant,Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_SOC2_analysis.txt
+Recruiting Agent,Automated SDR for lead identification and outreach,SOX,N,Compliant,Recruiting_Agent_recruiting_agent_695f41b890cb9480b6fe450b_SOX_analysis.txt
+Resume Screening Agent,Filters job applications and categorizes candidates,ADA,Y,Non-Compliant,Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_ADA_analysis.txt
+Resume Screening Agent,Monitors Gmail for resumes and screens candidates,CCPA,Y,Non-Compliant,Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_CCPA_analysis.txt
+Resume Screening Agent,filters job applications,COPPA,N,Compliant,Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_COPPA_analysis.txt
+Resume Screening Agent,Automated recruitment tool filtering job applications,CPRA,Y,Non-Compliant,Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_CPRA_analysis.txt
+Resume Screening Agent,Automated HR resume screening and candidate evaluation,DORA,Y,Compliant,Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_DORA_analysis.txt
+Resume Screening Agent,Monitors Gmail and analyzes resume attachments,ECPA,Y,Compliant,Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_ECPA_analysis.txt
+Resume Screening Agent,Automates recruitment review process,ePrivacy-Directive,Y,Compliant,Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_ePrivacy_Directive_analysis.txt
+Resume Screening Agent,Screens job applicants and recommends hiring decisions,EU-AI-Act,Y,Non-Compliant,Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_EU_AI_Act_analysis.txt
+Resume Screening Agent,Screens resumes against job requirements using LLM,FCRA,N,Compliant,Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_FCRA_analysis.txt
+Resume Screening Agent,Automated HR tool for hiring process,FERPA,N,Compliant,Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_FERPA_analysis.txt
+Resume Screening Agent,Automates resume screening and applicant qualification assessment,FTC-Act,Y,Non-Compliant,Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_FTC_Act_analysis.txt
+Resume Screening Agent,Monitors emails and screens resumes against job requirements,GDPR,Y,Non-Compliant,Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_GDPR_analysis.txt
+Resume Screening Agent,Automates recruitment review process,GLBA,N,Compliant,Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_GLBA_analysis.txt
+Resume Screening Agent,Processes resumes against job descriptions for hiring,HIPAA,N,Compliant,Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_HIPAA_analysis.txt
+Resume Screening Agent,Automates initial screening of job applications,ISO27001,Y,Non-Compliant,Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_ISO27001_analysis.txt
+Resume Screening Agent,Monitors Gmail and screens resumes using AI,NIS2,Y,Non-Compliant,Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_NIS2_analysis.txt
+Resume Screening Agent,Automated recruitment tool that filters job applications,NIST-AI-RMF,Y,Non-Compliant,Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_NIST_AI_RMF_analysis.txt
+Resume Screening Agent,Streamlines hiring by analyzing resumes against job descriptions,PCI-DSS,N,Compliant,Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_PCI_DSS_analysis.txt
+Resume Screening Agent,Automates initial screening of job applicants,PSD2,N,Compliant,Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_PSD2_analysis.txt
+Resume Screening Agent,Automates initial screening of job applications,SOC2,Y,Non-Compliant,Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_SOC2_analysis.txt
+Resume Screening Agent,Filters job applications against criteria,SOX,N,Compliant,Resume_Screening_Agent_resume_screening_agent_6971956bbddcdd1d54fd8975_SOX_analysis.txt
+RudeResponder,Automated email response to marketing messages,ADA,Y,Compliant,RudeResponder_6161a903_f5faf01184066045bd0121e4_ADA_analysis.txt
+RudeResponder,Monitors emails and sends automated rude replies,CCPA,Y,Compliant,RudeResponder_6161a903_f5faf01184066045bd0121e4_CCPA_analysis.txt
+RudeResponder,Monitors Office 365 inbox and replies to marketing emails,COPPA,N,Compliant,RudeResponder_6161a903_f5faf01184066045bd0121e4_COPPA_analysis.txt
+RudeResponder,Monitors inbox and sends automated marketing replies,CPRA,Y,Compliant,RudeResponder_6161a903_f5faf01184066045bd0121e4_CPRA_analysis.txt
+RudeResponder,Filters incoming emails and sends automated replies,DORA,Y,Compliant,RudeResponder_6161a903_f5faf01184066045bd0121e4_DORA_analysis.txt
+RudeResponder,Automatically replies rudely to marketing emails,ECPA,Y,Compliant,RudeResponder_6161a903_f5faf01184066045bd0121e4_ECPA_analysis.txt
+RudeResponder,Sends automated replies to marketing emails,ePrivacy-Directive,Y,Compliant,RudeResponder_6161a903_f5faf01184066045bd0121e4_ePrivacy_Directive_analysis.txt
+RudeResponder,Automated email responses for marketing messages,EU-AI-Act,N,Compliant,RudeResponder_6161a903_f5faf01184066045bd0121e4_EU_AI_Act_analysis.txt
+RudeResponder,Monitors email inbox and auto-replies to marketing,FCRA,N,Compliant,RudeResponder_6161a903_f5faf01184066045bd0121e4_FCRA_analysis.txt
+RudeResponder,Filter and auto-respond to unsolicited marketing emails,FERPA,N,Compliant,RudeResponder_6161a903_f5faf01184066045bd0121e4_FERPA_analysis.txt
+RudeResponder,Automates email replies within Office 365 environment,FTC-Act,N,Compliant,RudeResponder_6161a903_f5faf01184066045bd0121e4_FTC_Act_analysis.txt
+RudeResponder,Monitors inbox and sends automated marketing replies,GDPR,Y,Compliant,RudeResponder_6161a903_f5faf01184066045bd0121e4_GDPR_analysis.txt
+RudeResponder,Replies to marketing emails with rejection messages,GLBA,N,Compliant,RudeResponder_6161a903_f5faf01184066045bd0121e4_GLBA_analysis.txt
+RudeResponder,Monitors inbox and replies to marketing emails,HIPAA,Y,Compliant,RudeResponder_6161a903_f5faf01184066045bd0121e4_HIPAA_analysis.txt
+RudeResponder,Monitors inbox and replies to marketing emails,ISO27001,Y,Compliant,RudeResponder_6161a903_f5faf01184066045bd0121e4_ISO27001_analysis.txt
+RudeResponder,Automated rejection of marketing emails,NIS2,Y,Compliant,RudeResponder_6161a903_f5faf01184066045bd0121e4_NIS2_analysis.txt
+RudeResponder,Monitors inbox and sends automated marketing replies,NIST-AI-RMF,N,Compliant,RudeResponder_6161a903_f5faf01184066045bd0121e4_NIST_AI_RMF_analysis.txt
+RudeResponder,Automated email responder for marketing messages,PCI-DSS,N,Compliant,RudeResponder_6161a903_f5faf01184066045bd0121e4_PCI_DSS_analysis.txt
+RudeResponder,Automatically replies to marketing emails with negative message,PSD2,N,Compliant,RudeResponder_6161a903_f5faf01184066045bd0121e4_PSD2_analysis.txt
+RudeResponder,Automated email response for marketing messages,SOC2,Y,Compliant,RudeResponder_6161a903_f5faf01184066045bd0121e4_SOC2_analysis.txt
+RudeResponder,Automatically replies to marketing emails,SOX,N,Compliant,RudeResponder_6161a903_f5faf01184066045bd0121e4_SOX_analysis.txt
+Sales Meeting Recorder,Records and transcribes sales meetings with external attendees,ADA,Y,Compliant,Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_ADA_analysis.txt
+Sales Meeting Recorder,Records sales meetings with external attendees automatically,CCPA,Y,Non-Compliant,Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_CCPA_analysis.txt
+Sales Meeting Recorder,Records and transcribes B2B sales meetings,COPPA,N,Compliant,Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_COPPA_analysis.txt
+Sales Meeting Recorder,Automates documentation of sales calls,CPRA,Y,Non-Compliant,Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_CPRA_analysis.txt
+Sales Meeting Recorder,Automates documentation of sales interactions,DORA,Y,Non-Compliant,Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_DORA_analysis.txt
+Sales Meeting Recorder,Joins meetings records audio transcribes and saves notes,ECPA,Y,Partially Compliant,Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_ECPA_analysis.txt
+Sales Meeting Recorder,Records and transcribes sales meetings automatically,ePrivacy-Directive,Y,Non-Compliant,Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_ePrivacy_Directive_analysis.txt
+Sales Meeting Recorder,Records and transcribes sales meetings automatically,EU-AI-Act,Y,Partially Compliant,Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_EU_AI_Act_analysis.txt
+Sales Meeting Recorder,Records and transcribes sales meetings with prospects,FCRA,N,Compliant,Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_FCRA_analysis.txt
+Sales Meeting Recorder,Records and transcribes sales meetings with external attendees,FERPA,N,Compliant,Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_FERPA_analysis.txt
+Sales Meeting Recorder,Records and transcribes sales meetings automatically,FTC-Act,Y,Partially Compliant,Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_FTC_Act_analysis.txt
+Sales Meeting Recorder,Records and transcribes meetings with external attendees,GDPR,Y,Non-Compliant,Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_GDPR_analysis.txt
+Sales Meeting Recorder,Records and transcribes sales meetings with external parties,GLBA,Y,Compliant,Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_GLBA_analysis.txt
+Sales Meeting Recorder,Records and transcribes sales meetings automatically,HIPAA,N,Compliant,Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_HIPAA_analysis.txt
+Sales Meeting Recorder,Records and transcribes sales calls and meetings,ISO27001,Y,Non-Compliant,Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_ISO27001_analysis.txt
+Sales Meeting Recorder,Monitors calendar and records external meetings,NIS2,Y,Partially Compliant,Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_NIS2_analysis.txt
+Sales Meeting Recorder,Records and transcribes external sales meetings,NIST-AI-RMF,Y,Partially Compliant,Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_NIST_AI_RMF_analysis.txt
+Sales Meeting Recorder,Records and transcribes sales meetings automatically,PCI-DSS,N,Compliant,Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_PCI_DSS_analysis.txt
+Sales Meeting Recorder,Automates sales call recording and follow-up tasks,PSD2,N,Compliant,Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_PSD2_analysis.txt
+Sales Meeting Recorder,Automates documentation of sales meetings,SOC2,Y,Compliant,Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_SOC2_analysis.txt
+Sales Meeting Recorder,Automates documentation of sales prospecting calls,SOX,N,Compliant,Sales_Meeting_Recorder_sales_meeting_recorder_69719238668ab8405ca91e3c_SOX_analysis.txt
+SEO Blog Writer,Authors search-engine-optimized blog articles with structured content,ADA,Y,Compliant,SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_ADA_analysis.txt
+SEO Blog Writer,Draft long-form search-engine-optimized articles,CCPA,N,Compliant,SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_CCPA_analysis.txt
+SEO Blog Writer,Generates search-engine-optimized marketing content,COPPA,N,Compliant,SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_COPPA_analysis.txt
+SEO Blog Writer,Generates search-engine-optimized marketing content,CPRA,Y,Compliant,SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_CPRA_analysis.txt
+SEO Blog Writer,generates search-engine-optimized blog articles,DORA,N,Compliant,SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_DORA_analysis.txt
+SEO Blog Writer,Produces search-engine-optimized articles,ECPA,N,Compliant,SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_ECPA_analysis.txt
+SEO Blog Writer,Generates SEO blog content from topics and websites,ePrivacy-Directive,N,Compliant,SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_ePrivacy_Directive_analysis.txt
+SEO Blog Writer,Generates SEO blog content for marketing teams,EU-AI-Act,Y,Compliant,SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_EU_AI_Act_analysis.txt
+SEO Blog Writer,generates search-engine-optimized content,FCRA,N,Compliant,SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_FCRA_analysis.txt
+SEO Blog Writer,Generate search-engine-optimized marketing content,FERPA,N,Compliant,SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_FERPA_analysis.txt
+SEO Blog Writer,Automates SEO content marketing and blog creation,FTC-Act,Y,Compliant,SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_FTC_Act_analysis.txt
+SEO Blog Writer,Automated content generation for SEO-optimized blog posts,GDPR,N,Compliant,SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_GDPR_analysis.txt
+SEO Blog Writer,Generate marketing content,GLBA,N,Compliant,SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_GLBA_analysis.txt
+SEO Blog Writer,Generates search-engine-optimized long-form marketing content,HIPAA,N,Compliant,SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_HIPAA_analysis.txt
+SEO Blog Writer,Generates SEO blog posts using external AI,ISO27001,Y,Compliant,SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_ISO27001_analysis.txt
+SEO Blog Writer,generates search-engine-optimized blog articles,NIS2,N,Compliant,SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_NIS2_analysis.txt
+SEO Blog Writer,Produces search-engine-optimized content,NIST-AI-RMF,Y,Compliant,SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_NIST_AI_RMF_analysis.txt
+SEO Blog Writer,Creates search-engine-optimized articles and content,PCI-DSS,N,Compliant,SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_PCI_DSS_analysis.txt
+SEO Blog Writer,Produces search-engine-optimized marketing articles,PSD2,N,Compliant,SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_PSD2_analysis.txt
+SEO Blog Writer,Automated content generation for search-engine-optimized articles,SOC2,N,Compliant,SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_SOC2_analysis.txt
+SEO Blog Writer,Generates search-engine-optimized blog articles and content,SOX,N,Compliant,SEO_Blog_Writer_seo_blog_writer_6971952e930a41d9e2623ea7_SOX_analysis.txt
+cr668_voice,Telephony-based retail bot for store info and sales,ADA,Y,Non-Compliant,Voice_cr668_voice_ADA_analysis.txt
+cr668_voice,Telephony retail and support bot for authentication and sales,CCPA,Y,Non-Compliant,Voice_cr668_voice_CCPA_analysis.txt
+cr668_voice,Telephony customer service bot for computer store,COPPA,N,Compliant,Voice_cr668_voice_COPPA_analysis.txt
+cr668_voice,Telephony retail sales bot with customer service functions,CPRA,Y,Non-Compliant,Voice_cr668_voice_CPRA_analysis.txt
+cr668_voice,Handles customer service interactions via telephony,DORA,Y,Non-Compliant,Voice_cr668_voice_DORA_analysis.txt
+cr668_voice,Telephony-based IVR voice bot for retail context,ECPA,Y,Non-Compliant,Voice_cr668_voice_ECPA_analysis.txt
+cr668_voice,voice-enabled telephony bot for customer service inquiries,ePrivacy-Directive,Y,Compliant,Voice_cr668_voice_ePrivacy_Directive_analysis.txt
+cr668_voice,Telephony-based customer service and sales bot,EU-AI-Act,Y,Non-Compliant,Voice_cr668_voice_EU_AI_Act_analysis.txt
+cr668_voice,Telephony customer service and sales bot,FCRA,N,Compliant,Voice_cr668_voice_FCRA_analysis.txt
+cr668_voice,Telephony-based retail and sales bot,FERPA,N,Compliant,Voice_cr668_voice_FERPA_analysis.txt
+cr668_voice,Telephony bot for retail sales interactions,FTC-Act,Y,Non-Compliant,Voice_cr668_voice_FTC_Act_analysis.txt
+cr668_voice,voice-enabled retail customer service bot,GDPR,Y,Compliant,Voice_cr668_voice_GDPR_analysis.txt
+cr668_voice,Voice-enabled customer service bot for retail sales,GLBA,N,Compliant,Voice_cr668_voice_GLBA_analysis.txt
+cr668_voice,voice-enabled retail and demonstration bot,HIPAA,N,Compliant,Voice_cr668_voice_HIPAA_analysis.txt
+cr668_voice,telephony-enabled conversational bot for retail environment,ISO27001,Y,Non-Compliant,Voice_cr668_voice_ISO27001_analysis.txt
+cr668_voice,Telephony customer service and sales bot,NIS2,Y,Non-Compliant,Voice_cr668_voice_NIS2_analysis.txt
+cr668_voice,Telephony sales agent for Copilot Studio with customer service,NIST-AI-RMF,Y,Non-Compliant,Voice_cr668_voice_NIST_AI_RMF_analysis.txt
+cr668_voice,Telephony retail bot for store info and sales,PCI-DSS,N,Compliant,Voice_cr668_voice_PCI_DSS_analysis.txt
+cr668_voice,Customer service bot for retail product inquiries,PSD2,N,Compliant,Voice_cr668_voice_PSD2_analysis.txt
+cr668_voice,Telephony-based commerce and customer service bot,SOC2,Y,Non-Compliant,Voice_cr668_voice_SOC2_analysis.txt
+cr668_voice,Customer service and sales interface,SOX,Y,Non-Compliant,Voice_cr668_voice_SOX_analysis.txt
+Voice of the Customer,Automate extraction of customer feedback from meetings,ADA,Y,Compliant,Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_ADA_analysis.txt
+Voice of the Customer,Automates extraction of customer feedback from meetings,CCPA,Y,Non-Compliant,Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_CCPA_analysis.txt
+Voice of the Customer,Records meetings and extracts customer feedback quotes,COPPA,N,Compliant,Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_COPPA_analysis.txt
+Voice of the Customer,Joins meetings and extracts customer quotes via email,CPRA,Y,Non-Compliant,Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_CPRA_analysis.txt
+Voice of the Customer,Automates capture of customer interactions,DORA,Y,Non-Compliant,Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_DORA_analysis.txt
+Voice of the Customer,Automates collection of customer feedback from meetings,ECPA,Y,Compliant,Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_ECPA_analysis.txt
+Voice of the Customer,Records and transcribes customer meeting calls,ePrivacy-Directive,Y,Non-Compliant,Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_ePrivacy_Directive_analysis.txt
+Voice of the Customer,Automated meeting assistant for customer call recording,EU-AI-Act,Y,Compliant,Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_EU_AI_Act_analysis.txt
+Voice of the Customer,Automates collection of qualitative customer feedback,FCRA,N,Compliant,Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_FCRA_analysis.txt
+Voice of the Customer,Automates collection of product feedback from customer calls,FERPA,N,Compliant,Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_FERPA_analysis.txt
+Voice of the Customer,Records and transcribes customer meeting conversations,FTC-Act,Y,Non-Compliant,Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_FTC_Act_analysis.txt
+Voice of the Customer,Detects calendar events and records customer conversations,GDPR,Y,Non-Compliant,Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_GDPR_analysis.txt
+Voice of the Customer,Records and analyzes customer meeting transcripts,GLBA,Y,Non-Compliant,Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_GLBA_analysis.txt
+Voice of the Customer,Records meetings and extracts product feedback quotes,HIPAA,N,Compliant,Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_HIPAA_analysis.txt
+Voice of the Customer,Triggers on calendar events and processes meeting recordings,ISO27001,Y,Non-Compliant,Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_ISO27001_analysis.txt
+Voice of the Customer,Automates extraction of customer feedback from meetings,NIS2,Y,Partially Compliant,Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_NIS2_analysis.txt
+Voice of the Customer,automates collection of customer feedback,NIST-AI-RMF,Y,Non-Compliant,Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_NIST_AI_RMF_analysis.txt
+Voice of the Customer,Automated meeting assistant for customer feedback extraction,PCI-DSS,N,Compliant,Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_PCI_DSS_analysis.txt
+Voice of the Customer,Captures qualitative customer feedback from meetings,PSD2,N,Compliant,Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_PSD2_analysis.txt
+Voice of the Customer,Records and transcribes customer meetings via calendar events,SOC2,Y,Non-Compliant,Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_SOC2_analysis.txt
+Voice of the Customer,Monitors calendar and extracts customer feedback quotes,SOX,N,Compliant,Voice_of_the_Customer_voice_of_the_customer_6971937b668ab8405ca92ffc_SOX_analysis.txt
+Website Q&A,Website Q&A bot answering user queries,ADA,Y,Non-Compliant,Website_Q&A_cr668_websiteQA_ADA_analysis.txt
+Website Q&A,Generative AI chatbot answering questions via website search,CCPA,Y,Non-Compliant,Website_Q&A_cr668_websiteQA_CCPA_analysis.txt
+Website Q&A,Answer queries by searching Microsoft website content,COPPA,N,Compliant,Website_Q&A_cr668_websiteQA_COPPA_analysis.txt
+Website Q&A,Answers questions by searching Microsoft website,CPRA,Y,Compliant,Website_Q&A_cr668_websiteQA_CPRA_analysis.txt
+Website Q&A,Website Q&A chatbot using semantic search,DORA,Y,Non-Compliant,Website_Q&A_cr668_websiteQA_DORA_analysis.txt
+Website Q&A,Answers queries by searching Microsoft website,ECPA,Y,Compliant,Website_Q&A_cr668_websiteQA_ECPA_analysis.txt
+Website Q&A,Website Q&A chatbot for microsoft.com queries,ePrivacy-Directive,Y,Compliant,Website_Q&A_cr668_websiteQA_ePrivacy_Directive_analysis.txt
+Website Q&A,Website Q&A chatbot using knowledge base,EU-AI-Act,Y,Compliant,Website_Q&A_cr668_websiteQA_EU_AI_Act_analysis.txt
+Website Q&A,Answers general user inquiries from public website,FCRA,N,Compliant,Website_Q&A_cr668_websiteQA_FCRA_analysis.txt
+Website Q&A,Answers user inquiries using website semantic search,FERPA,N,Compliant,Website_Q&A_cr668_websiteQA_FERPA_analysis.txt
+Website Q&A,Answer user queries from website knowledge source,FTC-Act,Y,Compliant,Website_Q&A_cr668_websiteQA_FTC_Act_analysis.txt
+Website Q&A,Answers user questions by indexing Microsoft.com content,GDPR,Y,Compliant,Website_Q&A_cr668_websiteQA_GDPR_analysis.txt
+Website Q&A,Answers user queries using generative AI search,GLBA,Y,Compliant,Website_Q&A_cr668_websiteQA_GLBA_analysis.txt
+Website Q&A,Answers user queries from public website content,HIPAA,N,Compliant,Website_Q&A_cr668_websiteQA_HIPAA_analysis.txt
+Website Q&A,Answer questions using AI from website data,ISO27001,Y,Non-Compliant,Website_Q&A_cr668_websiteQA_ISO27001_analysis.txt
+Website Q&A,Website Q&A bot using AI,NIS2,Y,Non-Compliant,Website_Q&A_cr668_websiteQA_NIS2_analysis.txt
+Website Q&A,Answers queries by searching and summarizing website content,NIST-AI-RMF,Y,Non-Compliant,Website_Q&A_cr668_websiteQA_NIST_AI_RMF_analysis.txt
+Website Q&A,Generative AI chatbot answering user questions,PCI-DSS,N,Compliant,Website_Q&A_cr668_websiteQA_PCI_DSS_analysis.txt
+Website Q&A,Answer user queries by indexing website content,PSD2,N,Compliant,Website_Q&A_cr668_websiteQA_PSD2_analysis.txt
+Website Q&A,Website Q&A chatbot for querying public knowledge,SOC2,Y,Compliant,Website_Q&A_cr668_websiteQA_SOC2_analysis.txt
+Website Q&A,Answers questions by summarizing public website content,SOX,N,Compliant,Website_Q&A_cr668_websiteQA_SOX_analysis.txt
