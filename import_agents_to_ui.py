@@ -108,6 +108,57 @@ Based on the above, respond with ONLY a JSON object (no markdown, no explanation
         return {"platform": "Unknown", "complianceRisk": 3, "securityRisk": 1}
 
 
+def call_gemini_policy_details(
+    agent_name: str, policy_name: str, analysis_text: str, model: str
+) -> dict:
+    """Call Gemini to derive suggestedReason, statusReason, and nextStep for a policy."""
+    api_key = os.environ.get("GEMINI_API_KEY")
+    if not api_key:
+        print("Error: GEMINI_API_KEY environment variable not set", file=sys.stderr)
+        sys.exit(1)
+
+    if len(analysis_text) > 50000:
+        analysis_text = analysis_text[:50000] + "\n...[truncated]"
+
+    prompt = f"""You are analyzing a compliance report for an AI agent against a specific policy.
+
+Agent Name: {agent_name}
+Policy: {policy_name}
+
+Below is the full compliance analysis report:
+
+{analysis_text}
+
+Based on the above, respond with ONLY a JSON object (no markdown, no explanation):
+{{
+  "suggestedReason": "<1-2 sentence explanation of why this policy is suggested/applicable for this agent>",
+  "statusReason": "<1-2 sentence explanation of the current compliance status, summarizing key findings>",
+  "nextStep": "<1 sentence actionable next step to improve or maintain compliance>"
+}}"""
+
+    client = genai.Client(api_key=api_key)
+    response = client.models.generate_content(
+        model=model,
+        contents=prompt,
+        config=types.GenerateContentConfig(
+            temperature=0.3,
+        ),
+    )
+    text = response.text.strip()
+    text = re.sub(r"^```(?:json)?\s*", "", text)
+    text = re.sub(r"\s*```$", "", text)
+    try:
+        result = json.loads(text)
+        return {
+            "suggestedReason": str(result.get("suggestedReason", "")),
+            "statusReason": str(result.get("statusReason", "")),
+            "nextStep": str(result.get("nextStep", "")),
+        }
+    except (json.JSONDecodeError, ValueError, TypeError) as e:
+        print(f"  Warning: Failed to parse policy details for {agent_name}/{policy_name}: {e}", file=sys.stderr)
+        return {"suggestedReason": "", "statusReason": "", "nextStep": ""}
+
+
 def generate_id() -> str:
     """Generate a random 7-digit ID string."""
     return str(random.randint(1000000, 9999999))
@@ -118,45 +169,55 @@ def build_agent(
     rows: list[dict],
     gemini_result: dict,
     existing_id: str | None,
+    policy_details: dict[str, dict] | None = None,
 ) -> dict:
     """Build an Agent object from CSV rows and Gemini-derived fields."""
     agent_function = rows[0]["function"]
 
-    # suggestedPolicies: ALL policies that have analysis files
+    # Collect all policies and determine suggested/enabled/status per policy
     all_policies = sorted(set(r["policy"] for r in rows if r["policy"]))
-    suggested = ", ".join(all_policies)
+    applicable_set = set(
+        r["policy"] for r in rows if r["policy"] and r["applicable"].upper() == "Y"
+    )
 
-    # enabledPolicies: policies where Applicable Y/N = Y
-    applicable_policies = [r for r in rows if r["applicable"].upper() == "Y"]
-    enabled = ", ".join(sorted(set(r["policy"] for r in applicable_policies if r["policy"])))
+    # Build a compliance lookup from applicable rows
+    compliance_lookup: dict[str, str] = {}
+    for r in rows:
+        pname = r["policy"]
+        if pname and pname in applicable_set and pname not in compliance_lookup:
+            compliance_lookup[pname] = (
+                "compliant" if r["compliant"] == "Compliant" else "remediating"
+            )
 
     # status: Compliant only if ALL applicable policies are Compliant
+    applicable_rows = [r for r in rows if r["applicable"].upper() == "Y"]
     has_non_compliant = any(
         r["compliant"] in ("Non-Compliant", "Partially Compliant")
-        for r in applicable_policies
+        for r in applicable_rows
     )
     status = "Remediating" if has_non_compliant else "Compliant"
 
-    # policies array: only applicable policies
+    # policies array: all policies with suggested/enabled flags
+    policy_details = policy_details or {}
     policy_entries = []
-    seen = set()
-    for r in applicable_policies:
-        pname = r["policy"]
-        if pname and pname not in seen:
-            seen.add(pname)
-            if r["compliant"] == "Compliant":
-                pstatus = "compliant"
-            else:
-                pstatus = "remediating"
-            policy_entries.append({"name": pname, "status": pstatus})
+    for pname in all_policies:
+        is_applicable = pname in applicable_set
+        details = policy_details.get(pname, {})
+        policy_entries.append({
+            "name": pname,
+            "status": compliance_lookup.get(pname, "compliant"),
+            "suggested": True,
+            "enabled": is_applicable,
+            "suggestedReason": details.get("suggestedReason", ""),
+            "statusReason": details.get("statusReason", ""),
+            "nextStep": details.get("nextStep", ""),
+        })
 
     return {
         "id": existing_id or generate_id(),
         "name": name,
         "platform": gemini_result["platform"],
         "function": agent_function,
-        "suggestedPolicies": suggested,
-        "enabledPolicies": enabled,
         "blocked": 0,
         "warned": 0,
         "complianceRisk": gemini_result["complianceRisk"],
@@ -230,9 +291,21 @@ def main():
               f"Compliance Risk: {gemini_result['complianceRisk']}, "
               f"Security Risk: {gemini_result['securityRisk']}")
 
+        # Get per-policy details from LLM
+        policy_details: dict[str, dict] = {}
+        for r in rows:
+            pname = r["policy"]
+            if pname and r["filename"]:
+                content = read_analysis_file(output_dir, r["filename"])
+                if content:
+                    print(f"  Getting details for policy: {pname}")
+                    policy_details[pname] = call_gemini_policy_details(
+                        name, pname, content, args.model
+                    )
+
         # Build agent
         existing_id = existing_by_name.get(name, {}).get("id")
-        agent = build_agent(name, rows, gemini_result, existing_id)
+        agent = build_agent(name, rows, gemini_result, existing_id, policy_details)
 
         if name in existing_by_name:
             # Update existing
